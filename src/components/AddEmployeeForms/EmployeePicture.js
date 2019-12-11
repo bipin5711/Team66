@@ -8,6 +8,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import { PictureContext } from 'views/Employee/Add';
 
 const useStyles = makeStyles({
   field: {
@@ -22,6 +23,7 @@ function EmployeePicture(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const [picture,setPicture]=useContext(PictureContext)
   setTitle('Employee Picture')
 
   return (
@@ -58,6 +60,8 @@ function EmployeePicture(props) {
                 component={CustomDropzone}
                 fullWidth
               />
+
+             {picture?picture:""}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

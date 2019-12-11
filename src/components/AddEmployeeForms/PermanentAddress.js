@@ -10,7 +10,7 @@ import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-
+import { PermanentAddressProofContext } from 'views/Employee/Add';
 const useStyles = makeStyles({
   field: {
     marginTop: "32px"
@@ -31,6 +31,7 @@ function PermanentAddress(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const [permanentAddressProof,setPermanentAddressProof]=useContext(PermanentAddressProofContext)
   setTitle('Permanent Address')
 
   return (
@@ -128,6 +129,7 @@ function PermanentAddress(props) {
                 component={CustomDropzone}
                 fullWidth
               />
+              {permanentAddressProof?permanentAddressProof:""}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

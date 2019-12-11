@@ -41,7 +41,7 @@ function CustomDropzone(props) {
         <section>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <div>{filename==="" ? "Add file" : filename}
+            <div>Add file<br/>{filename==="" ? "" : filename}
           </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import EmployeeInformation from 'components/AddEmployeeForms/EmployeeInformation';
 import CurrentAddress from 'components/AddEmployeeForms/CurrentAddress';
 import PermanentAddress from 'components/AddEmployeeForms/PermanentAddress';
@@ -21,6 +21,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Employee from './List';
 import StepConnector from '@material-ui/core/StepConnector';
 import Check from '@material-ui/icons/Check';
+import { set } from 'date-fns';
 
 const initialValues = {
   fullName: '',
@@ -223,20 +224,49 @@ function getStepContent(step) {
   }
 }
 
+
 export const EmployeeContext = createContext()
 export const TitleContext = createContext()
 export const EmployeeDataContext = createContext()
 export const StepContext = createContext()
 export const SkipContext = createContext()
+export const CurrentAddressProofContext = createContext()
+export const PermanentAddressProofContext = createContext()
+export const IdProofContext = createContext()
+export const PictureContext = createContext()
 
 export default function AddEmployee(props) {
   const [title,setTitle]=useState('')
   const [employeeData, setEmployeeData] = useState(initialValues)
+  const [currentAddressProof,setCurrentAddressProof]=useState(employeeData.currentAddressProof)
+  const [permanentAddressProof,setPermanentAddressProof]=useState(employeeData.permanentAddressProof)
+  const [idProof,setIdProof]=useState(employeeData.idProof)
+  const [picture,setPicture]=useState(employeeData.picture)
   console.log("parent", employeeData)
+  
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+
+  useEffect(()=>{
+    setCurrentAddressProof(employeeData.currentAddressProof)
+    setPermanentAddressProof(employeeData.permanentAddressProof)
+    setPicture(employeeData.picture)
+    setIdProof(employeeData.idProof)
+  },[employeeData.currentAddressProof,employeeData.permanentAddressProof,employeeData.picture,employeeData.idProof])
+
+  // useEffect(()=>{
+  //   setPermanentAddressProof(employeeData.permanentAddressProof)
+  // },[employeeData.permanentAddressProof])
+
+  // useEffect(()=>{
+  //   setPicture(employeeData.picture)
+  // },[employeeData.picture])
+
+  // useEffect(()=>{
+  //   setIdProof(employeeData.idProof)
+  // },[employeeData.idProof])
 
   const isStepOptional = step => {
     return step === 7 || step === 5;
@@ -297,7 +327,15 @@ export default function AddEmployee(props) {
                             <StepContext.Provider value={[activeStep, setActiveStep]}>
                               <SkipContext.Provider value={[skipped, setSkipped]}>
                                 <TitleContext.Provider value={[title,setTitle]}>
+                                  <CurrentAddressProofContext.Provider value={[currentAddressProof,setCurrentAddressProof]}>
+                                  <PermanentAddressProofContext.Provider value={[permanentAddressProof,setPermanentAddressProof]}>
+                                  <IdProofContext.Provider value={[idProof,setIdProof]}>
+                                  <PictureContext.Provider value={[picture,setPicture]}>
                                 {getStepContent(activeStep)}
+                                </PictureContext.Provider>
+                                </IdProofContext.Provider>
+                                </PermanentAddressProofContext.Provider>
+                                </CurrentAddressProofContext.Provider>
                                 </TitleContext.Provider>
                               </SkipContext.Provider>
                             </StepContext.Provider>

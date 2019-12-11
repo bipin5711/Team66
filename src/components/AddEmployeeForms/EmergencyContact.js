@@ -19,6 +19,7 @@ const validationSchema = Yup.object().shape({
     .min(2, 'too Short!')
     .required('Required'),
   emergencyMobile1: Yup.number().typeError('Mobile must be number'),
+  emergencyMobile2: Yup.number().typeError('Mobile must be number')
   // emergencyRelationship1: Yup.string().required('Required')
 
 });

@@ -9,6 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { TextField } from 'formik-material-ui'; 
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import { CurrentAddressProofContext } from 'views/Employee/Add';
 
 const useStyles=makeStyles({
   field:{
@@ -28,10 +29,11 @@ function CurrentAddress(props) {
   const classes=useStyles()
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
+  const [currentAddressProof,setCurrentAddressProof]=useContext(CurrentAddressProofContext)
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Current Address')
-  // const [currentAddressProof,setCurrentAddressProof]=useState('')
+  
 
   return (
       <Formik
@@ -127,7 +129,7 @@ function CurrentAddress(props) {
                   component={CustomDropzone}
                   fullWidth
                 />
-               
+             {currentAddressProof?currentAddressProof:""}
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>

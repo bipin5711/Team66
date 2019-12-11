@@ -7,6 +7,7 @@ import StepperNavigationButtons from 'components/Stepper/StepperNavigationButton
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import { IdProofContext } from 'views/Employee/Add';
 
 const useStyles = makeStyles({
   field: {
@@ -20,6 +21,7 @@ function IdProof(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const [idProof,setIdProof]=useContext(IdProofContext)
   setTitle('ID Proof')
 
   return (
@@ -55,6 +57,7 @@ function IdProof(props) {
                 component={CustomDropzone}
                 fullWidth
               />
+             {idProof?idProof:""}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />
