@@ -63,7 +63,7 @@ function EmployeeInformation(props) {
         }}
         render={() => (
           <Form>
-            {/* <h3>{title}</h3> */}
+            <h3>{title}</h3>
             <GridContainer>
               <GridItem xs={12} sm={12} md={7}>
                 {/* we can use CustomInput also insted of field */}
