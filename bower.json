@@ -7,13 +7,7 @@
   "description": "A Badass Material-UI Kit based on Material Design",
   "main": "public/index.html",
   "keywords": [
-    "team66",
-    "design",
-    "material-ui",
-    "material",
-    "design",
-    "google",
-    "twitter"
+    "team66"
   ],
   "license": "Technoark",
   "ignore": [
