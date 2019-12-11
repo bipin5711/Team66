@@ -1,13 +1,13 @@
 {
-  "name": "material-dashboard-react",
-  "homepage": "https://github.com/creativetimofficial/material-dashboard-react",
+  "name": "Team 66",
+  "homepage": "",
   "authors": [
-    "creative-tim"
+    "Technoark"
   ],
   "description": "A Badass Material-UI Kit based on Material Design",
   "main": "public/index.html",
   "keywords": [
-    "material",
+    "team66",
     "design",
     "material-ui",
     "material",
@@ -15,7 +15,7 @@
     "google",
     "twitter"
   ],
-  "license": "Creative TIM License",
+  "license": "Technoark",
   "ignore": [
     "**/.*",
     "node_modules",
