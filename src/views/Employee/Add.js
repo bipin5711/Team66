@@ -34,13 +34,13 @@ const initialValues = {
   currentCity: '',
   currentState: '',
   currentCountry: '',
-  currentAddressProof: '',
+  currentAddressProof: [],
   permanentStreet1: '',
   permanentStreet2: '',
   permanentCity: '',
   permanentState: '',
   permanentCountry: '',
-  permanentAddressProof: '',
+  permanentAddressProof: [],
   emergencyName1: '',
   emergencyMobile1: '',
   emergencyRelationship1: '',
@@ -51,8 +51,8 @@ const initialValues = {
   jobSalary: '',
   jobCurrentSalary: '',
   jobBond: '',
-  idProof: '',
-  picture: '',
+  idProof: [],
+  picture: [],
   feedback: ''
 }
 
@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     color: "#FFFFFF",
     // marginBottom: "3px",
     // marginTop: "0px",
-    marginTop:"10px",
+    marginTop: "10px",
     marginBottom: "10px",
     minHeight: "auto",
     fontWeight: "300",
@@ -174,7 +174,7 @@ const useStyles = makeStyles(theme => ({
 //     height: 25,
 //     borderRadius: '50%',
 //     backgroundColor: '#eaeaf0',
-    
+
 //   },
 //   completed: {
 //     color: '#ffffff',
@@ -236,25 +236,25 @@ export const IdProofContext = createContext()
 export const PictureContext = createContext()
 
 export default function AddEmployee(props) {
-  const [title,setTitle]=useState('')
+  const [title, setTitle] = useState('')
   const [employeeData, setEmployeeData] = useState(initialValues)
-  const [currentAddressProof,setCurrentAddressProof]=useState(employeeData.currentAddressProof)
-  const [permanentAddressProof,setPermanentAddressProof]=useState(employeeData.permanentAddressProof)
-  const [idProof,setIdProof]=useState(employeeData.idProof)
-  const [picture,setPicture]=useState(employeeData.picture)
+  const [currentAddressProof, setCurrentAddressProof] = useState(employeeData.currentAddressProof)
+  const [permanentAddressProof, setPermanentAddressProof] = useState(employeeData.permanentAddressProof)
+  const [idProof, setIdProof] = useState(employeeData.idProof)
+  const [picture, setPicture] = useState(employeeData.picture)
   console.log("parent", employeeData)
-  
+
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
 
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentAddressProof(employeeData.currentAddressProof)
     setPermanentAddressProof(employeeData.permanentAddressProof)
     setPicture(employeeData.picture)
     setIdProof(employeeData.idProof)
-  },[employeeData.currentAddressProof,employeeData.permanentAddressProof,employeeData.picture,employeeData.idProof])
+  }, [employeeData.currentAddressProof, employeeData.permanentAddressProof, employeeData.picture, employeeData.idProof])
 
   // useEffect(()=>{
   //   setPermanentAddressProof(employeeData.permanentAddressProof)
@@ -285,66 +285,66 @@ export default function AddEmployee(props) {
         <GridItem xs={12} sm={12} md={9} zeroMinWidth>
           <Card>
             <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>{title}</h4>
+              <h4 className={classes.cardTitleWhite}>{title}</h4>
               {/* <h4 className={classes.cardTitleWhite}>Add Employee</h4>
               <p className={classes.cardCategoryWhite}>{title}</p> */}
             </CardHeader>
             <CardBody>
               {/* <div className={classes.root}> */}
-            <Stepper activeStep={activeStep} alternativeLabel noWrap> 
+              <Stepper activeStep={activeStep} alternativeLabel noWrap>
                 {/* connector={<QontoConnector />} */}
-                  {steps.map((label, index) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    if (isStepOptional(index)) {
-                      labelProps.optional = <Typography variant="caption">Optional</Typography>;
-                    }
-                    if (isStepSkipped(index)) {
-                      stepProps.completed = false;
-                    }
-                    return (
-                      <Step key={label} {...stepProps}>
-                        <StepLabel {...labelProps} noWrap>{label}</StepLabel>
-                        {/* StepIconComponent={QontoStepIcon} */}
-                      </Step>
-                    );
-                  })}
-                </Stepper>
-                <div>
-                  {activeStep === steps.length ? (
+                {steps.map((label, index) => {
+                  const stepProps = {};
+                  const labelProps = {};
+                  if (isStepOptional(index)) {
+                    labelProps.optional = <Typography variant="caption">Optional</Typography>;
+                  }
+                  if (isStepSkipped(index)) {
+                    stepProps.completed = false;
+                  }
+                  return (
+                    <Step key={label} {...stepProps}>
+                      <StepLabel {...labelProps} noWrap>{label}</StepLabel>
+                      {/* StepIconComponent={QontoStepIcon} */}
+                    </Step>
+                  );
+                })}
+              </Stepper>
+              <div>
+                {activeStep === steps.length ? (
+                  <div>
+                    <Typography className={classes.instructions}>
+                      All steps completed - you&apos;re finished
+            </Typography>
+                    <Button onClick={handleReset} className={classes.button}>
+                      Reset
+            </Button>
+                  </div>
+                ) : (
                     <div>
                       <Typography className={classes.instructions}>
-                        All steps completed - you&apos;re finished
-            </Typography>
-                      <Button onClick={handleReset} className={classes.button}>
-                        Reset
-            </Button>
-                    </div>
-                  ) : (
-                      <div>
-                        <Typography className={classes.instructions}>
-                          <EmployeeContext.Provider value={[employeeData, setEmployeeData]}>
-                            <StepContext.Provider value={[activeStep, setActiveStep]}>
-                              <SkipContext.Provider value={[skipped, setSkipped]}>
-                                <TitleContext.Provider value={[title,setTitle]}>
-                                  <CurrentAddressProofContext.Provider value={[currentAddressProof,setCurrentAddressProof]}>
-                                  <PermanentAddressProofContext.Provider value={[permanentAddressProof,setPermanentAddressProof]}>
-                                  <IdProofContext.Provider value={[idProof,setIdProof]}>
-                                  <PictureContext.Provider value={[picture,setPicture]}>
-                                {getStepContent(activeStep)}
-                                </PictureContext.Provider>
-                                </IdProofContext.Provider>
-                                </PermanentAddressProofContext.Provider>
+                        <EmployeeContext.Provider value={[employeeData, setEmployeeData]}>
+                          <StepContext.Provider value={[activeStep, setActiveStep]}>
+                            <SkipContext.Provider value={[skipped, setSkipped]}>
+                              <TitleContext.Provider value={[title, setTitle]}>
+                                <CurrentAddressProofContext.Provider value={[currentAddressProof, setCurrentAddressProof]}>
+                                  <PermanentAddressProofContext.Provider value={[permanentAddressProof, setPermanentAddressProof]}>
+                                    <IdProofContext.Provider value={[idProof, setIdProof]}>
+                                      <PictureContext.Provider value={[picture, setPicture]}>
+                                        {getStepContent(activeStep)}
+                                      </PictureContext.Provider>
+                                    </IdProofContext.Provider>
+                                  </PermanentAddressProofContext.Provider>
                                 </CurrentAddressProofContext.Provider>
-                                </TitleContext.Provider>
-                              </SkipContext.Provider>
-                            </StepContext.Provider>
-                          </EmployeeContext.Provider>
-                        </Typography>
+                              </TitleContext.Provider>
+                            </SkipContext.Provider>
+                          </StepContext.Provider>
+                        </EmployeeContext.Provider>
+                      </Typography>
 
-                      </div>
-                    )}
-                </div>
+                    </div>
+                  )}
+              </div>
               {/* </div> */}
             </CardBody>
           </Card>

@@ -11,6 +11,7 @@ import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
 import { PermanentAddressProofContext } from 'views/Employee/Add';
+import Chip from '@material-ui/core/Chip';
 const useStyles = makeStyles({
   field: {
     marginTop: "32px"
@@ -31,6 +32,7 @@ function PermanentAddress(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const fileList=[]
   const [permanentAddressProof,setPermanentAddressProof]=useContext(PermanentAddressProofContext)
   setTitle('Permanent Address')
 
@@ -58,7 +60,7 @@ function PermanentAddress(props) {
           permanentCity: values.permanentCity,
           permanentState: values.permanentState,
           permanentCountry: values.permanentCountry,
-          permanentAddressProof: values.permanentAddressProof
+          permanentAddressProof: permanentAddressProof
         })
       }}
       render={() => (
@@ -122,14 +124,28 @@ function PermanentAddress(props) {
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }}
                 className={classes.field}>Permanent Address Proof</FormLabel>
-              <Field
+              <CustomDropzone list={permanentAddressProof} callBack={files=>{
+                
+                files.map(file=>{
+                  fileList.push(file)
+                })
+                console.log("filelist",fileList)
+                setPermanentAddressProof(fileList)
+              }} />
+             
+              {/* <Field
                 // label="Image"
                 id="permanentAddressProof"
                 name="permanentAddressProof"
                 component={CustomDropzone}
                 fullWidth
-              />
-              {permanentAddressProof?permanentAddressProof:""}
+              /> */}
+              {/* {permanentAddressProof?permanentAddressProof.map(a=>{
+                return(<div>
+               <Chip label={a.name} color="primary" /><br/><br/></div>
+              //  onDelete={handleDelete}
+                )})
+              :""} */}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

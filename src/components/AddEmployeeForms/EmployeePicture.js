@@ -9,6 +9,7 @@ import StepperNavigationButtons from 'components/Stepper/StepperNavigationButton
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
 import { PictureContext } from 'views/Employee/Add';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
   field: {
@@ -23,6 +24,7 @@ function EmployeePicture(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const fileList=[]
   const [picture,setPicture]=useContext(PictureContext)
   setTitle('Employee Picture')
 
@@ -45,7 +47,7 @@ function EmployeePicture(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          picture: values.picture,
+          picture: picture,
         })
       }}
       render={() => (
@@ -53,15 +55,27 @@ function EmployeePicture(props) {
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
-              <Field
+              <CustomDropzone list={picture} callBack={files=>{
+                
+                files.map(file=>{
+                  fileList.push(file)
+                })
+                console.log("filelist",fileList)
+                setPicture(fileList)
+              }} />
+              {/* <Field
                 // label="Image"
                 id="picture"
                 name="picture"
                 component={CustomDropzone}
                 fullWidth
-              />
-
-             {picture?picture:""}
+              /> */}
+{/* {picture?picture.map(a=>{
+                return(<div>
+               <Chip label={a.name} color="primary" /><br/><br/></div>
+              //  onDelete={handleDelete}
+                )})
+              :""} */}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

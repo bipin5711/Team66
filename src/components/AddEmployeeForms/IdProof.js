@@ -8,6 +8,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
 import { IdProofContext } from 'views/Employee/Add';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
   field: {
@@ -21,6 +22,7 @@ function IdProof(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const fileList=[]
   const [idProof,setIdProof]=useContext(IdProofContext)
   setTitle('ID Proof')
 
@@ -42,7 +44,7 @@ function IdProof(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          idProof: values.idProof,
+          idProof: idProof,
         })
       }}
       render={() => (
@@ -50,14 +52,27 @@ function IdProof(props) {
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
-              <Field
+              <CustomDropzone list={idProof} callBack={files=>{
+                
+                files.map(file=>{
+                  fileList.push(file)
+                })
+                console.log("filelist",fileList)
+                setIdProof(fileList)
+              }} />
+              {/* <Field
                 // label="Image"
                 id="idProof"
                 name="idProof"
                 component={CustomDropzone}
                 fullWidth
-              />
-             {idProof?idProof:""}
+              /> */}
+            {/* {idProof?idProof.map(a=>{
+                return(<div>
+               <Chip label={a.name} color="primary" /><br/><br/></div>
+              //  onDelete={handleDelete}
+                )})
+              :""} */}
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

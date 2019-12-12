@@ -10,6 +10,7 @@ import { TextField } from 'formik-material-ui';
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
 import { CurrentAddressProofContext } from 'views/Employee/Add';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles=makeStyles({
   field:{
@@ -32,8 +33,11 @@ function CurrentAddress(props) {
   const [currentAddressProof,setCurrentAddressProof]=useContext(CurrentAddressProofContext)
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  const fileList=[]
   setTitle('Current Address')
-  
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+  };
 
   return (
       <Formik
@@ -58,7 +62,7 @@ function CurrentAddress(props) {
             currentCity: values.currentCity,
             currentState: values.currentState,
             currentCountry: values.currentCountry,
-            currentAddressProof: values.currentAddressProof
+            currentAddressProof: currentAddressProof
           })
         }}
         render={() => (
@@ -122,14 +126,27 @@ function CurrentAddress(props) {
 
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
-                <Field
+                <CustomDropzone list={currentAddressProof} callBack={files=>{
+                
+                  files.map(file=>{
+                    fileList.push(file)
+                  })
+                  console.log("filelist",fileList)
+                  setCurrentAddressProof(fileList)
+                }} />
+                {/* <Field
                   // label="Image"
                   id="currentAddressProof"
                   name="currentAddressProof"
                   component={CustomDropzone}
                   fullWidth
                 />
-             {currentAddressProof?currentAddressProof:""}
+             {currentAddressProof?currentAddressProof.map(a=>{
+                return(<div>
+               <Chip label={a.name} color="primary" /><br/><br/></div>
+              //  onDelete={handleDelete}
+                )})
+              :""} */}
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>
