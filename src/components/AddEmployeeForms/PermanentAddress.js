@@ -10,7 +10,7 @@ import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-import { PermanentAddressProofContext } from 'views/Employee/Add';
+// import { PermanentAddressProofContext } from 'views/Employee/Add';
 import Chip from '@material-ui/core/Chip';
 const useStyles = makeStyles({
   field: {
@@ -33,7 +33,7 @@ function PermanentAddress(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList=[]
-  const [permanentAddressProof,setPermanentAddressProof]=useContext(PermanentAddressProofContext)
+  // const [permanentAddressProof,setPermanentAddressProof]=useContext(PermanentAddressProofContext)
   setTitle('Permanent Address')
 
   return (
@@ -60,10 +60,11 @@ function PermanentAddress(props) {
           permanentCity: values.permanentCity,
           permanentState: values.permanentState,
           permanentCountry: values.permanentCountry,
-          permanentAddressProof: permanentAddressProof
+          permanentAddressProof: values.permanentAddressProof
         })
       }}
-      render={() => (
+      render={({values,setFieldValue}) => {
+        return(
         <Form>
           <GridContainer>
 
@@ -124,14 +125,24 @@ function PermanentAddress(props) {
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }}
                 className={classes.field}>Permanent Address Proof</FormLabel>
-              <CustomDropzone list={permanentAddressProof} callBack={files=>{
-                
-                files.map(file=>{
-                  fileList.push(file)
-                })
-                console.log("filelist",fileList)
-                setPermanentAddressProof(fileList)
-              }} />
+              <CustomDropzone list={values.permanentAddressProof} callBack={files=>{
+                  var exist=0
+                  files.map(file=>{
+                    fileList.map(existingFile=>{
+                      if(existingFile.name===file.name && existingFile.size===file.size){
+                        exist=1
+                        alert("File has already selected")
+                      }
+                    })
+                    if(exist===0){
+                    fileList.push(file)
+                    }
+                    else{
+                    exist=0;
+                    }
+                  })
+                  setFieldValue('permanentAddressProof',fileList)
+                }} />
              
               {/* <Field
                 // label="Image"
@@ -152,7 +163,7 @@ function PermanentAddress(props) {
             </GridItem>
           </GridContainer>
         </Form>
-      )}
+      )}}
     >
     </Formik>
   );

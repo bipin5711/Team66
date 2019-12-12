@@ -12,17 +12,9 @@ export default function CustomDropzone({ callBack, list }) {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  //   const handleDelete = async name => {
-  //     try {
-  //       let exportsAttachments = load.exports.exportsAttachments.filter(atch => atch.name !== name);
-  //       setLoad({
-  //         ...load,
-  //         exportsAttachments,
-  //       });
-  //     } catch (delError) {
-  //       //   openSnackbar('error', delError.message);
-  //     }
-  //   };
+    const handleDelete =  name => {
+    
+    };
 
   return (
     <div>
@@ -35,7 +27,7 @@ export default function CustomDropzone({ callBack, list }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: '2px dotted #000080',
+          border: '2px dotted #9830b0',
           borderRadius: '5px',
         }}
       >
@@ -54,7 +46,7 @@ export default function CustomDropzone({ callBack, list }) {
             <div
               style={{
                 borderRadius: '5px',
-                backgroundColor: 'black',
+                backgroundColor: '#9830b0',
                 padding: '5px 10px',
                 letterSpacing: '2px',
                 width: '100%',
@@ -73,9 +65,9 @@ export default function CustomDropzone({ callBack, list }) {
                   width: '20px',
                   cursor: 'pointer',
                 }}
-                // onClick={() => {
-                //   handleDelete(a.name);
-                // }}
+                onClick={() => {
+                  handleDelete(a.name);
+                }}
               >
                 &times;
               </span>
@@ -90,6 +82,7 @@ export default function CustomDropzone({ callBack, list }) {
                   fontWeight: '500',
                   width: '100%',
                   textAlign: 'center',
+                  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
                 }}
               >
                 {typeof a === 'string' ? 'file' : a.name}

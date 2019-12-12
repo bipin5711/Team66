@@ -9,7 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { TextField } from 'formik-material-ui'; 
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-import { CurrentAddressProofContext } from 'views/Employee/Add';
+// import { CurrentAddressProofContext } from 'views/Employee/Add';
 import Chip from '@material-ui/core/Chip';
 
 const useStyles=makeStyles({
@@ -30,7 +30,7 @@ function CurrentAddress(props) {
   const classes=useStyles()
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
-  const [currentAddressProof,setCurrentAddressProof]=useContext(CurrentAddressProofContext)
+  // const [currentAddressProof,setCurrentAddressProof]=useContext(CurrentAddressProofContext)
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList=[]
@@ -62,12 +62,12 @@ function CurrentAddress(props) {
             currentCity: values.currentCity,
             currentState: values.currentState,
             currentCountry: values.currentCountry,
-            currentAddressProof: currentAddressProof
+            currentAddressProof: values.currentAddressProof
           })
         }}
-        render={() => (
-          <Form>
-            <GridContainer>
+        render={({values,setFieldValue}) => {
+          return (<Form>
+<GridContainer>
 
               <GridItem xs={12} sm={12} md={6}>
                 <Field
@@ -126,13 +126,23 @@ function CurrentAddress(props) {
 
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
-                <CustomDropzone list={currentAddressProof} callBack={files=>{
-                
+                <CustomDropzone list={values.currentAddressProof} callBack={files=>{
+                  var exist=0
                   files.map(file=>{
+                    fileList.map(existingFile=>{
+                      if(existingFile.name===file.name && existingFile.size===file.size){
+                        exist=1;
+                        alert("File has already selected")
+                      }
+                    })
+                    if(exist===0){
                     fileList.push(file)
+                    }
+                    else{
+                    exist=0;
+                    }
                   })
-                  console.log("filelist",fileList)
-                  setCurrentAddressProof(fileList)
+                  setFieldValue('currentAddressProof',fileList)
                 }} />
                 {/* <Field
                   // label="Image"
@@ -154,8 +164,8 @@ function CurrentAddress(props) {
               </GridItem>
 
             </GridContainer>
-          </Form>
-        )}
+          </Form>)
+}}
       > 
     </Formik>
   );

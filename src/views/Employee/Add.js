@@ -230,18 +230,18 @@ export const TitleContext = createContext()
 export const EmployeeDataContext = createContext()
 export const StepContext = createContext()
 export const SkipContext = createContext()
-export const CurrentAddressProofContext = createContext()
-export const PermanentAddressProofContext = createContext()
-export const IdProofContext = createContext()
-export const PictureContext = createContext()
+// export const CurrentAddressProofContext = createContext()
+// export const PermanentAddressProofContext = createContext()
+// export const IdProofContext = createContext()
+// export const PictureContext = createContext()
 
 export default function AddEmployee(props) {
   const [title, setTitle] = useState('')
   const [employeeData, setEmployeeData] = useState(initialValues)
-  const [currentAddressProof, setCurrentAddressProof] = useState(employeeData.currentAddressProof)
-  const [permanentAddressProof, setPermanentAddressProof] = useState(employeeData.permanentAddressProof)
-  const [idProof, setIdProof] = useState(employeeData.idProof)
-  const [picture, setPicture] = useState(employeeData.picture)
+  // const [currentAddressProof, setCurrentAddressProof] = useState(employeeData.currentAddressProof)
+  // const [permanentAddressProof, setPermanentAddressProof] = useState(employeeData.permanentAddressProof)
+  // const [idProof, setIdProof] = useState(employeeData.idProof)
+  // const [picture, setPicture] = useState(employeeData.picture)
   console.log("parent", employeeData)
 
   const classes = useStyles();
@@ -249,12 +249,12 @@ export default function AddEmployee(props) {
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
 
-  useEffect(() => {
-    setCurrentAddressProof(employeeData.currentAddressProof)
-    setPermanentAddressProof(employeeData.permanentAddressProof)
-    setPicture(employeeData.picture)
-    setIdProof(employeeData.idProof)
-  }, [employeeData.currentAddressProof, employeeData.permanentAddressProof, employeeData.picture, employeeData.idProof])
+  // useEffect(() => {
+  //   setCurrentAddressProof(employeeData.currentAddressProof)
+  //   setPermanentAddressProof(employeeData.permanentAddressProof)
+  //   setPicture(employeeData.picture)
+  //   setIdProof(employeeData.idProof)
+  // }, [employeeData.currentAddressProof, employeeData.permanentAddressProof, employeeData.picture, employeeData.idProof])
 
   // useEffect(()=>{
   //   setPermanentAddressProof(employeeData.permanentAddressProof)
@@ -327,15 +327,15 @@ export default function AddEmployee(props) {
                           <StepContext.Provider value={[activeStep, setActiveStep]}>
                             <SkipContext.Provider value={[skipped, setSkipped]}>
                               <TitleContext.Provider value={[title, setTitle]}>
-                                <CurrentAddressProofContext.Provider value={[currentAddressProof, setCurrentAddressProof]}>
+                                {/* <CurrentAddressProofContext.Provider value={[currentAddressProof, setCurrentAddressProof]}>
                                   <PermanentAddressProofContext.Provider value={[permanentAddressProof, setPermanentAddressProof]}>
                                     <IdProofContext.Provider value={[idProof, setIdProof]}>
-                                      <PictureContext.Provider value={[picture, setPicture]}>
+                                      <PictureContext.Provider value={[picture, setPicture]}> */}
                                         {getStepContent(activeStep)}
-                                      </PictureContext.Provider>
+                                      {/* </PictureContext.Provider>
                                     </IdProofContext.Provider>
                                   </PermanentAddressProofContext.Provider>
-                                </CurrentAddressProofContext.Provider>
+                                </CurrentAddressProofContext.Provider> */}
                               </TitleContext.Provider>
                             </SkipContext.Provider>
                           </StepContext.Provider>

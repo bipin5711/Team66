@@ -8,7 +8,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-import { PictureContext } from 'views/Employee/Add';
+// import { PictureContext } from 'views/Employee/Add';
 import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
@@ -25,7 +25,7 @@ function EmployeePicture(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList=[]
-  const [picture,setPicture]=useContext(PictureContext)
+  // const [picture,setPicture]=useContext(PictureContext)
   setTitle('Employee Picture')
 
   return (
@@ -47,22 +47,33 @@ function EmployeePicture(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          picture: picture,
+          picture: values.picture,
         })
       }}
-      render={() => (
+        render={({values,setFieldValue}) => {
+          return (
         <Form>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
-              <CustomDropzone list={picture} callBack={files=>{
-                
-                files.map(file=>{
-                  fileList.push(file)
-                })
-                console.log("filelist",fileList)
-                setPicture(fileList)
-              }} />
+              <CustomDropzone list={values.picture} callBack={files=>{
+                  var exist=0
+                  files.map(file=>{
+                    fileList.map(existingFile=>{
+                      if(existingFile.name===file.name && existingFile.size===file.size){
+                        exist=1
+                        alert("File has already selected")
+                      }
+                    })
+                    if(exist===0){
+                    fileList.push(file)
+                    }
+                    else{
+                    exist=0;
+                    }
+                  })
+                  setFieldValue('picture',fileList)
+                }} />
               {/* <Field
                 // label="Image"
                 id="picture"
@@ -82,7 +93,7 @@ function EmployeePicture(props) {
             </GridItem>
           </GridContainer>
         </Form>
-      )}
+      )}}
     >
     </Formik>
   );

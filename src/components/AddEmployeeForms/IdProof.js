@@ -7,7 +7,7 @@ import StepperNavigationButtons from 'components/Stepper/StepperNavigationButton
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-import { IdProofContext } from 'views/Employee/Add';
+// import { IdProofContext } from 'views/Employee/Add';
 import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
@@ -23,7 +23,7 @@ function IdProof(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList=[]
-  const [idProof,setIdProof]=useContext(IdProofContext)
+  // const [idProof,setIdProof]=useContext(IdProofContext)
   setTitle('ID Proof')
 
   return (
@@ -44,22 +44,33 @@ function IdProof(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          idProof: idProof,
+          idProof: values.idProof,
         })
       }}
-      render={() => (
+      render={({values,setFieldValue}) => {
+        return(
         <Form>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
-              <CustomDropzone list={idProof} callBack={files=>{
-                
-                files.map(file=>{
-                  fileList.push(file)
-                })
-                console.log("filelist",fileList)
-                setIdProof(fileList)
-              }} />
+              <CustomDropzone list={values.idProof} callBack={files=>{
+                  var exist=0
+                  files.map(file=>{
+                    fileList.map(existingFile=>{
+                      if(existingFile.name===file.name && existingFile.size===file.size){
+                        exist=1
+                        alert("File has already selected")
+                      }
+                    })
+                    if(exist===0){
+                    fileList.push(file)
+                    }
+                    else{
+                    exist=0;
+                    }
+                  })
+                  setFieldValue('idProof',fileList)
+                }} />
               {/* <Field
                 // label="Image"
                 id="idProof"
@@ -79,7 +90,7 @@ function IdProof(props) {
             </GridItem>
           </GridContainer>
         </Form>
-      )}
+      )}}
     >
     </Formik>
   );
