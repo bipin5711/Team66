@@ -253,9 +253,9 @@ function AddEmployee(props) {
   const steps = getSteps();
 
   useEffect(() => {
-    addEmployee(employeeData.fullName)
-    console.log(employeeData.fullName)
-    console.log("dubey",props.fullName)
+    // addEmployee(employeeData)
+    console.log(employeeData)
+    console.log("dubey",props)
   }, [employeeData])
 
 
@@ -372,46 +372,11 @@ function AddEmployee(props) {
     </div>
   );
 }
-const mapStateToProps=state=>{
-  return{
-      // name:state.name,
-      // age:state.age
-      fullName: state.fullName,
-      preferredName: state.preferredName,
-      birthDate: state.birthDate,
-      gender: state.gender,
-      maritalStatus: state.maritalStatus,
-      currentStreet1: state.currentStreet1,
-      currentStreet2: state.currentStreet2,
-      currentCity: state.currentCity,
-      currentState: state.currentState,
-      currentCountry: state.currentCountry,
-      currentAddressProof: state.currentAddressProof,
-      permanentStreet1: state.permanentStreet1,
-      permanentStreet2: state.permanentStreet2,
-      permanentCity: state.permanentCity,
-      permanentState: state.permanentState,
-      permanentCountry: state.permanentCountry,
-      permanentAddressProof: state.permanentAddressProof,
-      emergencyName1: state.emergencyName1,
-      emergencyMobile1: state.emergencyMobile1,
-      emergencyRelationship1: state.emergencyRelationship1,
-      emergencyName2: state.emergencyName2,
-      emergencyMobile2: state.emergencyMobile2,
-      emergencyRelationship2: state.emergencyRelationship2,
-      jobHireDate: state.jobHireDate,
-      jobSalary: state.jobSalary,
-      jobCurrentSalary: state.jobCurrentSalary,
-      jobBond: state.jobBond,
-      idProof: state.idProof,
-      picture: state.picture,
-      feedback: state.feedback
-  }
-}
+
 const mapDispatchToProps=dispatch=>{
   return{
-    showEmployee:()=>dispatch(showEmployee()),
+    // showEmployee:()=>dispatch(showEmployee()),
       addEmployee:()=>dispatch(addEmployee())  
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(AddEmployee)
+export default (mapDispatchToProps)(AddEmployee)
