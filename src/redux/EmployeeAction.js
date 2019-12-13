@@ -4,9 +4,9 @@ export const showEmployee=()=>{
     }
 }
 
-export const addEmployee=(employee)=>{
+export const addEmployee=(employeeData)=>{
     return {
         type:'ADD_EMPLOYEE',
-        payload:employee
+        payload:employeeData
     }
 }

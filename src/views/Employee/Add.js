@@ -18,13 +18,9 @@ import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom'
-import Employee from './List';
-import StepConnector from '@material-ui/core/StepConnector';
-import Check from '@material-ui/icons/Check';
-import { set } from 'date-fns';
-import { addEmployee,showEmployee } from 'redux/EmployeeAction'
-import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { addEmployee} from 'redux/EmployeeAction'
 
 const initialValues = {
   fullName: '',
@@ -233,50 +229,20 @@ export const TitleContext = createContext()
 export const EmployeeDataContext = createContext()
 export const StepContext = createContext()
 export const SkipContext = createContext()
-// export const CurrentAddressProofContext = createContext()
-// export const PermanentAddressProofContext = createContext()
-// export const IdProofContext = createContext()
-// export const PictureContext = createContext()
 
 function AddEmployee(props) {
-  const [title, setTitle] = useState('')
-  const [employeeData, setEmployeeData] = useState(initialValues)
-  // const [currentAddressProof, setCurrentAddressProof] = useState(employeeData.currentAddressProof)
-  // const [permanentAddressProof, setPermanentAddressProof] = useState(employeeData.permanentAddressProof)
-  // const [idProof, setIdProof] = useState(employeeData.idProof)
-  // const [picture, setPicture] = useState(employeeData.picture)
-  console.log("parent", employeeData)
 
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [title, setTitle] = useState('')
+  const [employeeData, setEmployeeData] = useState(initialValues)
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
-
   useEffect(() => {
-    // addEmployee(employeeData)
-    console.log(employeeData)
-    console.log("dubey",props)
+    // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
+    dispatch(addEmployee(employeeData))
   }, [employeeData])
-
-
-  // useEffect(() => {
-  //   setCurrentAddressProof(employeeData.currentAddressProof)
-  //   setPermanentAddressProof(employeeData.permanentAddressProof)
-  //   setPicture(employeeData.picture)
-  //   setIdProof(employeeData.idProof)
-  // }, [employeeData.currentAddressProof, employeeData.permanentAddressProof, employeeData.picture, employeeData.idProof])
-
-  // useEffect(()=>{
-  //   setPermanentAddressProof(employeeData.permanentAddressProof)
-  // },[employeeData.permanentAddressProof])
-
-  // useEffect(()=>{
-  //   setPicture(employeeData.picture)
-  // },[employeeData.picture])
-
-  // useEffect(()=>{
-  //   setIdProof(employeeData.idProof)
-  // },[employeeData.idProof])
 
   const isStepOptional = step => {
     return step === 7 || step === 5;
@@ -329,14 +295,7 @@ function AddEmployee(props) {
                     <Button onClick={handleReset} className={classes.button}>
                       Reset
             </Button>
-          
-            {/* <Button component={Link} to="/admin/employee" className={classes.button}>View Submitted Data</Button> */}
-           
-{/*             
-            <Link component={Button} className={classes.button} to={{
-      pathname: '/admin/employee',
-      state: { data: employeeData }
-    }}>View Submitted Data</Link> */}
+            <Button component={Link} to="/admin/employee" className={classes.button}>View Submitted Data</Button>
                   </div>
                 ) : (
                     <div>
@@ -345,15 +304,7 @@ function AddEmployee(props) {
                           <StepContext.Provider value={[activeStep, setActiveStep]}>
                             <SkipContext.Provider value={[skipped, setSkipped]}>
                               <TitleContext.Provider value={[title, setTitle]}>
-                                {/* <CurrentAddressProofContext.Provider value={[currentAddressProof, setCurrentAddressProof]}>
-                                  <PermanentAddressProofContext.Provider value={[permanentAddressProof, setPermanentAddressProof]}>
-                                    <IdProofContext.Provider value={[idProof, setIdProof]}>
-                                      <PictureContext.Provider value={[picture, setPicture]}> */}
                                         {getStepContent(activeStep)}
-                                      {/* </PictureContext.Provider>
-                                    </IdProofContext.Provider>
-                                  </PermanentAddressProofContext.Provider>
-                                </CurrentAddressProofContext.Provider> */}
                               </TitleContext.Provider>
                             </SkipContext.Provider>
                           </StepContext.Provider>
@@ -368,15 +319,7 @@ function AddEmployee(props) {
           </Card>
         </GridItem>
       </GridContainer>
-      {/* <EmployeeDataContext.Provider value={employeeData}></EmployeeDataContext.Provider> */}
     </div>
   );
 }
-
-const mapDispatchToProps=dispatch=>{
-  return{
-    // showEmployee:()=>dispatch(showEmployee()),
-      addEmployee:()=>dispatch(addEmployee())  
-  }
-}
-export default (mapDispatchToProps)(AddEmployee)
+export default AddEmployee

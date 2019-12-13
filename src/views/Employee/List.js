@@ -1,4 +1,4 @@
-import React ,{ useState, useContext } from 'react';
+import React ,{ useState, useContext, useEffect } from 'react';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 // import Table from "components/Table/Table.js";
@@ -13,12 +13,8 @@ import CardBody from "components/Card/CardBody.js";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button'
 import {Link} from 'react-router-dom'
-import { EmployeeDataContext } from 'views/Employee/Add'
-import {ShowEmployee} from 'redux/EmployeeAction'
-import {connect} from 'react-redux'
-import { showEmployee } from 'redux/EmployeeAction';
-import { addEmployee } from 'redux/EmployeeAction';
-
+import { useSelector, useDispatch} from 'react-redux'
+import { showEmployee} from 'redux/EmployeeAction'
 const styles = {
     cardCategoryWhite: {
       "&,& a,& a:hover,& a:focus": {
@@ -65,9 +61,14 @@ const styles = {
   
 
 function Employee(props) {
-  const employeeData=useContext(EmployeeDataContext)
-  console.log("Ds",employeeData)
+ 
   const classes = useStyles();
+  const data=useSelector(state=>state)
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    // dispatch({ type:'SHOW_EMPLOYEE' })
+    dispatch(showEmployee())
+  },[])
   const rows = [
   //  employeeData.fullName==="undefined"?"":createData(employeeData.fullName,employeeData.fullName,employeeData.fullName,employeeData.fullName,employeeData.fullName)
     // createData('A', 'X', 'X', 'X', 43000),
@@ -75,8 +76,7 @@ function Employee(props) {
     // createData('C', 'X', 'X', 'X', 43000),
     // createData('G', 'X', 'X', 'X', 39000),
   ];
-  // const data=props.data;
-  // console.log("hii",employeeData)
+ 
     return (
         <div>
             <GridContainer>
@@ -86,7 +86,6 @@ function Employee(props) {
           <CardHeader color="primary"> 
             <h4 className={classes.cardTitleWhite}>
             Employee Information
-              {/* {props.location.state.data} */}
             </h4>
             {/* <p className={classes.cardCategoryWhite} style={{display:' inline'}}>
               Employee Information
@@ -94,9 +93,6 @@ function Employee(props) {
             <Button variant="contained" style={{float:'right'}} color="primary"  component={Link} to="/admin/addEmployee">
                 Add Employee
             </Button>
-            <button  onClick={props.showEmployee}>
-                Show Employee
-            </button>
           </CardHeader>
           <CardBody>
           <Table aria-label="simple table">
@@ -114,12 +110,12 @@ function Employee(props) {
           {/* {rows.map(row => ( */}
             <TableRow>
               <TableCell component="th" scope="row">
-                {props.fullName}
+                {data.fullName}
               </TableCell>
-              <TableCell align="right">{props.currentCity}</TableCell>
-              <TableCell align="right">{props.currentState}</TableCell>
-              <TableCell align="right">{props.currentState}</TableCell>
-              <TableCell align="right">{props.currentCountry}</TableCell>
+              <TableCell align="right">{data.currentCity}</TableCell>
+              <TableCell align="right">{data.currentState}</TableCell>
+              <TableCell align="right">{data.currentState}</TableCell>
+              <TableCell align="right">{data.currentCountry}</TableCell>
               <TableCell align="right"><Button variant="contained" color="primary"  component={Link} to="/admin/editEmployee">
                 Edit
             </Button></TableCell>
@@ -138,49 +134,8 @@ function Employee(props) {
         </div>
     );
 }
-const mapStateToProps=state=>{
-  return{
-      // name:state.name,
-      // age:state.age
-      fullName: state.fullName,
-      preferredName: state.preferredName,
-      birthDate: state.birthDate,
-      gender: state.gender,
-      maritalStatus: state.maritalStatus,
-      currentStreet1: state.currentStreet1,
-      currentStreet2: state.currentStreet2,
-      currentCity: state.currentCity,
-      currentState: state.currentState,
-      currentCountry: state.currentCountry,
-      currentAddressProof: state.currentAddressProof,
-      permanentStreet1: state.permanentStreet1,
-      permanentStreet2: state.permanentStreet2,
-      permanentCity: state.permanentCity,
-      permanentState: state.permanentState,
-      permanentCountry: state.permanentCountry,
-      permanentAddressProof: state.permanentAddressProof,
-      emergencyName1: state.emergencyName1,
-      emergencyMobile1: state.emergencyMobile1,
-      emergencyRelationship1: state.emergencyRelationship1,
-      emergencyName2: state.emergencyName2,
-      emergencyMobile2: state.emergencyMobile2,
-      emergencyRelationship2: state.emergencyRelationship2,
-      jobHireDate: state.jobHireDate,
-      jobSalary: state.jobSalary,
-      jobCurrentSalary: state.jobCurrentSalary,
-      jobBond: state.jobBond,
-      idProof: state.idProof,
-      picture: state.picture,
-      feedback: state.feedback
-  }
-}
-const mapDispatchToProps=dispatch=>{
-  return{
-      showEmployee:()=>dispatch(showEmployee())
-      
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Employee);
+
+export default Employee;
 
     {/* <Table aria-label="simple table">
         <TableHead>

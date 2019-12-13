@@ -44,8 +44,6 @@ function Feedback(props) {
             ...employeeData,
             feedback: values.feedback,
           })
-          // return <Employee data={employeeData}/>
-          alert(employeeData)
         }}
         render={() => (
           <Form>
