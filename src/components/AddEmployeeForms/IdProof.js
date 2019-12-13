@@ -2,13 +2,11 @@ import React, { useState, useContext } from 'react';
 import { FormLabel } from "@material-ui/core";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form } from 'formik'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-// import { IdProofContext } from 'views/Employee/Add';
-import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
   field: {
@@ -22,8 +20,7 @@ function IdProof(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
-  const fileList=[]
-  // const [idProof,setIdProof]=useContext(IdProofContext)
+  const fileList = []
   setTitle('ID Proof')
 
   return (
@@ -47,50 +44,39 @@ function IdProof(props) {
           idProof: values.idProof,
         })
       }}
-      render={({values,setFieldValue}) => {
-        return(
-        <Form>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
-              <CustomDropzone list={values.idProof} callBack={files=>{
-                  var exist=0
-                  files.map(file=>{
-                    fileList.map(existingFile=>{
-                      if(existingFile.name===file.name && existingFile.size===file.size){
-                        exist=1
+      render={({ values, setFieldValue }) => {
+        return (
+          <Form>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
+                <CustomDropzone list={values.idProof} callBack={files => {
+                  var exist = 0
+                  files.map(file => {
+                    fileList.map(existingFile => {
+                      if (existingFile.name === file.name && existingFile.size === file.size) {
+                        exist = 1
                         // alert("File has already selected")
                       }
                     })
-                    if(exist===0){
-                    fileList.push(file)
+                    if (exist === 0) {
+                      fileList.push(file)
                     }
-                    else{
-                    exist=0;
+                    else {
+                      exist = 0;
                     }
                   })
-                  setFieldValue('idProof',fileList)
+                  setFieldValue('idProof', fileList)
                 }} />
-              {/* <Field
-                // label="Image"
-                id="idProof"
-                name="idProof"
-                component={CustomDropzone}
-                fullWidth
-              /> */}
-            {/* {idProof?idProof.map(a=>{
-                return(<div>
-               <Chip label={a.name} color="primary" /><br/><br/></div>
-              //  onDelete={handleDelete}
-                )})
-              :""} */}
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <StepperNavigationButtons />
-            </GridItem>
-          </GridContainer>
-        </Form>
-      )}}
+
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <StepperNavigationButtons />
+              </GridItem>
+            </GridContainer>
+          </Form>
+        )
+      }}
     >
     </Formik>
   );

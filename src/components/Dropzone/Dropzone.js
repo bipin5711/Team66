@@ -98,7 +98,7 @@ export default function CustomDropzone({ callBack, list }) {
         {...getRootProps()}
         style={{
           height: '100px',
-          minWidth: '300px',
+          // minWidth: '300px',
           backgroundColor: '#f1f1ff',
           display: 'flex',
           alignItems: 'center',

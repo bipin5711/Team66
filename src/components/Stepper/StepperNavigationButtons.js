@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
 import { StepContext } from 'views/Employee/Add'
 import Button from "components/CustomButtons/Button.js";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -49,14 +51,14 @@ export default function StepperNavigationButtons() {
     <div>
       <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
         Back
-                </Button>
-      {isStepOptional(activeStep) && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSkip}
-          className={classes.button}
-        >Skip</Button>
+      </Button>
+
+      {isStepOptional(activeStep) && (<Button
+        variant="contained"
+        color="primary"
+        onClick={handleSkip}
+        className={classes.button}
+      >Skip</Button>
       )}
       <Button
         type="submit"

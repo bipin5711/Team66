@@ -11,10 +11,13 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button'
+// import Button from '@material-ui/core/Button'
+import Button from "components/CustomButtons/Button.js";
 import {Link} from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
 import { showEmployee} from 'redux/EmployeeAction'
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 const styles = {
     cardCategoryWhite: {
       "&,& a,& a:hover,& a:focus": {
@@ -36,6 +39,7 @@ const styles = {
       fontWeight: "300",
       fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
       marginBottom: "3px",
+      display:'inline-block',
       textDecoration: "none",
       "& small": {
         color: "#777",
@@ -53,52 +57,46 @@ const styles = {
   };
   
   const useStyles = makeStyles(styles);
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
 
   
-
 function Employee(props) {
  
   const classes = useStyles();
   const data=useSelector(state=>state)
+  console.log("employee",data)
   const dispatch = useDispatch();
   useEffect(()=>{
     // dispatch({ type:'SHOW_EMPLOYEE' })
     dispatch(showEmployee())
   },[])
-  const rows = [
-  //  employeeData.fullName==="undefined"?"":createData(employeeData.fullName,employeeData.fullName,employeeData.fullName,employeeData.fullName,employeeData.fullName)
-    // createData('A', 'X', 'X', 'X', 43000),
-    // createData('E', 'X', 'X', 'X', 60000),
-    // createData('C', 'X', 'X', 'X', 43000),
-    // createData('G', 'X', 'X', 'X', 39000),
-  ];
- 
+
     return (
         <div>
             <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           {/* in cardheader we can use plain attribute */}
+         
           <CardHeader color="primary"> 
+           <GridContainer>
+      <GridItem xs={12} sm={12} md={6}>
             <h4 className={classes.cardTitleWhite}>
             Employee Information
             </h4>
-            {/* <p className={classes.cardCategoryWhite} style={{display:' inline'}}>
-              Employee Information
-            </p> */}
-            <Button variant="contained" style={{float:'right'}} color="primary"  component={Link} to="/admin/addEmployee">
+            </GridItem>
+      <GridItem xs={12} sm={12} md={6}>
+            <Button style={{float:'right',display:'inline-block'}} color="info"  component={Link} to="/admin/addEmployee">
                 Add Employee
             </Button>
+            </GridItem></GridContainer>
           </CardHeader>
           <CardBody>
-          <Table aria-label="simple table">
+            {data.fullName!=""? <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell align="right">Gender</TableCell>
+            <TableCell align="right">Marital Status</TableCell>
             <TableCell align="right">City</TableCell>
             <TableCell align="right">State</TableCell>
             <TableCell align="right">Country</TableCell>
@@ -109,23 +107,20 @@ function Employee(props) {
         <TableBody>
           {/* {rows.map(row => ( */}
             <TableRow>
-              <TableCell component="th" scope="row">
-                {data.fullName}
-              </TableCell>
+              <TableCell component="th" scope="row">{data.fullName}</TableCell>
+              <TableCell align="right">{data.gender}</TableCell>
+              <TableCell align="right">{data.maritalStatus}</TableCell>
               <TableCell align="right">{data.currentCity}</TableCell>
               <TableCell align="right">{data.currentState}</TableCell>
-              <TableCell align="right">{data.currentState}</TableCell>
               <TableCell align="right">{data.currentCountry}</TableCell>
-              <TableCell align="right"><Button variant="contained" color="primary"  component={Link} to="/admin/editEmployee">
-                Edit
-            </Button></TableCell>
-              <TableCell align="right"><Button variant="contained" color="primary"  component={Link} to="/admin/deleteEmployee">
-                Delete
-            </Button></TableCell>
+              <TableCell align="right">{data.jobSalary}</TableCell>
+              <TableCell align="right"><EditIcon/></TableCell>
+              <TableCell align="right"><DeleteIcon/></TableCell>
             </TableRow>
           {/* ))} */}
         </TableBody>
-      </Table> 
+      </Table> :""}
+         
           </CardBody>
         </Card>
       </GridItem>

@@ -1,4 +1,4 @@
-const initialState={
+const initialState = {
     fullName: [],
     preferredName: [],
     birthDate: [],
@@ -30,12 +30,13 @@ const initialState={
     picture: [],
     feedback: []
 }
-const EmployeeReducer=(state=initialState,action)=>{
-    switch(action.type){
+const EmployeeReducer = (state = initialState, action) => {
+    switch (action.type) {
         case "SHOW_EMPLOYEE":
             return state
         case "ADD_EMPLOYEE":
-            return{...state,
+            return {
+                ...state,
                 fullName: action.payload.fullName,
                 preferredName: action.payload.preferredName,
                 birthDate: action.payload.birthDate,
@@ -67,8 +68,8 @@ const EmployeeReducer=(state=initialState,action)=>{
                 picture: action.payload.picture,
                 feedback: action.payload.feedback
             }
-            default:
-                return state
+        default:
+            return state
     }
 }
 export default EmployeeReducer

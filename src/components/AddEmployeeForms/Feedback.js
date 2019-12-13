@@ -5,7 +5,6 @@ import GridContainer from "components/Grid/GridContainer.js";
 import { Formik, Field, Form } from 'formik'
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
-import Employee from 'views/Employee/List';
 import { FormLabel } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
 

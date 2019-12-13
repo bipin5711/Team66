@@ -3,15 +3,12 @@ import { FormLabel } from "@material-ui/core";
 import { TextField } from 'formik-material-ui';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Dropzone from 'react-dropzone';
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
-// import { PermanentAddressProofContext } from 'views/Employee/Add';
-import Chip from '@material-ui/core/Chip';
 const useStyles = makeStyles({
   field: {
     marginTop: "32px"
@@ -32,15 +29,14 @@ function PermanentAddress(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
-  const fileList=[]
-  // const [permanentAddressProof,setPermanentAddressProof]=useContext(PermanentAddressProofContext)
+  const fileList = []
   setTitle('Permanent Address')
 
   return (
 
     <Formik
       initialValues={employeeData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -63,107 +59,94 @@ function PermanentAddress(props) {
           permanentAddressProof: values.permanentAddressProof
         })
       }}
-      render={({values,setFieldValue}) => {
-        return(
-        <Form>
-          <GridContainer>
+      render={({ values, setFieldValue }) => {
+        return (
+          <Form>
+            <GridContainer>
 
-            <GridItem xs={12} sm={12} md={6}>
-              <Field
-                label="Street 1"
-                id="permanentStreet1"
-                name="permanentStreet1"
-                className={classes.field}
-                component={TextField}
-                fullWidth
-              />
-            </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <Field
+                  label="Street 1"
+                  id="permanentStreet1"
+                  name="permanentStreet1"
+                  className={classes.field}
+                  component={TextField}
+                  fullWidth
+                />
+              </GridItem>
 
-            <GridItem xs={12} sm={12} md={6}>
-              <Field
-                label="Street 2"
-                id="permanentStreet2"
-                name="permanentStreet2"
-                className={classes.field}
-                component={TextField}
-                fullWidth
-              />
-            </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <Field
+                  label="Street 2"
+                  id="permanentStreet2"
+                  name="permanentStreet2"
+                  className={classes.field}
+                  component={TextField}
+                  fullWidth
+                />
+              </GridItem>
 
-            <GridItem xs={12} sm={12} md={4}>
-              <Field
-                label="City"
-                id="permanentCity"
-                name="permanentCity"
-                className={classes.field}
-                component={TextField}
-                fullWidth
-              />
-            </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Field
+                  label="City"
+                  id="permanentCity"
+                  name="permanentCity"
+                  className={classes.field}
+                  component={TextField}
+                  fullWidth
+                />
+              </GridItem>
 
-            <GridItem xs={12} sm={12} md={4}>
-              <Field
-                label="State"
-                id="permanentState"
-                name="permanentState"
-                className={classes.field}
-                component={TextField}
-                fullWidth
-              />
-            </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Field
+                  label="State"
+                  id="permanentState"
+                  name="permanentState"
+                  className={classes.field}
+                  component={TextField}
+                  fullWidth
+                />
+              </GridItem>
 
-            <GridItem xs={12} sm={12} md={4}>
-              <Field
-                label="Country"
-                id="permanentCountry"
-                name="permanentCountry"
-                className={classes.field}
-                component={TextField}
-                fullWidth
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <FormLabel component="legend" style={{ textAlign: 'left' }}
-                className={classes.field}>Permanent Address Proof</FormLabel>
-              <CustomDropzone list={values.permanentAddressProof} callBack={files=>{
-                  var exist=0
-                  files.map(file=>{
-                    fileList.map(existingFile=>{
-                      if(existingFile.name===file.name && existingFile.size===file.size){
-                        exist=1
+              <GridItem xs={12} sm={12} md={4}>
+                <Field
+                  label="Country"
+                  id="permanentCountry"
+                  name="permanentCountry"
+                  className={classes.field}
+                  component={TextField}
+                  fullWidth
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <FormLabel component="legend" style={{ textAlign: 'left' }}
+                  className={classes.field}>Permanent Address Proof</FormLabel>
+                <CustomDropzone list={values.permanentAddressProof} callBack={files => {
+                  var exist = 0
+                  files.map(file => {
+                    fileList.map(existingFile => {
+                      if (existingFile.name === file.name && existingFile.size === file.size) {
+                        exist = 1
                         // alert("File has already selected")
                       }
                     })
-                    if(exist===0){
-                    fileList.push(file)
+                    if (exist === 0) {
+                      fileList.push(file)
                     }
-                    else{
-                    exist=0;
+                    else {
+                      exist = 0;
                     }
                   })
-                  setFieldValue('permanentAddressProof',fileList)
+                  setFieldValue('permanentAddressProof', fileList)
                 }} />
-             
-              {/* <Field
-                // label="Image"
-                id="permanentAddressProof"
-                name="permanentAddressProof"
-                component={CustomDropzone}
-                fullWidth
-              /> */}
-              {/* {permanentAddressProof?permanentAddressProof.map(a=>{
-                return(<div>
-               <Chip label={a.name} color="primary" /><br/><br/></div>
-              //  onDelete={handleDelete}
-                )})
-              :""} */}
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <StepperNavigationButtons />
-            </GridItem>
-          </GridContainer>
-        </Form>
-      )}}
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <StepperNavigationButtons />
+              </GridItem>
+            </GridContainer>
+          </Form>
+        )
+      }}
     >
     </Formik>
   );
