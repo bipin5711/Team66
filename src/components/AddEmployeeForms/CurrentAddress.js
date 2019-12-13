@@ -42,7 +42,7 @@ function CurrentAddress(props) {
   return (
       <Formik
         initialValues={employeeData}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={values => {
           //handleNext()
           let newSkipped = skipped;
@@ -127,21 +127,25 @@ function CurrentAddress(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
                 <CustomDropzone list={values.currentAddressProof} callBack={files=>{
-                  var exist=0
+                  
                   files.map(file=>{
+                    var exist=0
                     fileList.map(existingFile=>{
-                      if(existingFile.name===file.name && existingFile.size===file.size){
+                   
+                      if(existingFile.name==file.name && existingFile.size==file.size){
                         exist=1;
-                        alert("File has already selected")
+                        // alert("File has already selected")
                       }
                     })
-                    if(exist===0){
-                    fileList.push(file)
+                    if(exist===1){
+                      
+                      exist=0;
                     }
                     else{
-                    exist=0;
+                      fileList.push(file)
                     }
                   })
+                  console.log("filelist",fileList)
                   setFieldValue('currentAddressProof',fileList)
                 }} />
                 {/* <Field

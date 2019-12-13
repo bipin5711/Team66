@@ -39,7 +39,7 @@ function EmployeeInformation(props) {
     
       <Formik
         initialValues={employeeData}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={values => {
           //handleNext()
           let newSkipped = skipped;
@@ -60,6 +60,7 @@ function EmployeeInformation(props) {
             birthDate: values.birthDate,
             gender: values.gender
           })
+          
         }}
         render={() => (
           <Form>

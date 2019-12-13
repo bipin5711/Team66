@@ -18,10 +18,13 @@ import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom'
 import Employee from './List';
 import StepConnector from '@material-ui/core/StepConnector';
 import Check from '@material-ui/icons/Check';
 import { set } from 'date-fns';
+import { addEmployee,showEmployee } from 'redux/EmployeeAction'
+import {connect} from 'react-redux'
 
 const initialValues = {
   fullName: '',
@@ -198,7 +201,7 @@ const useStyles = makeStyles(theme => ({
 // }
 function getSteps() {
   // return ['', '', '', '', '', '', '', ''];
-  return ['Employee Information', 'Current Address', 'Permanent Address', 'Emergency Contact', 'Job Details', 'Id Prrof', 'Employee Picture', 'Feedback'];
+  return ['Employee Information', 'Current Address', 'Permanent Address', 'Emergency Contact', 'Job Details', 'Id Proof', 'Employee Picture', 'Feedback'];
 }
 
 function getStepContent(step) {
@@ -235,7 +238,7 @@ export const SkipContext = createContext()
 // export const IdProofContext = createContext()
 // export const PictureContext = createContext()
 
-export default function AddEmployee(props) {
+function AddEmployee(props) {
   const [title, setTitle] = useState('')
   const [employeeData, setEmployeeData] = useState(initialValues)
   // const [currentAddressProof, setCurrentAddressProof] = useState(employeeData.currentAddressProof)
@@ -248,6 +251,13 @@ export default function AddEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+
+  useEffect(() => {
+    addEmployee(employeeData.fullName)
+    console.log(employeeData.fullName)
+    console.log("dubey",props.fullName)
+  }, [employeeData])
+
 
   // useEffect(() => {
   //   setCurrentAddressProof(employeeData.currentAddressProof)
@@ -319,6 +329,14 @@ export default function AddEmployee(props) {
                     <Button onClick={handleReset} className={classes.button}>
                       Reset
             </Button>
+          
+            {/* <Button component={Link} to="/admin/employee" className={classes.button}>View Submitted Data</Button> */}
+           
+{/*             
+            <Link component={Button} className={classes.button} to={{
+      pathname: '/admin/employee',
+      state: { data: employeeData }
+    }}>View Submitted Data</Link> */}
                   </div>
                 ) : (
                     <div>
@@ -354,3 +372,46 @@ export default function AddEmployee(props) {
     </div>
   );
 }
+const mapStateToProps=state=>{
+  return{
+      // name:state.name,
+      // age:state.age
+      fullName: state.fullName,
+      preferredName: state.preferredName,
+      birthDate: state.birthDate,
+      gender: state.gender,
+      maritalStatus: state.maritalStatus,
+      currentStreet1: state.currentStreet1,
+      currentStreet2: state.currentStreet2,
+      currentCity: state.currentCity,
+      currentState: state.currentState,
+      currentCountry: state.currentCountry,
+      currentAddressProof: state.currentAddressProof,
+      permanentStreet1: state.permanentStreet1,
+      permanentStreet2: state.permanentStreet2,
+      permanentCity: state.permanentCity,
+      permanentState: state.permanentState,
+      permanentCountry: state.permanentCountry,
+      permanentAddressProof: state.permanentAddressProof,
+      emergencyName1: state.emergencyName1,
+      emergencyMobile1: state.emergencyMobile1,
+      emergencyRelationship1: state.emergencyRelationship1,
+      emergencyName2: state.emergencyName2,
+      emergencyMobile2: state.emergencyMobile2,
+      emergencyRelationship2: state.emergencyRelationship2,
+      jobHireDate: state.jobHireDate,
+      jobSalary: state.jobSalary,
+      jobCurrentSalary: state.jobCurrentSalary,
+      jobBond: state.jobBond,
+      idProof: state.idProof,
+      picture: state.picture,
+      feedback: state.feedback
+  }
+}
+const mapDispatchToProps=dispatch=>{
+  return{
+    showEmployee:()=>dispatch(showEmployee()),
+      addEmployee:()=>dispatch(addEmployee())  
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AddEmployee)

@@ -62,7 +62,7 @@ function EmployeePicture(props) {
                     fileList.map(existingFile=>{
                       if(existingFile.name===file.name && existingFile.size===file.size){
                         exist=1
-                        alert("File has already selected")
+                        // alert("File has already selected")
                       }
                     })
                     if(exist===0){

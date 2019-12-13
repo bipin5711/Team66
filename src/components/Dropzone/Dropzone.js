@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { default as React, useCallback } from 'react';
+import { default as React, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { fileIcon } from '../load-steps/UploadDocs';
 
@@ -12,10 +12,86 @@ export default function CustomDropzone({ callBack, list }) {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-    const handleDelete =  name => {
-    
+    const handleDelete =  file => {
+      var array = list; // make a separate copy of the array
+      console.log("1",array)
+      var index = array.indexOf(file)
+      console.log("2",index)
+      if (index !== -1) {
+        array.splice(index, 1);
+        list=array
+        console.log("3",list)
+      }
+      callBack(list)
     };
-
+// useEffect(()=>{
+//   return(
+//     <Box p={2}>
+//     {list.map(a => {
+//       return (
+//         <div
+//           style={{
+//             borderRadius: '5px',
+//             backgroundColor: '#9830b0',
+//             padding: '5px 10px',
+//             letterSpacing: '2px',
+//             width: '100%',
+//             alignItems: 'center',
+//             justifyContent: 'space-between',
+//             marginBottom: '1em',
+//             display: 'inline-flex',
+//             color: 'white',
+//           }}
+//         >
+//           <span
+//             style={{
+//               fontSize: '20px',
+//               position: 'relative',
+//               marginRight: '0.5em',
+//               width: '20px',
+//               cursor: 'pointer',
+//             }}
+//             onClick={() => {
+//               handleDelete(a);
+//             }}
+//           >
+//             &times;
+//           </span>
+//           <a
+//             href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
+//             target="_blank"
+//             style={{
+//               color: 'white',
+//               textDecoration: 'none',
+//               textTransform: 'uppercase',
+//               fontSize: '10px',
+//               fontWeight: '500',
+//               width: '100%',
+//               textAlign: 'center',
+//               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
+//             }}
+//           >
+//             {typeof a === 'string' ? 'file' : a.name}
+//           </a>
+//           <span
+//             style={{
+//               position: 'relative',
+//               color: '#9db7c7',
+//               zIndex: '0',
+//               borderRadius: '100%',
+//               display: 'inline-flex',
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//             }}
+//           >
+//             {/* {fileIcon(a.type)} */}
+//           </span>
+//         </div>
+//       );
+//     })}
+//   </Box>
+//   )
+// },list)
   return (
     <div>
       <div
@@ -41,69 +117,70 @@ export default function CustomDropzone({ callBack, list }) {
         )}
       </div>
       <Box p={2}>
-        {list.map(a => {
-          return (
-            <div
-              style={{
-                borderRadius: '5px',
-                backgroundColor: '#9830b0',
-                padding: '5px 10px',
-                letterSpacing: '2px',
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '1em',
-                display: 'inline-flex',
-                color: 'white',
-              }}
-            >
-              <span
-                style={{
-                  fontSize: '20px',
-                  position: 'relative',
-                  marginRight: '0.5em',
-                  width: '20px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  handleDelete(a.name);
-                }}
-              >
-                &times;
-              </span>
-              <a
-                href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
-                target="_blank"
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
-                  fontSize: '10px',
-                  fontWeight: '500',
-                  width: '100%',
-                  textAlign: 'center',
-                  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
-                }}
-              >
-                {typeof a === 'string' ? 'file' : a.name}
-              </a>
-              <span
-                style={{
-                  position: 'relative',
-                  color: '#9db7c7',
-                  zIndex: '0',
-                  borderRadius: '100%',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {/* {fileIcon(a.type)} */}
-              </span>
-            </div>
-          );
-        })}
-      </Box>
+    {list.map(a => {
+      return (
+        <div
+          style={{
+            borderRadius: '5px',
+            backgroundColor: '#9830b0',
+            padding: '5px 10px',
+            letterSpacing: '2px',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '1em',
+            display: 'inline-flex',
+            color: 'white',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '20px',
+              position: 'relative',
+              marginRight: '0.5em',
+              width: '20px',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              handleDelete(a);
+            }}
+          >
+            &times;
+          </span>
+          <a
+            href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
+            target="_blank"
+            style={{
+              color: 'white',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              fontSize: '10px',
+              fontWeight: '500',
+              width: '100%',
+              textAlign: 'center',
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
+            }}
+          >
+            {typeof a === 'string' ? 'file' : a.name}
+          </a>
+          <span
+            style={{
+              position: 'relative',
+              color: '#9db7c7',
+              zIndex: '0',
+              borderRadius: '100%',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {/* {fileIcon(a.type)} */}
+          </span>
+        </div>
+      );
+    })}
+  </Box>
+     {/* ds */}
     </div>
   );
 }

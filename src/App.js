@@ -5,9 +5,12 @@ import SignIn from './views/SignIn/SignIn'
 import SignUp from './views/SignUp/SignUp'
 import Admin from "./layouts/Admin.js"
 import AddEmployee from 'views/Employee/Add'
+import {Provider} from 'react-redux'
+import Store from 'redux/Store'
 
 function App() {
   return (
+    <Provider store={Store}>
     <Router>
       <Switch>
       <Route path="/admin" component={Admin} />
@@ -20,6 +23,7 @@ function App() {
         <Redirect from="/" to="/signin"/>
       </Switch>
     </Router>
+    </Provider>
   )
 }
 
