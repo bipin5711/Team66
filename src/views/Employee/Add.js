@@ -52,6 +52,7 @@ const initialValues = {
   jobBond: '',
   idProof: [],
   picture: [],
+  image:'',
   feedback: ''
 }
 
@@ -241,6 +242,7 @@ function AddEmployee(props) {
   const steps = getSteps();
   useEffect(() => {
     // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
+  console.log(employeeData.picture)
     dispatch(addEmployee(employeeData))
   }, [employeeData])
 

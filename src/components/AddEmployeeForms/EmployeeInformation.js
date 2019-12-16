@@ -9,7 +9,7 @@ import StepperNavigationButtons from 'components/Stepper/StepperNavigationButton
 import * as Yup from 'yup'
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
-
+import { format } from 'date-fns';
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
     .min(2, 'too Short!')
@@ -39,7 +39,7 @@ function EmployeeInformation(props) {
 
     <Formik
       initialValues={employeeData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -57,7 +57,7 @@ function EmployeeInformation(props) {
           fullName: values.fullName,
           maritalStatus: values.maritalStatus,
           preferredName: values.preferredName,
-          birthDate: values.birthDate,
+          birthDate: format(values.birthDate, 'dd/MM/yyyy'),
           gender: values.gender
         })
 
@@ -113,11 +113,11 @@ function EmployeeInformation(props) {
                   id="gender"
                   label="Male"
                   control={<Radio id="gender" color="secondary" />}
-                  value="male"
+                  value="Male"
                 />
                 <FormControlLabel
                   id="gender"
-                  value="female"
+                  value="Female"
                   control={<Radio id="gender" color="secondary" />}
                   label="Female"
                 />
@@ -136,17 +136,17 @@ function EmployeeInformation(props) {
                   id="maritalStatus"
                   label="Married"
                   control={<Radio id="maritalStatus" color="secondary" />}
-                  value="married"
+                  value="Married"
                 />
                 <FormControlLabel
                   id="maritalStatus"
-                  value="single"
+                  value="Single"
                   control={<Radio id="maritalStatus" color="secondary" />}
                   label="Single"
                 />
                 <FormControlLabel
                   id="maritalStatus"
-                  value="other"
+                  value="Other"
                   control={<Radio id="maritalStatus" color="secondary" />}
                   label="Other"
                 />

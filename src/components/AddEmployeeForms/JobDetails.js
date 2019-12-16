@@ -9,6 +9,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import * as Yup from 'yup'
 import { makeStyles } from "@material-ui/core/styles";
+import { format } from 'date-fns';
 
 const useStyles = makeStyles({
   field: {
@@ -37,7 +38,7 @@ function JobDetails(props) {
   return (
     <Formik
       initialValues={employeeData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -52,7 +53,7 @@ function JobDetails(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          jobHireDate: values.jobHireDate,
+          jobHireDate: format(values.jobHireDate, 'dd/MM/yyyy'),
           jobSalary: values.jobSalary,
           jobCurrentSalary: values.jobCurrentSalary,
           jobBond: values.jobBond
@@ -109,18 +110,18 @@ function JobDetails(props) {
                   id="bond"
                   label="1 Year"
                   control={<Radio id="jobBond" />}
-                  value="1"
+                  value="1 Year"
                 />
                 <FormControlLabel
                   id="bond"
-                  value="2"
+                  value="2 Year"
                   control={<Radio id="jobBond" />}
                   label="2 Year"
                 />
 
                 <FormControlLabel
                   id="bond"
-                  value="no"
+                  value="No"
                   control={<Radio id="jobBond" />}
                   label="No"
                 />

@@ -22,6 +22,8 @@ function EmployeePicture(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
+
+  const [image,setImage]=useState('')
   setTitle('Employee Picture')
 
   return (
@@ -44,6 +46,7 @@ function EmployeePicture(props) {
         setEmployeeData({
           ...employeeData,
           picture: values.picture,
+          image:image
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -63,6 +66,12 @@ function EmployeePicture(props) {
                     })
                     if (exist === 0) {
                       fileList.push(file)
+                      const reader=new FileReader()
+                      reader.addEventListener("load",()=>{
+                      console.log("ondrop called")
+                      setImage(reader.result)},false)
+                        reader.readAsDataURL(file)
+                        console.log("bipinb",image)
                     }
                     else {
                       exist = 0;
@@ -71,6 +80,7 @@ function EmployeePicture(props) {
                   setFieldValue('picture', fileList)
                 }} />
               </GridItem>
+              <img src={image} height="100px" width="100px"/>
               <GridItem xs={12} sm={12} md={12}>
                 <StepperNavigationButtons />
               </GridItem>

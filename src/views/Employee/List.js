@@ -18,6 +18,8 @@ import { useSelector, useDispatch} from 'react-redux'
 import { showEmployee} from 'redux/EmployeeAction'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Typography from '@material-ui/core/Typography'
+import Avatar from '@material-ui/core/Avatar';
 const styles = {
     cardCategoryWhite: {
       "&,& a,& a:hover,& a:focus": {
@@ -48,6 +50,20 @@ const styles = {
         lineHeight: "1"
       }
     },
+    table:{
+      border:0,
+
+    },
+    tableCell:{
+      border:0,
+      padding:3,
+      // width:100
+      // maxWidth:'5%'
+    },
+    tableRow:{
+      marginTop:25,
+      marginBottom:5,
+    }
     // button:{
     //     flexDirection: 'row', 
     //     justifyContent: 'flex-end',
@@ -62,18 +78,21 @@ const styles = {
 function Employee(props) {
  
   const classes = useStyles();
+ 
   const data=useSelector(state=>state)
   console.log("employee",data)
+  // alert(data)
   const dispatch = useDispatch();
   useEffect(()=>{
     // dispatch({ type:'SHOW_EMPLOYEE' })
     dispatch(showEmployee())
+    
   },[])
 
     return (
         <div>
             <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={12} md={9}>
         <Card>
           {/* in cardheader we can use plain attribute */}
          
@@ -91,35 +110,153 @@ function Employee(props) {
             </GridItem></GridContainer>
           </CardHeader>
           <CardBody>
-            {data.fullName!=""? <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Gender</TableCell>
-            <TableCell align="right">Marital Status</TableCell>
-            <TableCell align="right">City</TableCell>
-            <TableCell align="right">State</TableCell>
-            <TableCell align="right">Country</TableCell>
-            <TableCell align="right">Salary</TableCell>
-            <TableCell align="center" colSpan={2}>Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {/* {rows.map(row => ( */}
-            <TableRow>
-              <TableCell component="th" scope="row">{data.fullName}</TableCell>
-              <TableCell align="right">{data.gender}</TableCell>
-              <TableCell align="right">{data.maritalStatus}</TableCell>
-              <TableCell align="right">{data.currentCity}</TableCell>
-              <TableCell align="right">{data.currentState}</TableCell>
-              <TableCell align="right">{data.currentCountry}</TableCell>
-              <TableCell align="right">{data.jobSalary}</TableCell>
-              <TableCell align="right"><EditIcon/></TableCell>
-              <TableCell align="right"><DeleteIcon/></TableCell>
+            {data.fullName!=""? 
+<div>
+<GridContainer spacing={2}>
+      <GridItem xs={12} sm={4} md={4}>
+{/* <Avatar alt="Remy Sharp" src={data.image} height="300px" width="400px" /> */}
+{data.image?
+<img height="auto" width="100%" src={data.image} style={{borderRadius:'50%',padding:"30",maxWidth:'300px'}}/>
+   :""} 
+
+        </GridItem>
+        <GridItem xs={12} sm={6} md={6}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow >
+            <Typography className={classes.tableRow} variant="h6" component="h2">
+            Employee Information
+</Typography>
             </TableRow>
-          {/* ))} */}
+            </TableHead>
+        <TableBody>
+        <TableRow>
+              <TableCell className={classes.tableCell} style={{width:200}}>Full Name:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row" align="left">{data.fullName}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>BirthDate:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.birthDate}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Gender:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.gender}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Marital Status:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.maritalStatus}</TableCell>
+              </TableRow>
         </TableBody>
-      </Table> :""}
+      </Table>
+      <Table aria-label="simple table">
+          <TableHead>
+            <TableRow> <Typography className={classes.tableRow} variant="h6" component="h2">
+            Current Address</Typography>
+            </TableRow>
+            </TableHead>
+        <TableBody>
+        <TableRow>
+              <TableCell className={classes.tableCell} style={{width:200}}>Street 1:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.currentStreet1}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Street 2:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.currentStreet2}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>City:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.currentCity}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>State:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.currentState}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Country:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.currentCountry}</TableCell>
+              </TableRow>
+        </TableBody>
+      </Table>
+      {/* <Table aria-label="simple table">
+          <TableHead>
+            <TableRow> <Typography className={classes.tableRow} variant="h6" component="h2">
+            Permanent Address</Typography>
+            </TableRow>
+            </TableHead>
+        <TableBody>
+        <TableRow>
+              <TableCell className={classes.tableCell}>Street 1</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentStreet1}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Street 2</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentStreet2}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>City</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentCity}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>State</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentState}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Country</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentCountry}</TableCell>
+              </TableRow>
+        </TableBody>
+      </Table> */}
+      <Table aria-label="simple table">
+          <TableHead>
+            <TableRow> <Typography className={classes.tableRow} variant="h6" component="h2">
+            Emergency Contact</Typography>
+            </TableRow>
+            </TableHead>
+        <TableBody>
+        <TableRow>
+              <TableCell className={classes.tableCell} style={{width:200}}>Name:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyName1}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Mobile:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyMobile1}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>RealtionShip:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyRelationship1}</TableCell>
+              </TableRow>
+             
+        </TableBody>
+      </Table>
+      <Table aria-label="simple table">
+          <TableHead>
+            <TableRow> <Typography className={classes.tableRow}  variant="h6" component="h2">
+            Job Details</Typography>
+            </TableRow>
+            </TableHead>
+        <TableBody>
+        <TableRow>
+              <TableCell className={classes.tableCell} style={{width:200}}>Hire Date:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.jobHireDate}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Salary:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.jobSalary}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Current Salary:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.jobCurrentSalary}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className={classes.tableCell}>Bond:</TableCell>
+              <TableCell className={classes.tableCell} component="th" scope="row">{data.jobBond}</TableCell>
+              </TableRow>
+        </TableBody>
+      </Table>
+        </GridItem>
+      </GridContainer>
+      </div>
+      :""}  
          
           </CardBody>
         </Card>
