@@ -101,6 +101,7 @@ export default function CustomDropzone({ callBack, list }) {
           // minWidth: '300px',
           backgroundColor: '#f1f1ff',
           display: 'flex',
+          width:'100%',
           alignItems: 'center',
           justifyContent: 'center',
           border: '2px dotted #9830b0',
@@ -116,7 +117,8 @@ export default function CustomDropzone({ callBack, list }) {
           </p>
         )}
       </div>
-      <Box p={2}>
+      <div style={{padding:'0px 16px 0px 0px',marginTop:'10px',marginRight:0,width:'100%'}}>
+      <Box p={2} style={{padding:'0px 16px 0px 0px'}}>
     {list.map(a => {
       return (
         <div
@@ -179,7 +181,7 @@ export default function CustomDropzone({ callBack, list }) {
         </div>
       );
     })}
-  </Box>
+  </Box></div>
      {/* ds */}
     </div>
   );

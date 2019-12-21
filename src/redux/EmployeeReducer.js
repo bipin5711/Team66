@@ -28,7 +28,7 @@ const initialState = {
     jobBond: [],
     idProof: [],
     picture: [],
-    image:'',
+    // image:'',
     feedback: []
 }
 const EmployeeReducer = (state = initialState, action) => {
@@ -67,7 +67,7 @@ const EmployeeReducer = (state = initialState, action) => {
                 jobBond: action.payload.jobBond,
                 idProof: action.payload.idProof,
                 picture: action.payload.picture,
-                image:action.payload.image,
+                // image:action.payload.image,
                 feedback: action.payload.feedback
             }
         default:

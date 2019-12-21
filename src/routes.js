@@ -37,7 +37,7 @@ import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 import SignIn from "views/SignIn/SignIn";
 import SignUp from "views/SignUp/SignUp";
-import Employee from 'views/Employee/List'
+import Employee from 'views/Employee/View'
 import AddEmployee from 'views/Employee/Add'
 const dashboardRoutes = [
   {
@@ -67,6 +67,15 @@ const dashboardRoutes = [
     layout: "/admin",
     visibility:"false"
   },
+  // {
+  //   path: "/accordion",
+  //   name: "Accordion",
+  //   rtlName: "لوحة القيادة",
+  //   icon: Dashboard,
+  //   component: Accordion,
+  //   layout: "/admin",
+  //   visibility:"true"
+  // },
   // {
   //   path: "/user",
   //   name: "User Profile",
@@ -121,7 +130,8 @@ const dashboardRoutes = [
   //   rtlName: "خرائط",
   //   icon: LocationOn,
   //   component: Maps,
-  //   layout: "/admin"
+  //   layout: "/admin",
+  //   visibility:"true"
   // },
   // {
   //   path: "/notifications",

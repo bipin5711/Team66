@@ -52,7 +52,7 @@ const initialValues = {
   jobBond: '',
   idProof: [],
   picture: [],
-  image:'',
+  // image:'',
   feedback: ''
 }
 
@@ -242,8 +242,9 @@ function AddEmployee(props) {
   const steps = getSteps();
   useEffect(() => {
     // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
-  console.log(employeeData.picture)
+  console.log(employeeData)
     dispatch(addEmployee(employeeData))
+    console.log(employeeData)
   }, [employeeData])
 
   const isStepOptional = step => {
@@ -269,7 +270,7 @@ function AddEmployee(props) {
             </CardHeader>
             <CardBody>
               {/* <div className={classes.root}> */}
-              <Stepper activeStep={activeStep} alternativeLabel noWrap>
+              <Stepper style={{padding:'5px 0px'}} activeStep={activeStep} alternativeLabel noWrap>
                 {/* connector={<QontoConnector />} */}
                 {steps.map((label, index) => {
                   const stepProps = {};

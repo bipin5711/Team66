@@ -23,8 +23,12 @@ const validationSchema = Yup.object().shape({
 
 });
 const useStyles = makeStyles({
+  
   field: {
-    marginTop: "32px"
+    marginTop: '32px',
+    ['@media (max-width:769px)']: { // eslint-disable-line no-useless-computed-key
+      marginTop: '10px'
+    }
   }
 
 })
@@ -39,7 +43,7 @@ function EmployeeInformation(props) {
 
     <Formik
       initialValues={employeeData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;

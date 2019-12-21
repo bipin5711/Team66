@@ -36,7 +36,7 @@ function CurrentAddress(props) {
   return (
     <Formik
       initialValues={employeeData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
