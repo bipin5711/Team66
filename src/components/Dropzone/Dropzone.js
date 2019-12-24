@@ -2,8 +2,8 @@ import { Box } from '@material-ui/core';
 import { default as React, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { fileIcon } from '../load-steps/UploadDocs';
-
-export default function CustomDropzone({ callBack, list }) {
+import api from 'lib/axios'
+export default function CustomDropzone({ callBack, list, attachments }) {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       list.push(file);
@@ -12,86 +12,92 @@ export default function CustomDropzone({ callBack, list }) {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-    const handleDelete =  file => {
-      var array = list; // make a separate copy of the array
-      console.log("1",array)
-      var index = array.indexOf(file)
-      console.log("2",index)
-      if (index !== -1) {
-        array.splice(index, 1);
-        list=array
-        console.log("3",list)
-      }
-      callBack(list)
-    };
-// useEffect(()=>{
-//   return(
-//     <Box p={2}>
-//     {list.map(a => {
-//       return (
-//         <div
-//           style={{
-//             borderRadius: '5px',
-//             backgroundColor: '#9830b0',
-//             padding: '5px 10px',
-//             letterSpacing: '2px',
-//             width: '100%',
-//             alignItems: 'center',
-//             justifyContent: 'space-between',
-//             marginBottom: '1em',
-//             display: 'inline-flex',
-//             color: 'white',
-//           }}
-//         >
-//           <span
-//             style={{
-//               fontSize: '20px',
-//               position: 'relative',
-//               marginRight: '0.5em',
-//               width: '20px',
-//               cursor: 'pointer',
-//             }}
-//             onClick={() => {
-//               handleDelete(a);
-//             }}
-//           >
-//             &times;
-//           </span>
-//           <a
-//             href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
-//             target="_blank"
-//             style={{
-//               color: 'white',
-//               textDecoration: 'none',
-//               textTransform: 'uppercase',
-//               fontSize: '10px',
-//               fontWeight: '500',
-//               width: '100%',
-//               textAlign: 'center',
-//               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
-//             }}
-//           >
-//             {typeof a === 'string' ? 'file' : a.name}
-//           </a>
-//           <span
-//             style={{
-//               position: 'relative',
-//               color: '#9db7c7',
-//               zIndex: '0',
-//               borderRadius: '100%',
-//               display: 'inline-flex',
-//               alignItems: 'center',
-//               justifyContent: 'center',
-//             }}
-//           >
-//             {/* {fileIcon(a.type)} */}
-//           </span>
-//         </div>
-//       );
-//     })}
-//   </Box>
-//   )
-// },list)
+  const handleDelete = (file, fileName) => {
+    var array = list; // make a separate copy of the array
+    console.log("1", array)
+    var index = array.indexOf(file)
+    console.log("2", index)
+    if (index !== -1) {
+      array.splice(index, 1);
+      list = array
+      console.log("3", list)
+    }
+    api.delete(`employees/file/${fileName}`).then(res => {
+      // fileAttachments.push(res.data.data)
+      // setFieldValue('attachments', fileAttachments)
+      alert('deleted')
+
+    }).catch(err => { console.log("err", err) })
+    callBack(list)
+  };
+  // useEffect(()=>{
+  //   return(
+  //     <Box p={2}>
+  //     {list.map(a => {
+  //       return (
+  //         <div
+  //           style={{
+  //             borderRadius: '5px',
+  //             backgroundColor: '#9830b0',
+  //             padding: '5px 10px',
+  //             letterSpacing: '2px',
+  //             width: '100%',
+  //             alignItems: 'center',
+  //             justifyContent: 'space-between',
+  //             marginBottom: '1em',
+  //             display: 'inline-flex',
+  //             color: 'white',
+  //           }}
+  //         >
+  //           <span
+  //             style={{
+  //               fontSize: '20px',
+  //               position: 'relative',
+  //               marginRight: '0.5em',
+  //               width: '20px',
+  //               cursor: 'pointer',
+  //             }}
+  //             onClick={() => {
+  //               handleDelete(a);
+  //             }}
+  //           >
+  //             &times;
+  //           </span>
+  //           <a
+  //             href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
+  //             target="_blank"
+  //             style={{
+  //               color: 'white',
+  //               textDecoration: 'none',
+  //               textTransform: 'uppercase',
+  //               fontSize: '10px',
+  //               fontWeight: '500',
+  //               width: '100%',
+  //               textAlign: 'center',
+  //               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
+  //             }}
+  //           >
+  //             {typeof a === 'string' ? 'file' : a.name}
+  //           </a>
+  //           <span
+  //             style={{
+  //               position: 'relative',
+  //               color: '#9db7c7',
+  //               zIndex: '0',
+  //               borderRadius: '100%',
+  //               display: 'inline-flex',
+  //               alignItems: 'center',
+  //               justifyContent: 'center',
+  //             }}
+  //           >
+  //             {/* {fileIcon(a.type)} */}
+  //           </span>
+  //         </div>
+  //       );
+  //     })}
+  //   </Box>
+  //   )
+  // },list)
   return (
     <div>
       <div
@@ -101,7 +107,7 @@ export default function CustomDropzone({ callBack, list }) {
           // minWidth: '300px',
           backgroundColor: '#f1f1ff',
           display: 'flex',
-          width:'100%',
+          width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
           border: '2px dotted #9830b0',
@@ -112,34 +118,90 @@ export default function CustomDropzone({ callBack, list }) {
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : (
-          <p>
-            Drag 'n' drop files here
+            <p>
+              Drag 'n' drop files here
           </p>
-        )}
+          )}
       </div>
-      <div style={{padding:'0px 16px 0px 0px',marginTop:'10px',marginRight:0,width:'100%'}}>
-      <Box p={2} style={{padding:'0px 16px 0px 0px'}}>
-    {list.map(a => {
-      return (
-        <div
-          style={{
-            borderRadius: '5px',
-            backgroundColor: '#9830b0',
-            padding: '5px 10px',
-            letterSpacing: '2px',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '1em',
-            display: 'inline-flex',
-            color: 'white',
-          }}
-        >
-          <span
+      <div style={{ padding: '0px 16px 0px 0px', marginTop: '10px', marginRight: 0, width: '100%' }}>
+        <Box p={2} style={{ padding: '0px 16px 0px 0px' }}>
+          {list.map(a => {
+            return (
+              <div
+                style={{
+                  borderRadius: '5px',
+                  backgroundColor: '#9830b0',
+                  padding: '5px 10px',
+                  letterSpacing: '2px',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '1em',
+                  display: 'inline-flex',
+                  color: 'white',
+                }}
+              >
+                {console.log("ds", a)}
+                <span
+                  style={{
+                    position: 'relative',
+                    color: '#9db7c7',
+                    zIndex: '0',
+                    borderRadius: '100%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {/* {fileIcon(a.type)} */}
+                </span>
+                <a
+                  href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
+                  target="_blank"
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
+                    fontSize: '10px',
+                    fontWeight: '500',
+                    width: '100%',
+                    textAlign: 'center',
+                    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
+                  }}
+                >
+                  {typeof a === 'string' ? 'file' : a.name}
+                </a>
+                {attachments.map(b => {
+                  return (
+                    <div>
+                      {a.name === b.originalFileName?
+                            <span
+                              style={{
+                                fontSize: '20px',
+                                position: 'relative',
+                                // marginRight: '0.5em',
+                                width: '20px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                handleDelete(a, b.fileName);
+                              }}
+                            >
+                              &times;
+                            </span>:""
+                          }
+                      
+                    </div>
+                  )
+                 
+                }
+                )
+                }
+                {/* <span
             style={{
               fontSize: '20px',
               position: 'relative',
-              marginRight: '0.5em',
+              // marginRight: '0.5em',
               width: '20px',
               cursor: 'pointer',
             }}
@@ -148,41 +210,12 @@ export default function CustomDropzone({ callBack, list }) {
             }}
           >
             &times;
-          </span>
-          <a
-            href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
-            target="_blank"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              fontSize: '10px',
-              fontWeight: '500',
-              width: '100%',
-              textAlign: 'center',
-              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
-            }}
-          >
-            {typeof a === 'string' ? 'file' : a.name}
-          </a>
-          <span
-            style={{
-              position: 'relative',
-              color: '#9db7c7',
-              zIndex: '0',
-              borderRadius: '100%',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* {fileIcon(a.type)} */}
-          </span>
-        </div>
-      );
-    })}
-  </Box></div>
-     {/* ds */}
+          </span> */}
+              </div>
+            );
+          })}
+        </Box></div>
+      {/* ds */}
     </div>
   );
 }
@@ -245,14 +278,14 @@ export default function CustomDropzone({ callBack, list }) {
 //     )
 //     // setFilename(document)
 //     setFilename(name)
-   
+
 //     // console.log("uploaders",uploaders)
-    
+
 //   }
-  
+
 //   return (
 //     <Dropzone 
-    
+
 //       onDrop={handleOnDrop}
 //       // onChange={(e) => form.setFieldValue(field.name, e)}
 //       multiple="true">
@@ -260,7 +293,7 @@ export default function CustomDropzone({ callBack, list }) {
 //         <section>
 //           <div {...getRootProps()}>
 //             <input {...getInputProps()} />
-            
+
 //             <div><Typography variant="body1" component="h2">
 //             {isDragActive?"Drop it like it's hot!":"Click me or drag a file to upload"}
 // </Typography><br/>{filename==="" ? "" : filename.map(f=>{return (<div><Chip label={f} color="primary" /><br/><br/></div>)})}

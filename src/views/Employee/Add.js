@@ -22,39 +22,39 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addEmployee} from 'redux/EmployeeAction'
 
-const initialValues = {
-  fullName: '',
-  preferredName: '',
-  birthDate: null,
-  gender: '',
-  maritalStatus: '',
-  currentStreet1: '',
-  currentStreet2: '',
-  currentCity: '',
-  currentState: '',
-  currentCountry: '',
-  currentAddressProof: [],
-  permanentStreet1: '',
-  permanentStreet2: '',
-  permanentCity: '',
-  permanentState: '',
-  permanentCountry: '',
-  permanentAddressProof: [],
-  emergencyName1: '',
-  emergencyMobile1: '',
-  emergencyRelationship1: '',
-  emergencyName2: '',
-  emergencyMobile2: '',
-  emergencyRelationship2: '',
-  jobHireDate: null,
-  jobSalary: '',
-  jobCurrentSalary: '',
-  jobBond: '',
-  idProof: [],
-  picture: [],
-  // image:'',
-  feedback: ''
-}
+// const initialValues = {
+//   fullName: '',
+//   preferredName: '',
+//   birthDate: null,
+//   gender: '',
+//   maritalStatus: '',
+//   currentStreet1: '',
+//   currentStreet2: '',
+//   currentCity: '',
+//   currentState: '',
+//   currentCountry: '',
+//   currentAddressProof: [],
+//   permanentStreet1: '',
+//   permanentStreet2: '',
+//   permanentCity: '',
+//   permanentState: '',
+//   permanentCountry: '',
+//   permanentAddressProof: [],
+//   emergencyName1: '',
+//   emergencyMobile1: '',
+//   emergencyRelationship1: '',
+//   emergencyName2: '',
+//   emergencyMobile2: '',
+//   emergencyRelationship2: '',
+//   jobHireDate: null,
+//   jobSalary: '',
+//   jobCurrentSalary: '',
+//   jobBond: '',
+//   idProof: [],
+//   picture: [],
+//   // image:'',
+//   feedback: ''
+// }
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -88,54 +88,58 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-// const initialValues={
-//     employeeInformation:{
-//         fullName:'',
-//         preferredName:'',
-//         birthDate:'',
-//         gender:'',
-//         maritalStatus:''
-//     },
-//     currentAddress:{
-//         street1:'',
-//         street2:'',
-//         city:'',
-//         state:'',
-//         country:'',
-//         addressProof:''
-//     },
-//     permanentAddress:{
-//         street1:'',
-//         street2:'',
-//         city:'',
-//         state:'',
-//         country:'',
-//         addressProof:''
-//     },
-//     emergencyContact:{
-//         name1:'',
-//         mobile1:'',
-//         relationship1:'',
-//         name2:'',
-//         mobile2:'',
-//         relationship2:''
-//     },
-//     jobDetails:{
-//         hireDate:'',
-//         salary:'',
-//         currentSalary:'',
-//         bond:''
-//     },
-//     idProof:{
-//         idProof:''
-//     },
-//     employeePicture:{
-//         picture:''
-//     },
-//     feedback:{
-//         feedback:''
-//     }    
-// }
+const initialValues={
+  birthDate: null,
+  bond: '',
+  currentAddress: {
+    city: '',
+    country: '',
+    id: 0,
+    state: '',
+    street1: '',
+    street2: ''
+  },
+  currentSalary: '',
+  emergencyContacts: [
+    {
+      id: 0,
+      mobile: '',
+      name: '',
+      relationship: ''
+    },
+    {
+      id: 1,
+      mobile: '',
+      name: '',
+      relationship: ''
+    }
+  ],
+  employeeAttachments: [
+    // {
+    //   fileName: '',
+      // id: '',
+    //   originalFileName: '',
+    //   size: '',
+    //   type: ''
+    // }
+  ],
+  feedback: '',
+  gender: '',
+  id: 0,
+  hireDate:null,
+  maritalStatus: '',
+  name: '',
+  permanentAddress: {
+    city: '',
+    country: '',
+    id: 0,
+    state: '',
+    street1: '',
+    street2: ''
+  },
+  preferredName: '',
+  salary: ''
+}
 // const QontoConnector = withStyles({
 //   alternativeLabel: {
 //     // top: 10,
@@ -157,6 +161,8 @@ const useStyles = makeStyles(theme => ({
 //     borderTopWidth: 3,
 //     borderRadius: 1,
 //   },
+
+
 // })(StepConnector);
 
 // const useQontoStepIconStyles = makeStyles({
@@ -242,13 +248,13 @@ function AddEmployee(props) {
   const steps = getSteps();
   useEffect(() => {
     // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
-  console.log(employeeData)
-    dispatch(addEmployee(employeeData))
-    console.log(employeeData)
+  // console.log(employeeData)
+    // dispatch(addEmployee(employeeData))
+    console.log("team66",employeeData)
   }, [employeeData])
 
   const isStepOptional = step => {
-    return step === 7 || step === 5;
+    return step === 7 || step === 5 ;
   };
 
   const isStepSkipped = step => {

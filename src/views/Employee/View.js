@@ -13,13 +13,14 @@ import CardBody from "components/Card/CardBody.js";
 import { makeStyles } from "@material-ui/core/styles";
 // import Button from '@material-ui/core/Button'
 import Button from "components/CustomButtons/Button.js";
-import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+// import { useSelector, useDispatch } from 'react-redux'
 import { showEmployee } from 'redux/EmployeeAction'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar';
+import api, {url} from '../../lib/axios';
 // import ExpansionPanel from 'components/ExpansionPanel/ExpansionPanel'
 // import Modal from 'components/Modal/Modal';
 const styles = {
@@ -98,39 +99,43 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 
-function Employee(props) {
+function EmployeeView(props) {
   const classes = useStyles();
-  const data = useSelector(state => state)
-  console.log(data)
-  const dispatch = useDispatch();
-  let pictureBlob = new Blob(data.picture, { type: 'image/jpeg' });
-  const pictureBlobUrl = URL.createObjectURL(pictureBlob)
+  const [data,setData]=useState()
+  let { id } = useParams();
+  // const data = useSelector(state => state)
+  // console.log(data)
+  // const dispatch = useDispatch();
+  // let pictureBlob = new Blob(data.picture, { type: 'image/jpeg' });
+  // const pictureBlobUrl = URL.createObjectURL(pictureBlob)
 
   useEffect(() => {
-    // dispatch({ type:'SHOW_EMPLOYEE' })
-    dispatch(showEmployee())
-
-  }, [])
+    api.get(`employees/${id}`).then(res=>{
+      setData(res.data.data)
+      console.log("ds",data)
+  }).catch(err=>{console.log("err",err)})
+  },[])
 
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={9}>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             {/* in cardheader we can use plain attribute */}
-
+{console.log("bipin",data)}
             <CardHeader color="primary">
               <GridContainer>
-                <GridItem xs={12} sm={12} md={6}> 
+                <GridItem xs={12} sm={12} md={12}> 
                   <h4 className={classes.cardTitleWhite} style={{ display: 'inline' }}>
                     Employee Details
             </h4>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                {/* </GridItem> */}
+                {/* <GridItem xs={12} sm={12} md={6}>
                   <Button className={classes.addBtn} color="transparent" component={Link} to="/admin/addEmployee">
                     Add Employee
-            </Button>
-                </GridItem></GridContainer>
+            </Button> */}
+                </GridItem>
+                </GridContainer>
             </CardHeader>
             <CardBody style={{minHeight:'200px'}}>
               {/* <ExpansionPanel orderstatus="Inactive" createddate="dsada" ordernumber="12">
@@ -141,13 +146,13 @@ function Employee(props) {
           </ExpansionPanel> */}
               {/* <Modal orderstatus="active" createddate="dsada" ordernumber="12">dghj</Modal> */}
 
-              {data.fullName != "" ?
+              {data?
                 <div>
                   <GridContainer spacing={2}>
                     <GridItem xs={12} sm={5} md={4}>
                       {/* <Avatar alt="Remy Sharp" src={data.image} height="300px" width="400px" /> */}
                       {/* {data.image ? */}
-                      <img height="auto" width="100%" src={pictureBlobUrl} style={{ borderRadius: '50%', padding: "30", maxWidth: '300px' }} />
+                      <img height="auto" width="100%" src={url+"1416a168-9e64-487f-9504-961d9f1c9399.jpeg"} style={{ borderRadius: '50%', padding: "30", maxWidth: '300px' }} />
                       {/* : ""} */}
                     </GridItem>
                     <GridItem xs={12} sm={5} md={6}>
@@ -161,8 +166,8 @@ function Employee(props) {
                         </TableHead>
                         <TableBody>
                           <TableRow>
-                            <TableCell className={classes.tableCell} style={{ width: '150px' }}>Full Name:</TableCell>
-                            <TableCell className={classes.tableCell} align="left">{data.fullName ? data.fullName : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} style={{ width: '150px' }}>Name:</TableCell>
+                            <TableCell className={classes.tableCell} align="left">{data.name ? data.name : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>BirthDate:</TableCell>
@@ -187,25 +192,25 @@ function Employee(props) {
                         <TableBody>
                           <TableRow>
                             <TableCell className={classes.tableCell} style={{ width: '150px' }}>Street 1:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentStreet1 ? data.currentStreet1 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.street1 ? data.currentAddress.street1 : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Street 2:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentStreet2 ? data.currentStreet2 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.street2 ? data.currentAddress.street2 : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>City:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentCity ? data.currentCity : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.city ? data.currentAddress.city : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>State:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentState ? data.currentState : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.state ? data.currentAddress.state : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Country:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentCountry ? data.currentCountry : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.country ? data.currentAddress.country : "Not Set"}</TableCell>
                           </TableRow>
-                          <TableRow>
+                          {/* <TableRow>
                             <TableCell className={classes.tableCell}>Current Address Proof:</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">
                               {
@@ -217,7 +222,7 @@ function Employee(props) {
                                   )
                                 })}
                             </TableCell>
-                          </TableRow>
+                          </TableRow> */}
                         </TableBody>
                       </Table>
                       <Table aria-label="simple table">
@@ -229,25 +234,25 @@ function Employee(props) {
                         <TableBody>
                           <TableRow>
                             <TableCell className={classes.tableCell} style={{ width: '150px' }}>Street 1</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentStreet1 ? data.permanentStreet1 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.street1 ? data.permanentAddress.street1 : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Street 2</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentStreet2 ? data.permanentStreet2 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.street2 ? data.permanentAddress.street2 : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>City</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentCity ? data.permanentCity : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.city ? data.permanentAddress.city : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>State</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentState ? data.permanentState : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.state ? data.permanentAddress.state : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Country</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentCountry ? data.permanentCountry : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.country ? data.permanentAddress.country : "Not Set"}</TableCell>
                           </TableRow>
-                          <TableRow>
+                          {/* <TableRow>
                             <TableCell className={classes.tableCell}>Permanent Address Proof:</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">
                               {
@@ -259,7 +264,7 @@ function Employee(props) {
                                   )
                                 })}
                             </TableCell>
-                          </TableRow>
+                          </TableRow> */}
                         </TableBody>
                       </Table>
                       <Table aria-label="simple table">
@@ -271,15 +276,15 @@ function Employee(props) {
                         <TableBody>
                           <TableRow>
                             <TableCell className={classes.tableCell} style={{ width: '150px' }}>Name:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyName1 ? data.emergencyName1 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyContacts.name ? data.emergencyContacts.name : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Mobile:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyMobile1 ? data.emergencyMobile1 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyContacts.mobile ? data.emergencyContacts.mobile : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>RealtionShip:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyRelationship1 ? data.emergencyRelationship1 : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.emergencyContacts.relationship ? data.emergencyContacts.relationship : "Not Set"}</TableCell>
                           </TableRow>
 
                         </TableBody>
@@ -293,23 +298,23 @@ function Employee(props) {
                         <TableBody>
                           <TableRow>
                             <TableCell className={classes.tableCell} style={{ width: '150px' }}>Hire Date:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.jobHireDate ? data.jobHireDate : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.hireDate ? data.hireDate : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Salary:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.jobSalary ? data.jobSalary : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.salary ? data.salary : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Current Salary:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.jobCurrentSalary ? data.jobCurrentSalary : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.currentSalary ? data.currentSalary : "Not Set"}</TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className={classes.tableCell}>Bond:</TableCell>
-                            <TableCell className={classes.tableCell} component="th" scope="row">{data.jobBond ? data.jobBond : "Not Set"}</TableCell>
+                            <TableCell className={classes.tableCell} component="th" scope="row">{data.bond ? data.bond : "Not Set"}</TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
-                      <Table aria-label="simple table">
+                      {/* <Table aria-label="simple table">
                         <TableHead>
                           <TableRow colSpan={2}> <Typography className={classes.tableRow} variant="h6" component="h2">
                             Id Proof</Typography>
@@ -330,7 +335,7 @@ function Employee(props) {
                             </TableCell>
                           </TableRow>
                         </TableBody>
-                      </Table>
+                      </Table> */}
                     </GridItem>
                   </GridContainer>
                 </div>
@@ -345,7 +350,7 @@ function Employee(props) {
   );
 }
 
-export default Employee;
+export default EmployeeView;
 
 {/* <Table aria-label="simple table">
         <TableHead>

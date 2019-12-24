@@ -7,6 +7,7 @@ import StepperNavigationButtons from 'components/Stepper/StepperNavigationButton
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import api, { toFormData } from '../../lib/axios';
 
 const useStyles = makeStyles({
   field: {
@@ -21,6 +22,7 @@ function IdProof(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
+  const fileAttachments = []
   setTitle('ID Proof')
 
   return (
@@ -41,7 +43,7 @@ function IdProof(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          idProof: values.idProof,
+          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -50,7 +52,7 @@ function IdProof(props) {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
-                <CustomDropzone list={values.idProof} callBack={files => {
+                <CustomDropzone list={values.idProof ? values.idProof : []} attachments={values.attachments ? values.attachments : []} callBack={files => {
                   var exist = 0
                   files.map(file => {
                     fileList.map(existingFile => {
@@ -61,6 +63,16 @@ function IdProof(props) {
                     })
                     if (exist === 0) {
                       fileList.push(file)
+                      let test = {
+                        file,
+                        type: 'Id Proof'
+                      }
+                      const fileData = toFormData(test)
+                      api.post('employees/file', fileData).then(res => {
+                        fileAttachments.push(res.data.data)
+                        setFieldValue('attachments', fileAttachments)
+  
+                      }).catch(err => { console.log("err", err) })
                     }
                     else {
                       exist = 0;

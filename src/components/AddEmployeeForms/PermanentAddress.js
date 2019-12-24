@@ -9,6 +9,7 @@ import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import api, { toFormData } from '../../lib/axios';
 const useStyles = makeStyles({
   field: {
     marginTop: "32px"
@@ -16,27 +17,30 @@ const useStyles = makeStyles({
 })
 
 const validationSchema = Yup.object().shape({
-  permanentStreet1: Yup.string()
-    .required('Required'),
-  permanentCity: Yup.string()
-    .required('Required'),
-  //  addressProof: Yup.file().required('Required')
-
+  permanentAddress: Yup.object().shape(
+    {
+      street1: Yup.string().required('Required'),
+      city: Yup.string().required('Required')
+    }
+  )
 });
+
 function PermanentAddress(props) {
   const classes = useStyles()
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
+  console.log("permanent",employeeData)
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
+  const fileAttachments = []
   setTitle('Permanent Address')
 
   return (
 
     <Formik
       initialValues={employeeData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -51,13 +55,17 @@ function PermanentAddress(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          permanentStreet1: values.permanentStreet1,
-          permanentStreet2: values.permanentStreet2,
-          permanentCity: values.permanentCity,
-          permanentState: values.permanentState,
-          permanentCountry: values.permanentCountry,
-          permanentAddressProof: values.permanentAddressProof
+          permanentAddress: {
+            id:0,
+            street1: values.permanentAddress.street1,
+            street2: values.permanentAddress.street2,
+            city: values.permanentAddress.city,
+            state: values.permanentAddress.state,
+            country: values.permanentAddress.country
+          },
+          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
         })
+       
       }}
       render={({ values, setFieldValue }) => {
         return (
@@ -67,8 +75,8 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={6}>
                 <Field
                   label="Street 1"
-                  id="permanentStreet1"
-                  name="permanentStreet1"
+                  id="permanentAddress.street1"
+                  name="permanentAddress.street1"
                   className={classes.field}
                   component={TextField}
                   fullWidth
@@ -78,8 +86,8 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={6}>
                 <Field
                   label="Street 2"
-                  id="permanentStreet2"
-                  name="permanentStreet2"
+                  id="permanentAddress.street2"
+                  name="permanentAddress.street2"
                   className={classes.field}
                   component={TextField}
                   fullWidth
@@ -89,8 +97,8 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={4}>
                 <Field
                   label="City"
-                  id="permanentCity"
-                  name="permanentCity"
+                  id="permanentAddress.city"
+                  name="permanentAddress.city"
                   className={classes.field}
                   component={TextField}
                   fullWidth
@@ -100,8 +108,8 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={4}>
                 <Field
                   label="State"
-                  id="permanentState"
-                  name="permanentState"
+                  id="permanentAddress.state"
+                  name="permanentAddress.state"
                   className={classes.field}
                   component={TextField}
                   fullWidth
@@ -111,8 +119,8 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={4}>
                 <Field
                   label="Country"
-                  id="permanentCountry"
-                  name="permanentCountry"
+                  id="permanentAddress.country"
+                  name="permanentAddress.country"
                   className={classes.field}
                   component={TextField}
                   fullWidth
@@ -121,7 +129,7 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }}
                   className={classes.field}>Permanent Address Proof</FormLabel>
-                <CustomDropzone list={values.permanentAddressProof} callBack={files => {
+                <CustomDropzone list={values.permanentAddressProof ? values.permanentAddressProof : []}  attachments={values.attachments ? values.attachments : []} callBack={files => {
                   var exist = 0
                   files.map(file => {
                     fileList.map(existingFile => {
@@ -132,12 +140,24 @@ function PermanentAddress(props) {
                     })
                     if (exist === 0) {
                       fileList.push(file)
+                      let test = {
+                        file,
+                        type: 'Permanent Address Proof'
+                      }
+                      const fileData = toFormData(test)
+                      api.post('employees/file', fileData).then(res => {
+                        fileAttachments.push(res.data.data)
+                        setFieldValue('attachments', fileAttachments)
+  
+                      }).catch(err => { console.log("err", err) })
                     }
                     else {
                       exist = 0;
                     }
                   })
-                  setFieldValue('permanentAddressProof', fileList)
+
+                setFieldValue('permanentAddressProof', fileList)
+                  // setFieldValue('permanentAddressProof', fileList)
                 }} />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>

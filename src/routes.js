@@ -37,7 +37,8 @@ import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 import SignIn from "views/SignIn/SignIn";
 import SignUp from "views/SignUp/SignUp";
-import Employee from 'views/Employee/View'
+import EmployeeView from 'views/Employee/View'
+import EmployeeList from 'views/Employee/List'
 import AddEmployee from 'views/Employee/Add'
 const dashboardRoutes = [
   {
@@ -50,11 +51,20 @@ const dashboardRoutes = [
     visibility:"true"
   },
   {
-    path: "/employee",
+    path: "/employee/:id",
     name: "Employee",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: Employee,
+    component: EmployeeView,
+    layout: "/admin",
+    visibility:"false"
+  },
+  {
+    path: "/employees",
+    name: "Employee",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: EmployeeList,
     layout: "/admin",
     visibility:"true"
   },

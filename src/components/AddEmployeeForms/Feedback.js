@@ -7,6 +7,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { FormLabel } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
+import api from '../../lib/axios';
 
 const useStyles=makeStyles({
   field:{
@@ -43,6 +44,13 @@ function Feedback(props) {
             ...employeeData,
             feedback: values.feedback,
           })
+          api.post('employees', employeeData).then(res => {
+            alert("Success")
+
+          }).catch(err => { 
+            alert("Failed",err)
+            console.log("err", err) })
+
         }}
         render={() => (
           <Form>

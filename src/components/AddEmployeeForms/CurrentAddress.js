@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FormLabel } from "@material-ui/core";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -9,6 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { TextField } from 'formik-material-ui';
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import api, { toFormData } from '../../lib/axios';
 
 const useStyles = makeStyles({
   field: {
@@ -17,10 +18,12 @@ const useStyles = makeStyles({
 })
 
 const validationSchema = Yup.object().shape({
-  currentStreet1: Yup.string().required('Required'),
-  currentCity: Yup.string().required('Required')
-  //  addressProof: Yup.string().required('Required')
-
+  currentAddress: Yup.object().shape(
+    {
+      street1: Yup.string().required('Required'),
+      city: Yup.string().required('Required')
+    }
+  )
 });
 
 function CurrentAddress(props) {
@@ -29,14 +32,16 @@ function CurrentAddress(props) {
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
+  // const [file, setFile] = useState()
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
+  const fileAttachments = []
   setTitle('Current Address')
-
+  
   return (
     <Formik
       initialValues={employeeData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -51,12 +56,15 @@ function CurrentAddress(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          currentStreet1: values.currentStreet1,
-          currentStreet2: values.currentStreet2,
-          currentCity: values.currentCity,
-          currentState: values.currentState,
-          currentCountry: values.currentCountry,
-          currentAddressProof: values.currentAddressProof
+          currentAddress: {
+            id:0,
+            street1: values.currentAddress.street1,
+            street2: values.currentAddress.street2,
+            city: values.currentAddress.city,
+            state: values.currentAddress.state,
+            country: values.currentAddress.country
+          },
+          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -66,8 +74,8 @@ function CurrentAddress(props) {
             <GridItem xs={12} sm={12} md={6}>
               <Field
                 label="Street 1"
-                id="currentStreet1"
-                name="currentStreet1"
+                id="currentAddress.street1"
+                name="currentAddress.street1"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -77,8 +85,8 @@ function CurrentAddress(props) {
             <GridItem xs={12} sm={12} md={6}>
               <Field
                 label="Street 2"
-                id="currentStreet2"
-                name="currentStreet2"
+                id="currentAddress.street2"
+                name="currentAddress.street2"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -88,8 +96,8 @@ function CurrentAddress(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Field
                 label="City"
-                id="currentCity"
-                name="currentCity"
+                id="currentAddress.city"
+                name="currentAddress.city"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -99,8 +107,8 @@ function CurrentAddress(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Field
                 label="State"
-                id="currentState"
-                name="currentState"
+                id="currentAddress.state"
+                name="currentAddress.state"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -110,39 +118,49 @@ function CurrentAddress(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Field
                 label="Country"
-                id="currentCountry"
-                name="currentCountry"
+                id="currentAddress.country"
+                name="currentAddress.country"
                 className={classes.field}
                 component={TextField}
                 fullWidth
               />
             </GridItem>
-
             <GridItem xs={12} sm={12} md={12}>
-              <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
-              <CustomDropzone list={values.currentAddressProof} callBack={files => {
-
+        <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
+              <CustomDropzone list={values.currentAddressProof ? values.currentAddressProof : []} 
+              attachments={values.attachments ? values.attachments : []} 
+              callBack={files => {
                 files.map(file => {
+                  console.log(file)
                   var exist = 0
                   fileList.map(existingFile => {
-
                     if (existingFile.name === file.name && existingFile.size === file.size) {
                       exist = 1;
                       // alert("File has already selected")
                     }
                   })
                   if (exist === 1) {
-
                     exist = 0;
                   }
                   else {
                     fileList.push(file)
+                    let test = {
+                      file,
+                      type: 'Current Address Proof'
+                    }
+                    const fileData = toFormData(test)
+                    api.post('employees/file', fileData).then(res => {
+                      fileAttachments.push(res.data.data)
+                      setFieldValue('attachments', fileAttachments)
+
+                    }).catch(err => { console.log("err", err) })
                   }
                 })
-                console.log("filelist", fileList)
+                console.log("filelist", values.currentAddressProof)
                 setFieldValue('currentAddressProof', fileList)
-              }} />
-
+                  // setFile(fileList)
+              }}
+              />
             </GridItem>
 
             <GridItem xs={12} sm={12} md={12}>

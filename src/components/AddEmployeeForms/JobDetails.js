@@ -17,12 +17,12 @@ const useStyles = makeStyles({
   }
 })
 const validationSchema = Yup.object().shape({
-  jobHireDate: Yup.date().nullable()
+  hireDate: Yup.date().nullable()
     .min(new Date('01-01-1960'), 'Hire date must be greater than 01-01-1960')
     .max(new Date(), 'Hire date is cannot greater than current day')
     .required('Hire date is Required'),
-  jobSalary: Yup.number().typeError('Salary must be number'),
-  jobCurrentSalary: Yup.number().typeError('Current salary must be number')
+  salary: Yup.number().typeError('Salary must be number'),
+  currentSalary: Yup.number().typeError('Current salary must be number')
   // bond: Yup.number()
   //   .required('Required'),
 
@@ -53,10 +53,10 @@ function JobDetails(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          jobHireDate: format(values.jobHireDate, 'dd/MM/yyyy'),
-          jobSalary: values.jobSalary,
-          jobCurrentSalary: values.jobCurrentSalary,
-          jobBond: values.jobBond
+          hireDate: format(values.hireDate, 'yyyy-MM-dd'),
+          salary: values.salary,
+          currentSalary: values.currentSalary,
+          bond: values.bond
         })
       }}
       render={() => (
@@ -66,12 +66,12 @@ function JobDetails(props) {
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Hire Date</FormLabel>
               <Field
-                name="jobHireDate"
+                name="hireDate"
                 component={CustomDatePicker}
                 // label="Date"
                 placeholder="Enter Hire Date"
                 fullWidth
-                format="dd/MM/yyyy"
+                format="dd-MM-yyyy"
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
@@ -80,8 +80,8 @@ function JobDetails(props) {
                 className={classes.field}
                 // placeholder="Please Provide salary when you have joined"
                 helperText="Please provide salary when you have joined"
-                id="jobSalary"
-                name="jobSalary"
+                id="salary"
+                name="salary"
                 component={TextField}
                 fullWidth
 
@@ -91,9 +91,9 @@ function JobDetails(props) {
               <Field
                 label="Current Salary"
                 className={classes.field}
-                id="jobCurrentSalary"
+                id="currentSalary"
                 helperText="Please provide your current salary"
-                name="jobCurrentSalary"
+                name="currentSalary"
                 component={TextField}
                 fullWidth
               />
@@ -102,27 +102,27 @@ function JobDetails(props) {
             <GridItem xs={12} sm={12} md={12}>
               <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Have you signed/agreed any bond?</FormLabel>
               <Field fullWidth
-                id="jobBond"
-                name="jobBond"
+                id="bond"
+                name="bond"
                 component={RadioGroup}
               >
                 <FormControlLabel
                   id="bond"
                   label="1 Year"
-                  control={<Radio id="jobBond" />}
+                  control={<Radio id="bond" />}
                   value="1 Year"
                 />
                 <FormControlLabel
                   id="bond"
                   value="2 Year"
-                  control={<Radio id="jobBond" />}
+                  control={<Radio id="bond" />}
                   label="2 Year"
                 />
 
                 <FormControlLabel
                   id="bond"
                   value="No"
-                  control={<Radio id="jobBond" />}
+                  control={<Radio id="bond" />}
                   label="No"
                 />
               </Field>

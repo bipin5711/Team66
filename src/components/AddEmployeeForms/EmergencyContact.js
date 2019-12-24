@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { TextField } from 'formik-material-ui';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import { Formik, Field, Form } from 'formik'
+import { Formik, Field, Form, yupToFormErrors, FieldArray } from 'formik'
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import * as Yup from 'yup'
@@ -15,14 +15,15 @@ const useStyles = makeStyles({
 })
 
 const validationSchema = Yup.object().shape({
-  emergencyName1: Yup.string()
-    .min(2, 'too Short!')
-    .required('Required'),
-  emergencyMobile1: Yup.number().typeError('Mobile must be number').required('Required!'),
-  emergencyRelationship1: Yup.string().required('Required'),
-  emergencyMobile2: Yup.number().typeError('Mobile must be number')
-
-});
+  emergencyContacts:Yup.array()
+  .of( 
+    Yup.object().shape(
+    {
+      name: Yup.string().min(2, 'too Short!').required('Required'),
+      mobile: Yup.number().typeError('Mobile must be number').required('Required!'),
+      relationship: Yup.string().required('Required')
+      // mobile2: Yup.number().typeError('Mobile must be number')
+    }))})
 
 function EmergencyContact(props) {
   const classes = useStyles()
@@ -51,22 +52,75 @@ function EmergencyContact(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          emergencyName1: values.emergencyName1,
-          emergencyMobile1: values.emergencyMobile1,
-          emergencyRelationship1: values.emergencyRelationship1,
-          emergencyName2: values.emergencyName2,
-          emergencyMobile2: values.emergencyMobile2,
-          emergencyRelationship2: values.emergencyRelationship2
+          emergencyContacts:[
+            ...values.emergencyContacts
+            // {
+            // id:0,
+            // name: values.emergencyContacts[0].name,
+            // mobile: values.emergencyContacts[0].mobile,
+            // relationship: values.emergencyContacts[0].relationship
+           
+            // },
+            // {id:2,
+            //   name: values.emergencyContacts[1].name,
+            //   mobile: values.emergencyContacts[1].mobile,
+            //   relationship: values.emergencyContacts[1].relationship,
+             
+            //   }
+            ]
         })
+        console.log("1",values.emergencyContacts)
+
+          // console.log("1",values.emergencyContacts.mobile)
+
+          // console.log("1",values.emergencyContacts.relationship)
       }}
-      render={() => (
+      render={(values,setFieldValue) => (
         <Form>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={5}>
-              <Field
+          <FieldArray
+            name="emergencyContacts"
+            render={arrayHelpers => (
+              <React.Fragment>
+                {employeeData.emergencyContacts.map((friend, index) => (
+                  <React.Fragment>
+                    <GridItem xs={12} sm={12} md={5}>
+                    <Field 
+                    name={`emergencyContacts[${index}].name`}  
+                    className={classes.field}
+                    label="Name"
+                    component={TextField}
+                    fullWidth
+                    />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                    <Field 
+                    name={`emergencyContacts[${index}].mobile`}
+                    label="Mobile"
+                    className={classes.field}
+                    component={TextField}
+                    fullWidth 
+                    />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={3}>
+                    <Field 
+                    name={`emergencyContacts[${index}].relationship`}
+                    label="Relationship"
+                    className={classes.field}
+                    component={TextField}
+                    fullWidth />
+                    </GridItem>
+                  </React.Fragment>
+                ))}
+                
+              </React.Fragment>
+            )}
+          />
+           {/* <GridItem xs={12} sm={12} md={5}>
+               <Field
                 label="Name1"
-                id="emergencyName1"
-                name="emergencyName1"
+                id="emergencyContacts.name"
+                name="emergencyContacts.name"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -76,8 +130,8 @@ function EmergencyContact(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Field
                 label="Mobile"
-                id="emergencyMobile1"
-                name="emergencyMobile1"
+                id="emergencyContacts.mobile"
+                name="emergencyContacts.mobile"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -87,8 +141,8 @@ function EmergencyContact(props) {
             <GridItem xs={12} sm={12} md={3}>
               <Field
                 label="Relationship"
-                id="emergencyRelationship1"
-                name="emergencyRelationship1"
+                id="emergencyContacts.relationship"
+                name="emergencyContacts.relationship"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -98,8 +152,8 @@ function EmergencyContact(props) {
             <GridItem xs={12} sm={12} md={5}>
               <Field
                 label="Name 2"
-                id="emergencyName2"
-                name="emergencyName2"
+                id="emergencyContacts.name2"
+                name="emergencyContacts.name2"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -109,8 +163,8 @@ function EmergencyContact(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Field
                 label="Mobile"
-                id="emergencyMobile2"
-                name="emergencyMobile2"
+                id="emergencyContacts.mobile2"
+                name="emergencyContacts.mobile2"
                 className={classes.field}
                 component={TextField}
                 fullWidth
@@ -120,13 +174,13 @@ function EmergencyContact(props) {
             <GridItem xs={12} sm={12} md={3}>
               <Field
                 label="Relationship"
-                id="emergencyRelationship2"
+                id="emergencyContacts.relationship2"
                 className={classes.field}
-                name="emergencyRelationship2"
+                name="emergencyContacts.relationship2"
                 component={TextField}
                 fullWidth
               />
-            </GridItem>
+            </GridItem> */}
 
             <GridItem xs={12} sm={12} md={12}>
               <StepperNavigationButtons />

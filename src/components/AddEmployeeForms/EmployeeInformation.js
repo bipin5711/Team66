@@ -11,12 +11,12 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import { format } from 'date-fns';
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string()
+  name: Yup.string()
     .min(2, 'too Short!')
     .required('Required'),
   preferredName: Yup.string(),
   birthDate: Yup.date().nullable()
-    .min(new Date('01-01-1960'), 'Birth Date must be greater than 01-01-1960')
+    .min(new Date('01-01-1900'), 'Birth Date must be greater than 01-01-1960')
     .max(new Date(), 'Birth Date is cannot greater than current day')
     .required('Birth date is Required'),
 
@@ -43,7 +43,7 @@ function EmployeeInformation(props) {
 
     <Formik
       initialValues={employeeData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -54,26 +54,26 @@ function EmployeeInformation(props) {
           newSkipped = new Set(newSkipped.values());
           newSkipped.delete(activeStep);
         }
+        // alert(values.birthDate.length)
         setActiveStep(prevActiveStep => prevActiveStep + 1);
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          fullName: values.fullName,
+          name: values.name,
           maritalStatus: values.maritalStatus,
           preferredName: values.preferredName,
-          birthDate: format(values.birthDate, 'dd/MM/yyyy'),
+          birthDate: values.birthDate.length===undefined?format(values.birthDate, 'yyyy-MM-dd'):values.birthDate,
           gender: values.gender
         })
-
       }}
-      render={() => (
+      render={(values) => (
         <Form>
           <GridContainer>
             <GridItem xs={12} sm={12} md={7}>
               <Field
                 label="Full Name(As on your ID)"
-                id="fullName"
-                name="fullName"
+                id="name"
+                name="name"
                 component={TextField}
                 className={classes.field}
                 fullWidth
@@ -101,7 +101,7 @@ function EmployeeInformation(props) {
                 // label="Date"
                 placeholder="Enter Date of Birth"
                 fullWidth
-                format="dd/MM/yyyy"
+                format="dd-MM-yyyy"
               />
             </GridItem>
 

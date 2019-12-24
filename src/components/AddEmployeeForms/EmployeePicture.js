@@ -7,6 +7,7 @@ import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import StepperNavigationButtons from 'components/Stepper/StepperNavigationButtons';
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
+import api, { toFormData } from '../../lib/axios';
 
 const useStyles = makeStyles({
   field: {
@@ -22,6 +23,7 @@ function EmployeePicture(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
+  const fileAttachments = []
 
   setTitle('Employee Picture')
 
@@ -44,7 +46,7 @@ function EmployeePicture(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          picture: values.picture
+          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -53,7 +55,7 @@ function EmployeePicture(props) {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
-                <CustomDropzone list={values.picture} callBack={files => {
+                <CustomDropzone list={values.picture ? values.picture : []}  attachments={values.attachments ? values.attachments : []}  callBack={files => {
                   var exist = 0
                   files.map(file => {
                     fileList.map(existingFile => {
@@ -64,6 +66,16 @@ function EmployeePicture(props) {
                     })
                     if (exist === 0) {
                       fileList.push(file)
+                      let test = {
+                        file,
+                        type: 'Picture'
+                      }
+                      const fileData = toFormData(test)
+                      api.post('employees/file', fileData).then(res => {
+                        fileAttachments.push(res.data.data)
+                        setFieldValue('attachments', fileAttachments)
+  
+                      }).catch(err => { console.log("err", err) })
                       // const reader=new FileReader()
                       // reader.addEventListener("load",()=>{
                       // console.log("ondrop called")
