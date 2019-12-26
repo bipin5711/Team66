@@ -41,7 +41,7 @@ function EmployeeInformation(props) {
   // const [data,setData]=useState({})
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Employee Information')
-  
+  console.log("gaurav",employeeData)
   return (
 
     <Formik
@@ -68,6 +68,7 @@ function EmployeeInformation(props) {
           birthDate: values.birthDate.length===undefined?format(values.birthDate, 'yyyy-MM-dd'):values.birthDate,
           gender: values.gender
         })
+        // console.log(values.name)
       }}
       render={(values) => (
         <Form>
@@ -77,6 +78,7 @@ function EmployeeInformation(props) {
                 label="Full Name(As on your ID)"
                 id="name"
                 name="name"
+                // value={employeeData.name}
                 component={TextField}
                 className={classes.field}
                 fullWidth

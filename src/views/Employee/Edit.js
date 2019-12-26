@@ -18,12 +18,12 @@ import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux'
-import Snackbar from "components/Snackbar/Snackbar.js";
-import InfoIcon from '@material-ui/icons/Info';
+// import { useDispatch } from 'react-redux'
+// import Snackbar from "components/Snackbar/Snackbar.js";
+// import InfoIcon from '@material-ui/icons/Info';
 import { Link, useParams } from 'react-router-dom'
 import api, {url} from '../../lib/axios';
-
+import {EmployeeContext, StepContext, TitleContext, SkipContext} from 'views/Employee/Add'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -148,11 +148,11 @@ function getStepContent(step) {
 }
 
 
-export const EmployeeContext = createContext()
-export const TitleContext = createContext()
-export const EmployeeDataContext = createContext()
-export const StepContext = createContext()
-export const SkipContext = createContext()
+// export const EmployeeContext = createContext()
+// export const TitleContext = createContext()
+// // export const EmployeeDataContext = createContext()
+// export const StepContext = createContext()
+// export const SkipContext = createContext()
 
 function EditEmployee(props) {
 
@@ -164,23 +164,75 @@ function EditEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
-  const [addSnackbar,setAddSnackbar]=useState(false)
-  useEffect(() => {
-    // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
-  // console.log(employeeData)
-    // dispatch(addEmployee(employeeData))
-    // console.log("team66",employeeData)
-    activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
-  })
-const handleGet=(id)=>{
+  // const [addSnackbar,setAddSnackbar]=useState(false)
+  // useEffect(() => {
+  //   // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
+  // // console.log(employeeData)
+  //   // dispatch(addEmployee(employeeData))
+  //   // console.log("team66",employeeData)
+  //   activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
+  // })
+const handleGet=id=>{
     api.get(`employees/${id}`).then(res=>{
-      setEmployeeData(res.data.data)
+
       console.log("harsh",res.data.data)
+      setEmployeeData({ 
+        birthDate: res.data.data.birthDate,
+        bond: res.data.data.bond,
+        currentAddress: {
+          city: res.data.data.currentAddress.city,
+          country:res.data.data.currentAddress.country ,
+          id: res.data.data.currentAddress.id,
+          state:res.data.data.currentAddress.state ,
+          street1:res.data.data.currentAddress.street1 ,
+          street2:res.data.data.currentAddress.street2 
+        },
+        currentSalary:res.data.data.currentSalary ,
+        emergencyContacts: [
+          {
+            id: res.data.data.emergencyContacts.id,
+            mobile: res.data.data.emergencyContacts.mobile,
+            name: res.data.data.emergencyContacts.name,
+            relationship:res.data.data.emergencyContacts.relationship 
+          },
+          {
+            id: res.data.data.emergencyContacts.id,
+            mobile: res.data.data.emergencyContacts.mobile,
+            name: res.data.data.emergencyContacts.name,
+            relationship: res.data.data.emergencyContacts.relationship
+          }
+        ],
+        // employeeAttachments: [
+        //   // {
+        //   //   fileName: ,
+        //     // id: ,
+        //   //   originalFileName: ,
+        //   //   size: ,
+        //   //   type: 
+        //   // }
+        // ],
+        feedback:res.data.data.feedback,
+        gender:res.data.data.gender ,
+        id:res.data.data.id,
+        hireDate:res.data.data.hireDate,
+        maritalStatus: res.data.data.maritalStatus,
+        name: res.data.data.name,
+        permanentAddress: {
+          city: res.data.data.permanentAddress.city,
+          country:res.data.data.permanentAddress.country ,
+          id: res.data.data.permanentAddress.id,
+          state:res.data.data.permanentAddress.state ,
+          street1:res.data.data.permanentAddress.street1 ,
+          street2:res.data.data.permanentAddress.street2 
+        },
+        preferredName: res.data.preferredName,
+        salary:res.data.salary})
   }).catch(err=>{console.log("err",err)})
   }
   useEffect(()=>{
     console.log("mehul",id)
     handleGet(id)
+    console.log("bipin",employeeData)
   },[])
   const isStepOptional = step => {
     return step === 7 || step === 5 ;
@@ -257,7 +309,7 @@ const handleGet=(id)=>{
           </Card>
         </GridItem>
       </GridContainer>
-      <Snackbar
+      {/* <Snackbar
               place="bl"
               color="primary"
               icon={InfoIcon}
@@ -265,7 +317,7 @@ const handleGet=(id)=>{
               open={addSnackbar}
               closeNotification={() => setAddSnackbar(false)}
               close
-            />
+            /> */}
     </div>
   );
 }

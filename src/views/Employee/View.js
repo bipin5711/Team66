@@ -20,7 +20,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar';
-import api, {url} from '../../lib/axios';
+import api, { url } from '../../lib/axios';
+import { Grid } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 // import ExpansionPanel from 'components/ExpansionPanel/ExpansionPanel'
 // import Modal from 'components/Modal/Modal';
 const styles = {
@@ -71,22 +73,30 @@ const styles = {
   addBtn: {
     float: 'right',
     display: 'inline',
-    border:'1px solid white',
-    zIndex:'1px',
-    margin:'-5px 0px'
+    border: '1px solid white',
+    zIndex: '1px',
+    margin: '-5px 0px'
 
   },
-  filelink:{
+  filelink: {
     // width:'100%',
     // // backgroundColor:'#eeeeee',
-    color:'black',
+    color: 'black',
     // height:'20px',
     // width:'auto',
     // padding:'5px 20px',
     // marginRight:'10px',
     // borderRadius:'1%'
-    
 
+
+  },
+  heading: {
+    marginTop: 25,
+    marginBottom: 5,
+  },
+  textfield: {
+    margin: '2em 0',
+    borderBottom:'2px solid grey'
   }
   // button:{
   //     flexDirection: 'row', 
@@ -101,23 +111,23 @@ const useStyles = makeStyles(styles);
 
 function EmployeeView(props) {
   const classes = useStyles();
-  const [data,setData]=useState()
+  const [data, setData] = useState()
   let { id } = useParams();
   // const data = useSelector(state => state)
   // console.log(data)
   // const dispatch = useDispatch();
   // let pictureBlob = new Blob(data.picture, { type: 'image/jpeg' });
   // const pictureBlobUrl = URL.createObjectURL(pictureBlob)
-  const handleGet=(id)=>{
-    api.get(`employees/${id}`).then(res=>{
+  const handleGet = (id) => {
+    api.get(`employees/${id}`).then(res => {
       setData(res.data.data)
-      console.log("ds",data)
-  }).catch(err=>{console.log("err",err)})
+      console.log("ds", data)
+    }).catch(err => { console.log("err", err) })
   }
   useEffect(() => {
     handleGet(id)
-  
-  },[])
+
+  }, [])
 
   return (
     <div>
@@ -125,22 +135,22 @@ function EmployeeView(props) {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             {/* in cardheader we can use plain attribute */}
-{console.log("bipin",data)}
+            {console.log("bipin", data)}
             <CardHeader color="primary">
               <GridContainer>
-                <GridItem xs={12} sm={12} md={12}> 
+                <GridItem xs={12} sm={12} md={12}>
                   <h4 className={classes.cardTitleWhite} style={{ display: 'inline' }}>
                     Employee Details
             </h4>
-                {/* </GridItem> */}
-                {/* <GridItem xs={12} sm={12} md={6}>
+                  {/* </GridItem> */}
+                  {/* <GridItem xs={12} sm={12} md={6}>
                   <Button className={classes.addBtn} color="transparent" component={Link} to="/admin/addEmployee">
                     Add Employee
             </Button> */}
                 </GridItem>
-                </GridContainer>
+              </GridContainer>
             </CardHeader>
-            <CardBody style={{minHeight:'200px'}}>
+            <CardBody style={{ minHeight: '200px' }}>
               {/* <ExpansionPanel orderstatus="Inactive" createddate="dsada" ordernumber="12">
                     fdsd
           </ExpansionPanel>
@@ -149,17 +159,39 @@ function EmployeeView(props) {
           </ExpansionPanel> */}
               {/* <Modal orderstatus="active" createddate="dsada" ordernumber="12">dghj</Modal> */}
 
-              {data?
+              {data ?
                 <div>
-                  <GridContainer spacing={2}>
+                  <GridContainer spacing={1}>
                     <GridItem xs={12} sm={5} md={4}>
                       {/* <Avatar alt="Remy Sharp" src={data.image} height="300px" width="400px" /> */}
                       {/* {data.image ? */}
-                      <img height="auto" width="100%" src={url+"1416a168-9e64-487f-9504-961d9f1c9399.jpeg"} style={{ borderRadius: '50%', padding: "30", maxWidth: '300px' }} />
+                      <img width="80%" src={url + "1416a168-9e64-487f-9504-961d9f1c9399.jpeg"} style={{ borderRadius: '50%', margin: '1.5em 5em ', align: 'center', maxWidth: '250px' }} />
                       {/* : ""} */}
                     </GridItem>
-                    <GridItem xs={12} sm={5} md={6}>
-                      <Table className={classes.table}>
+                    <GridItem xs={12} sm={5} md={8}>
+                      <GridContainer>
+                        <GridItem xs={12} sm={12} md={12}>
+                          <Typography className={classes.heading} variant="h6" component="h2">
+                            Employee Information
+                              </Typography>
+                        </GridItem>
+                        <GridItem xs={12} sm={6} md={4}>
+                          <TextField className={classes.textfield} value={data.name} label="Name" fullWidth disabled />
+                        </GridItem>
+                        <GridItem xs={12} sm={6} md={4}>
+                          <TextField className={classes.textfield} value={data.birthDate} label="Birth Date" fullWidth disabled />
+                        </GridItem>
+                        <GridItem xs={12} sm={6} md={4}>
+                          <TextField className={classes.textfield} value={data.gender} label="Gender" fullWidth disabled />
+                        </GridItem>
+                        <GridItem xs={12} sm={6} md={4}>
+                          <TextField className={classes.textfield} value={data.maritalStatus} label="Marital Status" fullWidth disabled />
+                        </GridItem>
+                        {/* <GridItem xs={12} sm={6} md={4}>
+                        <TextField value={} label="" disabled/>
+                        </GridItem> */}
+                      </GridContainer>
+                      {/* <Table className={classes.table}>
                         <TableHead>
                           <TableRow colSpan={2}>
                             <Typography className={classes.tableRow} variant="h6" component="h2">
@@ -212,8 +244,8 @@ function EmployeeView(props) {
                           <TableRow>
                             <TableCell className={classes.tableCell}>Country:</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">{data.currentAddress.country ? data.currentAddress.country : "Not Set"}</TableCell>
-                          </TableRow>
-                          {/* <TableRow>
+                          </TableRow> */}
+                      {/* <TableRow>
                             <TableCell className={classes.tableCell}>Current Address Proof:</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">
                               {
@@ -226,7 +258,7 @@ function EmployeeView(props) {
                                 })}
                             </TableCell>
                           </TableRow> */}
-                        </TableBody>
+                      {/* </TableBody>
                       </Table>
                       <Table aria-label="simple table">
                         <TableHead>
@@ -254,8 +286,8 @@ function EmployeeView(props) {
                           <TableRow>
                             <TableCell className={classes.tableCell}>Country</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">{data.permanentAddress.country ? data.permanentAddress.country : "Not Set"}</TableCell>
-                          </TableRow>
-                          {/* <TableRow>
+                          </TableRow> */}
+                      {/* <TableRow>
                             <TableCell className={classes.tableCell}>Permanent Address Proof:</TableCell>
                             <TableCell className={classes.tableCell} component="th" scope="row">
                               {
@@ -268,7 +300,7 @@ function EmployeeView(props) {
                                 })}
                             </TableCell>
                           </TableRow> */}
-                        </TableBody>
+                      {/* </TableBody>
                       </Table>
                       <Table aria-label="simple table">
                         <TableHead>
@@ -316,7 +348,7 @@ function EmployeeView(props) {
                             <TableCell className={classes.tableCell} component="th" scope="row">{data.bond ? data.bond : "Not Set"}</TableCell>
                           </TableRow>
                         </TableBody>
-                      </Table>
+                      </Table> */}
                       {/* <Table aria-label="simple table">
                         <TableHead>
                           <TableRow colSpan={2}> <Typography className={classes.tableRow} variant="h6" component="h2">
@@ -340,21 +372,131 @@ function EmployeeView(props) {
                         </TableBody>
                       </Table> */}
                     </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+
+                      <GridContainer spacing={2}>
+                        <GridItem xs={12} sm={12} md={6}>
+                          <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                              <Typography className={classes.heading} variant="h6" component="h2">
+                                Current Address
+                              </Typography>
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.currentAddress.street1} label="Street 1" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.currentAddress.street2} label="Street 2" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.currentAddress.city} label="City" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.currentAddress.state} label="State" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.currentAddress.country} label="Country" fullWidth disabled />
+                            </GridItem>
+                            </GridContainer>
+                            
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={6}>
+                          <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                              <Typography className={classes.heading} variant="h6" component="h2">
+                                Permanent Address
+                              </Typography>
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.permanentAddress.street1} label="Street 1" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.permanentAddress.street2} label="Street 2" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.permanentAddress.city} label="City" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.permanentAddress.state} label="State" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.permanentAddress.country} label="Country" fullWidth disabled />
+                            </GridItem>
+                            </GridContainer>
+                            
+                        </GridItem>
+                      </GridContainer>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+
+                      <GridContainer spacing={2}>
+                        <GridItem xs={12} sm={12} md={6}>
+                          <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                              <Typography className={classes.heading} variant="h6" component="h2">
+                                Emergency Contact
+                              </Typography>
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[0].name} label="Name" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[0].mobile} label="Mobile" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[0].relationship} label="Relationship" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[1].name} label="Name" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[1].mobile} label="Mobile" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={4}>
+                              <TextField className={classes.textfield} value={data.emergencyContacts[1].relationship} label="Relationship" fullWidth disabled />
+                            </GridItem>
+                            </GridContainer>
+                            
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={6}>
+                          <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                              <Typography className={classes.heading} variant="h6" component="h2">
+                                Job Details
+                              </Typography>
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.hireDate} label="Hire Date" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.salary} label="Salary" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.currentSalary} label="Current Salary" fullWidth disabled />
+                            </GridItem>
+                            <GridItem xs={12} sm={6} md={6}>
+                              <TextField className={classes.textfield} value={data.bond} label="Bond" fullWidth disabled />
+                            </GridItem>
+                            </GridContainer>
+                            
+                        </GridItem>
+                      </GridContainer>
+                    </GridItem>
                   </GridContainer>
                 </div>
-                : "No Data Available"}
-
+                  : "No Data Available"}
+  
             </CardBody>
           </Card>
         </GridItem>
 
       </GridContainer>
     </div>
-  );
-}
-
-export default EmployeeView;
-
+      );
+    }
+    
+    export default EmployeeView;
+    
 {/* <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -386,7 +528,7 @@ export default EmployeeView;
           ))}
         </TableBody>
       </Table> */}
-{/* <Table
+      {/* <Table
               tableHeaderColor="primary"
               tableHead={["Name", "State","Country", "City", "Salary"]}
               tableData={[

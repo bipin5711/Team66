@@ -41,6 +41,7 @@ import EmployeeView from 'views/Employee/View'
 import EmployeeList from 'views/Employee/List'
 import AddEmployee from 'views/Employee/Add'
 import EditEmployee from 'views/Employee/Edit'
+
 const dashboardRoutes = [
   {
     path: "/dashboard",

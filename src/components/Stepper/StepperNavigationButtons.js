@@ -22,7 +22,7 @@ export default function StepperNavigationButtons() {
   const [skipped, setSkipped] = useState(new Set());
   const steps = getSteps();
   const isStepOptional = step => {
-    return step === 7 || step === 5 || step === 0 || step === 1 || step === 2;
+    return step === 7 || step === 5 ;
   };
   const isStepSkipped = step => {
     return skipped.has(step);
