@@ -129,11 +129,13 @@ function CurrentAddress(props) {
         <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
               <CustomDropzone list={values.currentAddressProof ? values.currentAddressProof : []} 
               attachments={values.attachments ? values.attachments : []} 
-              callBack={files => {
+              callBack={(files) => {
+
                 files.map(file => {
-                  console.log(file)
+                  // console.log(file)
+                  
                   var exist = 0
-                  fileList.map(existingFile => {
+                 fileList.map(existingFile => {
                     if (existingFile.name === file.name && existingFile.size === file.size) {
                       exist = 1;
                       // alert("File has already selected")
@@ -143,6 +145,7 @@ function CurrentAddress(props) {
                     exist = 0;
                   }
                   else {
+                  
                     fileList.push(file)
                     let test = {
                       file,
@@ -156,8 +159,10 @@ function CurrentAddress(props) {
                     }).catch(err => { console.log("err", err) })
                   }
                 })
-                console.log("filelist", values.currentAddressProof)
+                console.log("filelist1", values.currentAddressProof)
                 setFieldValue('currentAddressProof', fileList)
+
+                console.log("filelist2", values.currentAddressProof)
                   // setFile(fileList)
               }}
               />

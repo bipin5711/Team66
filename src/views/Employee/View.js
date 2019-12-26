@@ -108,12 +108,15 @@ function EmployeeView(props) {
   // const dispatch = useDispatch();
   // let pictureBlob = new Blob(data.picture, { type: 'image/jpeg' });
   // const pictureBlobUrl = URL.createObjectURL(pictureBlob)
-
-  useEffect(() => {
+  const handleGet=(id)=>{
     api.get(`employees/${id}`).then(res=>{
       setData(res.data.data)
       console.log("ds",data)
   }).catch(err=>{console.log("err",err)})
+  }
+  useEffect(() => {
+    handleGet(id)
+  
   },[])
 
   return (

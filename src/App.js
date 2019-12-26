@@ -17,6 +17,7 @@ function App() {
         <Route path="/signin" component={SignIn}/>
         <Route path="/signup" component={SignUp}/>
         <Route path="/admin/addEmployee" component={AddEmployee}/>
+        {/* <Route path="/admin/editEmployee/:id" component={AddEmployee}/> */}
         {/* <Route path="/admin/editEmployee" />
         <Route path="/admin/deleteEmployee" />
          */}

@@ -40,6 +40,7 @@ import SignUp from "views/SignUp/SignUp";
 import EmployeeView from 'views/Employee/View'
 import EmployeeList from 'views/Employee/List'
 import AddEmployee from 'views/Employee/Add'
+import EditEmployee from 'views/Employee/Edit'
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -56,6 +57,15 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: EmployeeView,
+    layout: "/admin",
+    visibility:"false"
+  },
+  {
+    path: "/editEmployee/:id",
+    name: "Employee",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: EditEmployee,
     layout: "/admin",
     visibility:"false"
   },
@@ -149,7 +159,8 @@ const dashboardRoutes = [
   //   rtlName: "إخطارات",
   //   icon: Notifications,
   //   component: NotificationsPage,
-  //   layout: "/admin"
+  //   layout: "/admin",
+  //   visibility:"true"
   // },
   // {
   //   path: "/rtl-page",

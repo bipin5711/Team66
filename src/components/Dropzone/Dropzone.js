@@ -6,6 +6,7 @@ import api from 'lib/axios'
 export default function CustomDropzone({ callBack, list, attachments }) {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
+      console.log("4",file)
       list.push(file);
       callBack(list);
     });
@@ -21,14 +22,17 @@ export default function CustomDropzone({ callBack, list, attachments }) {
       array.splice(index, 1);
       list = array
       console.log("3", list)
+      callBack(list)
     }
     api.delete(`employees/file/${fileName}`).then(res => {
       // fileAttachments.push(res.data.data)
       // setFieldValue('attachments', fileAttachments)
+    
       alert('deleted')
 
     }).catch(err => { console.log("err", err) })
-    callBack(list)
+    
+    // callBack(list)
   };
   // useEffect(()=>{
   //   return(
@@ -141,7 +145,7 @@ export default function CustomDropzone({ callBack, list, attachments }) {
                   color: 'white',
                 }}
               >
-                {console.log("ds", a)}
+                {/* {console.log("ds", a)} */}
                 <span
                   style={{
                     position: 'relative',

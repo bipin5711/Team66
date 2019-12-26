@@ -14,13 +14,16 @@ import { makeStyles } from "@material-ui/core/styles";
 // import Button from '@material-ui/core/Button'
 import Button from "components/CustomButtons/Button.js";
 import { Link, NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { showEmployee } from 'redux/EmployeeAction'
+// import { useSelector, useDispatch } from 'react-redux'
+// import { showEmployee } from 'redux/EmployeeAction'
 import api from '../../lib/axios';
 import View from 'views/Employee/View'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
+import Snackbar from "components/Snackbar/Snackbar.js";
+import InfoIcon from '@material-ui/icons/Info';
 
 const styles = {
   cardCategoryWhite: {
@@ -70,10 +73,13 @@ const styles = {
   addBtn: {
     float: 'right',
     display: 'inline',
-    border:'1px solid white',
-    zIndex:'1px',
-    margin:'-5px 0px'
+    border: '1px solid white',
+    zIndex: '1px',
+    margin: '-5px 0px'
 
+  },
+  icons: {
+    color: '#9c27b0'
   }
 };
 
@@ -83,20 +89,41 @@ const useStyles = makeStyles(styles);
 
 function EmployeeList(props) {
   const classes = useStyles();
-  const [employeeData,setEmployeeData]=useState([])
-  const data = useSelector(state => state)
-//   console.log(data)
-  const dispatch = useDispatch();
-  
+  const [employeeData, setEmployeeData] = useState([])
+  const [deleteSnackbar, setDeleteSnackbar] = useState(false)
+  const [addSnackbar, setAddSnackbar] = useState(false)
+  // const data = useSelector(state => state)
+  //   console.log(data)
+  // const dispatch = useDispatch();
+
+  const handleGetAll = () => {
+    api.get('employees').then(res => {
+      console.log("ds", res.data.data)
+      setEmployeeData(res.data.data)
+    }).catch(err => { console.log("err", err) })
+  }
+  const handleDelete = (id) => {
+    api.delete(`employees/${id}`).then(res => {
+      console.log("deleted")
+      handleGetAll()
+      setDeleteSnackbar(true)
+
+
+    }).catch(err => { console.log("err", err) })
+  }
+  // const handleEdit = (id) => {
+  //   api.get(`employees/${id}`).then(res => {
+  //     console.log("edited",res.data.data)
+     
+
+  //   }).catch(err => { console.log("err", err) })
+  // }
   useEffect(() => {
     // dispatch({ type:'SHOW_EMPLOYEE' })
-    dispatch(showEmployee())
-    const s=api.get('employees').then(res=>{
-        console.log("ds",res.data.data)
-        console.log("ds1",res)
-        setEmployeeData(res.data.data)
-    }).catch(err=>{console.log("err",err)})
-    console.log("ss",s)
+    // dispatch(showEmployee())
+    handleGetAll()
+
+
   }, [])
 
   return (
@@ -108,7 +135,7 @@ function EmployeeList(props) {
 
             <CardHeader color="primary">
               <GridContainer>
-                <GridItem xs={12} sm={12} md={6}> 
+                <GridItem xs={12} sm={12} md={6}>
                   <h4 className={classes.cardTitleWhite} style={{ display: 'inline' }}>
                     Employee Details
             </h4>
@@ -117,14 +144,23 @@ function EmployeeList(props) {
                   <Button className={classes.addBtn} color="transparent" component={Link} to="/admin/addEmployee">
                     Add Employee
             </Button>
+                  <Snackbar
+                    place="bl"
+                    color="primary"
+                    icon={InfoIcon}
+                    message="Employee Deleted Successfully"
+                    open={deleteSnackbar}
+                    closeNotification={() => setDeleteSnackbar(false)}
+                    close
+                  />
                 </GridItem></GridContainer>
             </CardHeader>
-            <CardBody style={{minHeight:'200px'}}>
+            <CardBody style={{ minHeight: '200px' }}>
               {/* {data.fullName != "" ? */}
-                <div>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
-                      {/* <Table>
+              <div>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    {/* <Table>
                         <TableHead>
                           <TableRow>
                             <TableCell>Full Name</TableCell>
@@ -157,22 +193,34 @@ function EmployeeList(props) {
                         }
                         </TableBody>
                       </Table> */}
-                      <Table
-              tableHeaderColor="primary"
-              tableHead={["Id","Name","BirthDate","Gender","Marital Status","City","State","Country","Hire Date","Current Salary","Edit","View","Delete"]}
-              tableData={
-                employeeData.map(employee=>{
-                   return([employee.id,employee.name,employee.birthDate,employee.gender,employee.maritalStatus
-                    ,employee.currentAddress.city,employee.currentAddress.state,employee.currentAddress.country
-                   ,employee.hireDate,employee.currentSalary,<EditIcon/>,<NavLink to={`/admin/employee/${employee.id}`}><VisibilityIcon/></NavLink>,<DeleteIcon/>])
-                })
-                // [props.name.toUpperCase(),props.description.toUpperCase(),props.category.toUpperCase(),props.price,props.expirydate===""?"":format(props.expirydate, 'dd/MM/yyyy'),props.image===""?null:<img height="100px" width="100px" src={props.image}/>],
-              }
-            />
-                    </GridItem>
-                  </GridContainer>
-                </div>
-                {/* : "No Data Available"} */}
+                    <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Id", "Name", "BirthDate", "Gender", "Marital Status", "City", "State", "Country", "Hire Date", "Current Salary", "Edit", "View", "Delete"]}
+                      tableData={
+                        employeeData.map(employee => {
+                          return ([employee.id, employee.name, employee.birthDate, employee.gender, employee.maritalStatus
+                            , employee.currentAddress.city, employee.currentAddress.state, employee.currentAddress.country
+                            , employee.hireDate, employee.currentSalary,
+                            <NavLink to={`/admin/editEmployee/${employee.id}`}>
+                           <EditIcon className={classes.icons} />
+                          </NavLink>
+                          ,
+                          <NavLink to={`/admin/employee/${employee.id}`}>
+                            <VisibilityIcon className={classes.icons} />
+                          </NavLink>
+                            ,
+                          <DeleteIcon className={classes.icons} onClick={() => {
+                            handleDelete(employee.id)
+                          }} />
+                          ])
+                        })
+                        // [props.name.toUpperCase(),props.description.toUpperCase(),props.category.toUpperCase(),props.price,props.expirydate===""?"":format(props.expirydate, 'dd/MM/yyyy'),props.image===""?null:<img height="100px" width="100px" src={props.image}/>],
+                      }
+                    />
+                  </GridItem>
+                </GridContainer>
+              </div>
+              {/* : "No Data Available"} */}
 
             </CardBody>
           </Card>

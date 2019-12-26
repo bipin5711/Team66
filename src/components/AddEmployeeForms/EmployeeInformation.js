@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FormLabel, Radio, FormControlLabel } from "@material-ui/core";
 import { TextField, RadioGroup } from 'formik-material-ui';
 import GridItem from "components/Grid/GridItem.js";
@@ -10,6 +10,7 @@ import * as Yup from 'yup'
 import { StepContext, EmployeeContext, TitleContext } from 'views/Employee/Add'
 import { makeStyles } from "@material-ui/core/styles";
 import { format } from 'date-fns';
+
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'too Short!')
@@ -37,8 +38,10 @@ function EmployeeInformation(props) {
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
+  // const [data,setData]=useState({})
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Employee Information')
+  
   return (
 
     <Formik

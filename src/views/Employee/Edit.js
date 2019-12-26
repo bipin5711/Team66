@@ -19,44 +19,11 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import Snackbar from "components/Snackbar/Snackbar.js";
 import InfoIcon from '@material-ui/icons/Info';
-// import { addEmployee} from 'redux/EmployeeAction'
+import { Link, useParams } from 'react-router-dom'
+import api, {url} from '../../lib/axios';
 
-// const initialValues = {
-//   fullName: '',
-//   preferredName: '',
-//   birthDate: null,
-//   gender: '',
-//   maritalStatus: '',
-//   currentStreet1: '',
-//   currentStreet2: '',
-//   currentCity: '',
-//   currentState: '',
-//   currentCountry: '',
-//   currentAddressProof: [],
-//   permanentStreet1: '',
-//   permanentStreet2: '',
-//   permanentCity: '',
-//   permanentState: '',
-//   permanentCountry: '',
-//   permanentAddressProof: [],
-//   emergencyName1: '',
-//   emergencyMobile1: '',
-//   emergencyRelationship1: '',
-//   emergencyName2: '',
-//   emergencyMobile2: '',
-//   emergencyRelationship2: '',
-//   jobHireDate: null,
-//   jobSalary: '',
-//   jobCurrentSalary: '',
-//   jobBond: '',
-//   idProof: [],
-//   picture: [],
-//   // image:'',
-//   feedback: ''
-// }
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -90,58 +57,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const initialValues={
-  birthDate: null,
-  bond: '',
-  currentAddress: {
-    city: '',
-    country: '',
-    id: 0,
-    state: '',
-    street1: '',
-    street2: ''
-  },
-  currentSalary: '',
-  emergencyContacts: [
-    {
-      id: 0,
-      mobile: '',
-      name: '',
-      relationship: ''
-    },
-    {
-      id: 1,
-      mobile: '',
-      name: '',
-      relationship: ''
-    }
-  ],
-  employeeAttachments: [
-    // {
-    //   fileName: '',
-      // id: '',
-    //   originalFileName: '',
-    //   size: '',
-    //   type: ''
-    // }
-  ],
-  feedback: '',
-  gender: '',
-  id: 0,
-  hireDate:null,
-  maritalStatus: '',
-  name: '',
-  permanentAddress: {
-    city: '',
-    country: '',
-    id: 0,
-    state: '',
-    street1: '',
-    street2: ''
-  },
-  preferredName: '',
-  salary: ''
-}
 // const QontoConnector = withStyles({
 //   alternativeLabel: {
 //     // top: 10,
@@ -239,12 +154,13 @@ export const EmployeeDataContext = createContext()
 export const StepContext = createContext()
 export const SkipContext = createContext()
 
-function AddEmployee(props) {
+function EditEmployee(props) {
 
   const classes = useStyles();
+  let { id } = useParams();
   // const dispatch = useDispatch();
   const [title, setTitle] = useState('')
-  const [employeeData, setEmployeeData] = useState(initialValues)
+  const [employeeData, setEmployeeData] = useState({})
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
@@ -256,7 +172,16 @@ function AddEmployee(props) {
     // console.log("team66",employeeData)
     activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
   })
-
+const handleGet=(id)=>{
+    api.get(`employees/${id}`).then(res=>{
+      setEmployeeData(res.data.data)
+      console.log("harsh",res.data.data)
+  }).catch(err=>{console.log("err",err)})
+  }
+  useEffect(()=>{
+    console.log("mehul",id)
+    handleGet(id)
+  },[])
   const isStepOptional = step => {
     return step === 7 || step === 5 ;
   };
@@ -344,4 +269,4 @@ function AddEmployee(props) {
     </div>
   );
 }
-export default AddEmployee
+export default EditEmployee

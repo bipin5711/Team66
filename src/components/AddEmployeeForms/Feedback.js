@@ -9,6 +9,7 @@ import { FormLabel } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
 import api from '../../lib/axios';
 
+
 const useStyles=makeStyles({
   field:{
     marginTop: "32px"
@@ -44,8 +45,9 @@ function Feedback(props) {
             ...employeeData,
             feedback: values.feedback,
           })
+          
           api.post('employees', employeeData).then(res => {
-            alert("Success")
+          //  alert("success")
 
           }).catch(err => { 
             alert("Failed",err)
@@ -75,6 +77,7 @@ function Feedback(props) {
           </Form>
         )}
       >
+     
       </Formik>
   );
 }
