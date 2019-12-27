@@ -10,6 +10,7 @@ import { Formik, Form, Field } from 'formik'
 import { makeStyles } from "@material-ui/core/styles";
 import CustomDropzone from 'components/Dropzone/Dropzone'
 import api, { toFormData } from '../../lib/axios';
+import { clearConfigCache } from 'prettier';
 const useStyles = makeStyles({
   field: {
     marginTop: "32px"
@@ -35,7 +36,7 @@ function PermanentAddress(props) {
   const fileList = []
   const fileAttachments = []
   setTitle('Permanent Address')
-
+  console.log("raina",employeeData)
   return (
 
     <Formik
@@ -63,11 +64,12 @@ function PermanentAddress(props) {
             state: values.permanentAddress.state,
             country: values.permanentAddress.country
           },
-          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
+          employeeAttachments: values.employeeAttachments
         })
        
       }}
       render={({ values, setFieldValue }) => {
+        
         return (
           <Form>
             <GridContainer>
@@ -129,7 +131,9 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }}
                   className={classes.field}>Permanent Address Proof</FormLabel>
-                <CustomDropzone list={values.permanentAddressProof ? values.permanentAddressProof : []}  attachments={values.attachments ? values.attachments : []} callBack={files => {
+                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments.filter(a=>a.type==="Permanent Address Proof") : []} 
+                //  attachments={values.attachments ? values.attachments : []} 
+                callBack={files => {
                   var exist = 0
                   files.map(file => {
                     fileList.map(existingFile => {
@@ -146,8 +150,9 @@ function PermanentAddress(props) {
                       }
                       const fileData = toFormData(test)
                       api.post('employees/file', fileData).then(res => {
-                        fileAttachments.push(res.data.data)
-                        setFieldValue('attachments', fileAttachments)
+                       
+                        setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
+                       
   
                       }).catch(err => { console.log("err", err) })
                     }
@@ -155,8 +160,8 @@ function PermanentAddress(props) {
                       exist = 0;
                     }
                   })
-
-                setFieldValue('permanentAddressProof', fileList)
+                  // setFieldValue('employeeAttachments',[...values.employeeAttachments])
+                // setFieldValue('permanentAddressProof', fileList)
                   // setFieldValue('permanentAddressProof', fileList)
                 }} />
               </GridItem>

@@ -25,6 +25,7 @@ function EmployeePicture(props) {
   const fileList = []
   const fileAttachments = []
 
+  console.log("raina",employeeData)
   setTitle('Employee Picture')
 
   return (
@@ -46,7 +47,7 @@ function EmployeePicture(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
+          employeeAttachments: values.employeeAttachments
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -55,7 +56,9 @@ function EmployeePicture(props) {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
-                <CustomDropzone list={values.picture ? values.picture : []}  attachments={values.attachments ? values.attachments : []}  callBack={files => {
+                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments.filter(a=>a.type==="Picture") : []}  
+                // attachments={values.attachments ? values.attachments : []} 
+                 callBack={files => {
                   var exist = 0
                   files.map(file => {
                     fileList.map(existingFile => {
@@ -72,8 +75,8 @@ function EmployeePicture(props) {
                       }
                       const fileData = toFormData(test)
                       api.post('employees/file', fileData).then(res => {
-                        fileAttachments.push(res.data.data)
-                        setFieldValue('attachments', fileAttachments)
+                        
+                        setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
   
                       }).catch(err => { console.log("err", err) })
                       // const reader=new FileReader()
@@ -87,7 +90,8 @@ function EmployeePicture(props) {
                       exist = 0;
                     }
                   })
-                  setFieldValue('picture', fileList)
+                  // setFieldValue('employeeAttachments',values.employeeAttachments)
+                  // setFieldValue('picture', fileList)
                 }} />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>

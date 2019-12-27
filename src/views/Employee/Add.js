@@ -271,7 +271,7 @@ function AddEmployee(props) {
   return (
     <div>
       <GridContainer zeroMinWidth>
-        <GridItem xs={12} sm={12} md={12} lg={9} xl={6} zeroMinWidth>
+        <GridItem xs={12} sm={12} md={12} lg={12} xl={12} zeroMinWidth>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>{title}</h4>

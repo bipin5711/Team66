@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { FormLabel } from "@material-ui/core";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -34,10 +34,27 @@ function CurrentAddress(props) {
   const [skipped, setSkipped] = useState(new Set());
   // const [file, setFile] = useState()
   const [title, setTitle] = useContext(TitleContext);
-  const fileList = []
+  let fileList=[]
+  // fileList.push(employeeData.employeeAttachments.filter(a=>
+  //   a.type==="Current Address Proof"
+  // ))
+  console.log("123",fileList)
+  // employeeData.employeeAttachments.map(a=>({
+  //   a.type==="Current Address Proof"?fileList.push(a):''
+  // }))
+  // useEffect(()=>{
+  //   // fileList.push(employeeData.employeeAttachments.filter(a=>
+  //   //     a.type==="Current Address Proof"
+  //   //   ))
+  //   employeeData.employeeAttachments.map(a=>
+  //         a.type==="Current Address Proof"?fileList.push(a):""
+  //       )
+  //   console.log('shrinath',fileList)
+  // },[])
+  console.log("form 2",employeeData)
   const fileAttachments = []
   setTitle('Current Address')
-  
+  console.log("raina",employeeData)
   return (
     <Formik
       initialValues={employeeData}
@@ -64,7 +81,7 @@ function CurrentAddress(props) {
             state: values.currentAddress.state,
             country: values.currentAddress.country
           },
-          employeeAttachments: [...employeeData.employeeAttachments, ...values.attachments]
+          employeeAttachments: values.employeeAttachments
         })
       }}
       render={({ values, setFieldValue }) => {
@@ -126,9 +143,10 @@ function CurrentAddress(props) {
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
-        <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
-              <CustomDropzone list={values.currentAddressProof ? values.currentAddressProof : []} 
-              attachments={values.attachments ? values.attachments : []} 
+          <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
+              <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments.filter(a=>a.type==="Current Address Proof") : []}
+              // values.employeeAttachments.filter(a=>a.type==="Current Address Proof") 
+              // attachments={values.attachments  ? values.attachments : []} 
               callBack={(files) => {
 
                 files.map(file => {
@@ -145,7 +163,7 @@ function CurrentAddress(props) {
                     exist = 0;
                   }
                   else {
-                  
+                  console.log("dshjghjghj",file)
                     fileList.push(file)
                     let test = {
                       file,
@@ -153,16 +171,14 @@ function CurrentAddress(props) {
                     }
                     const fileData = toFormData(test)
                     api.post('employees/file', fileData).then(res => {
-                      fileAttachments.push(res.data.data)
-                      setFieldValue('attachments', fileAttachments)
-
+                      setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
                     }).catch(err => { console.log("err", err) })
                   }
                 })
-                console.log("filelist1", values.currentAddressProof)
-                setFieldValue('currentAddressProof', fileList)
-
-                console.log("filelist2", values.currentAddressProof)
+                console.log("filelist1", values.employeeAttachments)
+                // setFieldValue('employeeAttachments', fileList)
+                // setFieldValue('employeeAttachments',[...values.employeeAttachments])
+                console.log("filelist2", values.employeeAttachments)
                   // setFile(fileList)
               }}
               />

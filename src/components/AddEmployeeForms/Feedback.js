@@ -24,7 +24,7 @@ function Feedback(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Feedback')
-
+  console.log("raina",employeeData)
   return (
       <Formik
         initialValues={employeeData}

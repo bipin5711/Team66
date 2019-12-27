@@ -96,7 +96,37 @@ const styles = {
   },
   textfield: {
     margin: '2em 0',
-    borderBottom:'2px solid grey'
+    borderBottom:'1px solid  grey',
+    color:'red',
+  },
+  image:{
+    borderRadius: '50%', 
+    margin: '2em auto ', 
+    padding:0,
+    align: 'center',
+    width:'100%',
+    display:'block',
+     maxWidth: '250px',
+    //  ['@media (min-width:1075px)']: { // eslint-disable-line no-useless-computed-key
+    //   margin: '1.5em 1.5em ',
+    //   align: 'center',
+    // },
+    // ['@media (max-width:768px)']: { // eslint-disable-line no-useless-computed-key
+    //   margin: '1.5em 0em',
+    //   align: 'center',
+    // },
+    // ['@media (max-width:1024px)']: { // eslint-disable-line no-useless-computed-key
+    //   margin: '1.5em 0em',
+    //   align: 'center',
+    // }
+    // borderRadius: '50%',
+    // position: 'absolute',
+    // top: '50%',
+    // left: '50%',
+    // transform: 'translateX(-50%) translateY(-50%)',
+    // maxWidth: '100%',
+    // maxHeight: '100%',
+    
   }
   // button:{
   //     flexDirection: 'row', 
@@ -162,13 +192,13 @@ function EmployeeView(props) {
               {data ?
                 <div>
                   <GridContainer spacing={1}>
-                    <GridItem xs={12} sm={5} md={4}>
+                    <GridItem xs={12} sm={4} md={4} lg={3}>
                       {/* <Avatar alt="Remy Sharp" src={data.image} height="300px" width="400px" /> */}
                       {/* {data.image ? */}
-                      <img width="80%" src={url + "1416a168-9e64-487f-9504-961d9f1c9399.jpeg"} style={{ borderRadius: '50%', margin: '1.5em 5em ', align: 'center', maxWidth: '250px' }} />
+                      <img src={url + "1416a168-9e64-487f-9504-961d9f1c9399.jpeg"} className={classes.image}/>
                       {/* : ""} */}
                     </GridItem>
-                    <GridItem xs={12} sm={5} md={8}>
+                    <GridItem xs={12} sm={8} md={8} lg={9}>
                       <GridContainer>
                         <GridItem xs={12} sm={12} md={12}>
                           <Typography className={classes.heading} variant="h6" component="h2">
@@ -477,6 +507,44 @@ function EmployeeView(props) {
                             <GridItem xs={12} sm={6} md={6}>
                               <TextField className={classes.textfield} value={data.bond} label="Bond" fullWidth disabled />
                             </GridItem>
+                            </GridContainer>
+                            
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12}>
+                          <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                              <Typography className={classes.heading} variant="h6" component="h2">
+                                Attachments
+                              </Typography>
+                            </GridItem>
+                            
+                              <GridItem xs={12} sm={6} md={12}>
+                                <Table aria-label="simple table">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>File Name</TableCell>
+                                      <TableCell align="right">File Size</TableCell>
+                                      <TableCell align="right">File Type</TableCell>
+                                      <TableCell align="right">Url</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                 
+                                  {data.employeeAttachments.map(attachment=>{
+                              return(
+                                <TableBody>
+                                  <TableRow>
+                              <TableCell>{attachment.originalFileName}</TableCell>
+                                      <TableCell align="right">{attachment.size}</TableCell>
+                                      <TableCell align="right">{attachment.type}</TableCell>
+                                      <TableCell align="right"><a href={url+attachment.fileName} target="_blank">{attachment.originalFileName} </a></TableCell>
+                                    </TableRow>
+                                </TableBody>
+                              )})}
+                                </Table>
+                              </GridItem>
+                              
+                           
+                          
                             </GridContainer>
                             
                         </GridItem>

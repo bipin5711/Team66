@@ -41,7 +41,7 @@ function EmployeeInformation(props) {
   // const [data,setData]=useState({})
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Employee Information')
-  console.log("gaurav",employeeData)
+  console.log("raina",employeeData)
   return (
 
     <Formik

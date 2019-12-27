@@ -153,7 +153,40 @@ function getStepContent(step) {
 // // export const EmployeeDataContext = createContext()
 // export const StepContext = createContext()
 // export const SkipContext = createContext()
+// const getAttachments = attachments => {
+//   let currentAddressAttachments = [];
+//   let permanentAddressAttachments = [];
+//   let idProofAttachments = [];
+//   let pictureAttachments = [];
+//   // let miscellaneousAttachments = [];
+//   for (let index = 0; index < attachments.length; index++) {
+//     console.log(attachments[index].type);
+//     switch (attachments[index].type) {
+//       case 'Current Address Proof':
+//         currentAddressAttachments = [...currentAddressAttachments, attachments[index]];
+//         break;
+//       case 'Permanent Adddress Proof':
+//         permanentAddressAttachments = [...permanentAddressAttachments, attachments[index]];
+//         break;
+//       case 'Id Proof':
+//         idProofAttachments = [...idProofAttachments, attachments[index]];
+//         break;
+//       case 'Picture':
+//         pictureAttachments = [...pictureAttachments,
+//           attachments[index],
+//         ];
+//         break;
+     
+//     }
+//   }
 
+//   return {
+//     currentAddressAttachments,
+//     permanentAddressAttachments,
+//     idProofAttachments,
+//     pictureAttachments,
+//   };
+// };
 function EditEmployee(props) {
 
   const classes = useStyles();
@@ -164,18 +197,29 @@ function EditEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
+
+  
+
   // const [addSnackbar,setAddSnackbar]=useState(false)
   // useEffect(() => {
   //   // dispatch({ type:'ADD_EMPLOYEE',payload:employeeData })
   // // console.log(employeeData)
   //   // dispatch(addEmployee(employeeData))
   //   // console.log("team66",employeeData)
-  //   activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
-  // })
+  //   // activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
+  //   // const {
+  //   //   currentAddressAttachments,
+  //   //   permanentAddressAttachments,
+  //   //   idProofAttachments,
+  //   //   pictureAttachments,
+  //   // } = getAttachments(employeeData.employeeAttachments);
+  //   // console.log("123",currentAddressAttachments)
+  //   console.log("2312",employeeData.employeeAttachments.length)
+  // },[employeeData])
 const handleGet=id=>{
     api.get(`employees/${id}`).then(res=>{
 
-      console.log("harsh",res.data.data)
+      console.log("Edit",res.data.data)
       setEmployeeData({ 
         birthDate: res.data.data.birthDate,
         bond: res.data.data.bond,
@@ -202,15 +246,7 @@ const handleGet=id=>{
             relationship: res.data.data.emergencyContacts.relationship
           }
         ],
-        // employeeAttachments: [
-        //   // {
-        //   //   fileName: ,
-        //     // id: ,
-        //   //   originalFileName: ,
-        //   //   size: ,
-        //   //   type: 
-        //   // }
-        // ],
+        employeeAttachments: res.data.data.employeeAttachments,
         feedback:res.data.data.feedback,
         gender:res.data.data.gender ,
         id:res.data.data.id,
@@ -234,6 +270,7 @@ const handleGet=id=>{
     handleGet(id)
     console.log("bipin",employeeData)
   },[])
+  
   const isStepOptional = step => {
     return step === 7 || step === 5 ;
   };

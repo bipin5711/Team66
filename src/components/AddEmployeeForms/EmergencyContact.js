@@ -32,7 +32,7 @@ function EmergencyContact(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Emergency Contact')
-
+  console.log("raina",employeeData)
   return (
 
     <Formik

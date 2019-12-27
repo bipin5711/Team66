@@ -24,7 +24,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 import Snackbar from "components/Snackbar/Snackbar.js";
 import InfoIcon from '@material-ui/icons/Info';
-
+import Loader from 'components/Loader/Loader'
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -128,6 +128,7 @@ function EmployeeList(props) {
 
   return (
     <div>
+      {/* <Loader sqSize="200" strokeWidth="10" /> */}
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>

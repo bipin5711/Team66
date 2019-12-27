@@ -34,7 +34,7 @@ function JobDetails(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Job Details')
-
+  console.log("raina",employeeData)
   return (
     <Formik
       initialValues={employeeData}

@@ -3,7 +3,7 @@ import { default as React, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { fileIcon } from '../load-steps/UploadDocs';
 import api from 'lib/axios'
-export default function CustomDropzone({ callBack, list, attachments }) {
+export default function CustomDropzone({ callBack, list}) {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       console.log("4",file)
@@ -160,7 +160,8 @@ export default function CustomDropzone({ callBack, list, attachments }) {
                   {/* {fileIcon(a.type)} */}
                 </span>
                 <a
-                  href={typeof a === 'string' ? a : a.url ? a.url : URL.createObjectURL(a)}
+                  href={typeof a === 'string' ? a : ""}
+                  // a.url ? a.url : URL.createObjectURL(a)
                   target="_blank"
                   style={{
                     color: 'white',
@@ -173,9 +174,10 @@ export default function CustomDropzone({ callBack, list, attachments }) {
                     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
                   }}
                 >
-                  {typeof a === 'string' ? 'file' : a.name}
+                  {typeof a === 'string' ? 'file' : a.originalFileName}
+                  {/* ? a.name:a.originalFileName */}
                 </a>
-                {attachments.map(b => {
+                {/* {attachments.map(b => {
                   return (
                     <div>
                       {a.name === b.originalFileName?
@@ -200,7 +202,7 @@ export default function CustomDropzone({ callBack, list, attachments }) {
                  
                 }
                 )
-                }
+                } */}
                 {/* <span
             style={{
               fontSize: '20px',
