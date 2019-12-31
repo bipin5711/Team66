@@ -29,10 +29,10 @@ function EmergencyContact(props) {
   const classes = useStyles()
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
+  console.log("Data",employeeData)
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Emergency Contact')
-  console.log("raina",employeeData)
   return (
 
     <Formik
@@ -69,13 +69,15 @@ function EmergencyContact(props) {
             //   }
             ]
         })
-        console.log("1",values.emergencyContacts)
+        // console.log("1",values.emergencyContacts)
 
           // console.log("1",values.emergencyContacts.mobile)
 
           // console.log("1",values.emergencyContacts.relationship)
       }}
-      render={(values,setFieldValue) => (
+      render={({ values, setFieldValue }) => {
+        // console.log("values",values)
+        return (
         <Form>
           <GridContainer>
           <FieldArray
@@ -188,8 +190,9 @@ function EmergencyContact(props) {
 
           </GridContainer>
         </Form>
-      )}
-    >
+    )
+  }}
+>
     </Formik>
   );
 }

@@ -24,8 +24,7 @@ function EmployeePicture(props) {
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
   const fileAttachments = []
-
-  console.log("raina",employeeData)
+  console.log("Data",employeeData)
   setTitle('Employee Picture')
 
   return (
@@ -47,17 +46,25 @@ function EmployeePicture(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          employeeAttachments: values.employeeAttachments
+          employeeAttachments:
+          values.employeeAttachments
+          //  [...employeeData.employeeAttachments,...values.employeeAttachments]
         })
       }}
-      render={({ values, setFieldValue }) => {
+
+      >
+      {({ values, setFieldValue }) => {
+        console.log("values",values)
         return (
           <Form>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
-                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments.filter(a=>a.type==="Picture") : []}  
+                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
+                .filter(a=>a.type==="Picture") 
+                : []}  
                 // attachments={values.attachments ? values.attachments : []} 
+                type="Picture"
                  callBack={files => {
                   var exist = 0
                   files.map(file => {
@@ -75,7 +82,8 @@ function EmployeePicture(props) {
                       }
                       const fileData = toFormData(test)
                       api.post('employees/file', fileData).then(res => {
-                        
+                        // setEmployeeData({...employeeData,
+                        //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
                         setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
   
                       }).catch(err => { console.log("err", err) })
@@ -101,7 +109,7 @@ function EmployeePicture(props) {
           </Form>
         )
       }}
-    >
+    
     </Formik>
   );
 }

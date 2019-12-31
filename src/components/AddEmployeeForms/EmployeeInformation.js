@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { FormLabel, Radio, FormControlLabel } from "@material-ui/core";
 import { TextField, RadioGroup } from 'formik-material-ui';
 import GridItem from "components/Grid/GridItem.js";
@@ -38,10 +38,20 @@ function EmployeeInformation(props) {
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
+  console.log("Data",employeeData)
+  // const isMounted = useRef(null);
+  // useEffect(() => {
+  //   // executed when component mounted
+  //   isMounted.current = true;
+  //   return () => {
+  //     // executed when unmount
+  //     isMounted.current = false;
+  //   }
+  // }, []);
   // const [data,setData]=useState({})
+  // console.log
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Employee Information')
-  console.log("raina",employeeData)
   return (
 
     <Formik
@@ -70,7 +80,9 @@ function EmployeeInformation(props) {
         })
         // console.log(values.name)
       }}
-      render={(values) => (
+      render={() => {
+        // console.log("values",values)
+        return (
         <Form>
           <GridContainer>
             <GridItem xs={12} sm={12} md={7}>
@@ -169,8 +181,9 @@ function EmployeeInformation(props) {
 
           </GridContainer>
         </Form>
-      )}
-    >
+      )
+    }}
+  >
     </Formik>
   );
 }

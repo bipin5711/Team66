@@ -218,7 +218,7 @@ function EditEmployee(props) {
   // },[employeeData])
 const handleGet=id=>{
     api.get(`employees/${id}`).then(res=>{
-
+console.log("name", res.data.data.name)
       console.log("Edit",res.data.data)
       setEmployeeData({ 
         birthDate: res.data.data.birthDate,

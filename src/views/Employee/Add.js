@@ -116,15 +116,7 @@ const initialValues={
       relationship: ''
     }
   ],
-  employeeAttachments: [
-    // {
-    //   fileName: '',
-      // id: '',
-    //   originalFileName: '',
-    //   size: '',
-    //   type: ''
-    // }
-  ],
+  employeeAttachments: [],
   feedback: '',
   gender: '',
   id: 0,
@@ -255,10 +247,12 @@ function AddEmployee(props) {
     // dispatch(addEmployee(employeeData))
     // console.log("team66",employeeData)
     activeStep === steps.length?setAddSnackbar(true):setAddSnackbar(false)
+
   })
+// useEffect(()=>{setEmployeeData(initialValues)},[])
 
   const isStepOptional = step => {
-    return step === 7 || step === 5 ;
+    return step === 7 || step === 5 || step === 0|| step === 1|| step === 2|| step === 3|| step === 4|| step === 6 ;
   };
 
   const isStepSkipped = step => {

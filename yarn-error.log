@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add MuiThemeProvider
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add bower.json build CHANGELOG.md documentation gulpfile.js ISSUE_TEMPLATE.md jsconfig.json LICENSE.md node_modules package.json package-lock.json public README.md src yarn-error.log yarn.lock
 
 PATH: 
-  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /opt/maven/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.19.2
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/MuiThemeProvider: Not found
+  Error: https://registry.yarnpkg.com/bower.json: Not found
       at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66927:18)
       at Request.self.callback (/usr/share/yarn/lib/cli.js:140586:22)
       at Request.emit (events.js:219:5)
@@ -46,6 +46,7 @@ npm manifest:
       "formik": "^2.0.6",
       "formik-material-ui": "^1.0.0",
       "history": "4.9.0",
+      "material-ui-dropzone": "^2.4.7",
       "material-ui-pickers": "^2.2.4",
       "next": "^9.1.4",
       "perfect-scrollbar": "1.4.0",
@@ -61,6 +62,7 @@ npm manifest:
       "react-scripts": "3.1.0",
       "react-swipeable-views": "0.13.3",
       "redux": "^4.0.4",
+      "request": "^2.79.0",
       "yup": "^0.27.0"
     },
     "scripts": {
@@ -1483,6 +1485,14 @@ Lockfile:
     dependencies:
       "@babel/runtime" "^7.2.0"
   
+  "@material-ui/icons@^3.0.2":
+    version "3.0.2"
+    resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-3.0.2.tgz#d67a6dd1ec8312d3a88ec97944a63daeef24fe10"
+    integrity sha512-QY/3gJnObZQ3O/e6WjH+0ah2M3MOgLOzCy8HTUoUx9B6dDrS18vP7Ycw3qrDEKlB6q1KNxy6CZHm5FCauWGy2g==
+    dependencies:
+      "@babel/runtime" "^7.2.0"
+      recompose "0.28.0 - 0.30.0"
+  
   "@material-ui/pickers@^3.2.8":
     version "3.2.8"
     resolved "https://registry.yarnpkg.com/@material-ui/pickers/-/pickers-3.2.8.tgz#bef66fdd9f8c388c8bb0f2841cc8be1162b0d501"
@@ -2440,6 +2450,13 @@ Lockfile:
     version "2.1.2"
     resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
     integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+  
+  attr-accept@^1.1.3:
+    version "1.1.3"
+    resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.3.tgz#48230c79f93790ef2775fcec4f0db0f5db41ca52"
+    integrity sha512-iT40nudw8zmCweivz6j58g+RT33I4KbaIvRUhjNmDwO2WmsQUxFEZZYZ5w3vXe5x5MX9D7mfvA/XaLOZYFR9EQ==
+    dependencies:
+      core-js "^2.5.0"
   
   attr-accept@^2.0.0:
     version "2.0.0"
@@ -3593,6 +3610,11 @@ Lockfile:
     version "2.6.10"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
     integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
+  
+  core-js@^2.5.0:
+    version "2.6.11"
+    resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+    integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
   
   core-util-is@1.0.2, core-util-is@~1.0.0:
     version "1.0.2"
@@ -7714,6 +7736,14 @@ Lockfile:
       resolve "^1.4.0"
       stack-trace "0.0.10"
   
+  material-ui-dropzone@^2.4.7:
+    version "2.4.7"
+    resolved "https://registry.yarnpkg.com/material-ui-dropzone/-/material-ui-dropzone-2.4.7.tgz#e5a151f3a93667864c4de3136601044dc2f4ff47"
+    integrity sha512-vWYlWk4vlM6H+0ZZqNBhs8o02O+17g1cxOFgeuYGhRhDgpKXWg6Xh72ucf6iltHIoPwHyU5uDbQ0Y66m/wX/Ng==
+    dependencies:
+      "@material-ui/icons" "^3.0.2"
+      react-dropzone "^7.0.1"
+  
   material-ui-pickers@^2.2.4:
     version "2.2.4"
     resolved "https://registry.yarnpkg.com/material-ui-pickers/-/material-ui-pickers-2.2.4.tgz#8b33cfc55cbc5b2d520db45abf4b3dc94090dd3c"
@@ -10100,6 +10130,14 @@ Lockfile:
       file-selector "^0.1.12"
       prop-types "^15.7.2"
   
+  react-dropzone@^7.0.1:
+    version "7.0.1"
+    resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-7.0.1.tgz#bc76bc1686fb47ed0c8301f968fffa6aecdff47b"
+    integrity sha512-J4rbzhFZPVW7k7K9CVb0OcwSOJGLWa0y+0rvtB4rBLVkvq0agH/o3kPJ0DCkd6ZVzL2K1NFqIOvtQkwQKpmJBA==
+    dependencies:
+      attr-accept "^1.1.3"
+      prop-types "^15.6.2"
+  
   react-error-overlay@5.1.6:
     version "5.1.6"
     resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.1.6.tgz#0cd73407c5d141f9638ae1e0c63e7b2bf7e9929d"
@@ -10151,7 +10189,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
     integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
   
-  react-lifecycles-compat@^3.0.4:
+  react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
     version "3.0.4"
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
@@ -10427,6 +10465,18 @@ Lockfile:
     dependencies:
       resolve "^1.1.6"
   
+  "recompose@0.28.0 - 0.30.0":
+    version "0.30.0"
+    resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
+    integrity sha512-ZTrzzUDa9AqUIhRk4KmVFihH0rapdCSMFXjhHbNrjAWxBuUD/guYlyysMnuHjlZC/KRiOKRtB4jf96yYSkKE8w==
+    dependencies:
+      "@babel/runtime" "^7.0.0"
+      change-emitter "^0.1.2"
+      fbjs "^0.8.1"
+      hoist-non-react-statics "^2.3.1"
+      react-lifecycles-compat "^3.0.2"
+      symbol-observable "^1.0.4"
+  
   recompose@^0.26.0:
     version "0.26.0"
     resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.26.0.tgz#9babff039cb72ba5bd17366d55d7232fbdfb2d30"
@@ -10618,7 +10668,7 @@ Lockfile:
       stealthy-require "^1.1.1"
       tough-cookie "^2.3.3"
   
-  request@^2.87.0, request@^2.88.0:
+  request@^2.79.0, request@^2.87.0, request@^2.88.0:
     version "2.88.0"
     resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
     integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

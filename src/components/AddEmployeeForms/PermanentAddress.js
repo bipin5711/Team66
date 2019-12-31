@@ -29,14 +29,13 @@ const validationSchema = Yup.object().shape({
 function PermanentAddress(props) {
   const classes = useStyles()
   const [employeeData, setEmployeeData] = useContext(EmployeeContext)
-  console.log("permanent",employeeData)
+  console.log("permanent", employeeData.employeeAttachments)
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   const fileList = []
-  const fileAttachments = []
   setTitle('Permanent Address')
-  console.log("raina",employeeData)
+  console.log("Data",employeeData)
   return (
 
     <Formik
@@ -57,19 +56,22 @@ function PermanentAddress(props) {
         setEmployeeData({
           ...employeeData,
           permanentAddress: {
-            id:0,
+            id: 0,
             street1: values.permanentAddress.street1,
             street2: values.permanentAddress.street2,
             city: values.permanentAddress.city,
             state: values.permanentAddress.state,
             country: values.permanentAddress.country
           },
-          employeeAttachments: values.employeeAttachments
+          employeeAttachments:
+            [...values.employeeAttachments]
+          // [...employeeData.employeeAttachments,...values.employeeAttachments]
         })
-       
+
       }}
-      render={({ values, setFieldValue }) => {
-        
+    >
+      {({ values, setFieldValue }) => {
+        // console.log("values", values)
         return (
           <Form>
             <GridContainer>
@@ -131,39 +133,43 @@ function PermanentAddress(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }}
                   className={classes.field}>Permanent Address Proof</FormLabel>
-                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments.filter(a=>a.type==="Permanent Address Proof") : []} 
-                //  attachments={values.attachments ? values.attachments : []} 
-                callBack={files => {
-                  var exist = 0
-                  files.map(file => {
-                    fileList.map(existingFile => {
-                      if (existingFile.name === file.name && existingFile.size === file.size) {
-                        exist = 1
-                        // alert("File has already selected")
+                <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
+                  // .filter(a=>a.type==="Permanent Address Proof")
+                  : []}
+
+                  type="Permanent Address Proof"
+                  callBack={files => {
+                    var exist = 0
+                    files.map(file => {
+                      fileList.map(existingFile => {
+                        if (existingFile.name === file.name && existingFile.size === file.size) {
+                          exist = 1
+                          // alert("File has already selected")
+                        }
+                      })
+                      if (exist === 0) {
+                        fileList.push(file)
+                        let test = {
+                          file,
+                          type: 'Permanent Address Proof'
+                        }
+                        const fileData = toFormData(test)
+                        api.post('employees/file', fileData).then(res => {
+
+                          console.log(" values.employeeAttachments", values.employeeAttachments)
+                          // setEmployeeData({...employeeData,
+                          //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                          setFieldValue('employeeAttachments', [...values.employeeAttachments, res.data.data])
+
+
+                        }).catch(err => { console.log("err", err) })
+                      }
+                      else {
+                        exist = 0;
                       }
                     })
-                    if (exist === 0) {
-                      fileList.push(file)
-                      let test = {
-                        file,
-                        type: 'Permanent Address Proof'
-                      }
-                      const fileData = toFormData(test)
-                      api.post('employees/file', fileData).then(res => {
-                       
-                        setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
-                       
-  
-                      }).catch(err => { console.log("err", err) })
-                    }
-                    else {
-                      exist = 0;
-                    }
-                  })
-                  // setFieldValue('employeeAttachments',[...values.employeeAttachments])
-                // setFieldValue('permanentAddressProof', fileList)
-                  // setFieldValue('permanentAddressProof', fileList)
-                }} />
+
+                  }} />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <StepperNavigationButtons />
@@ -172,7 +178,7 @@ function PermanentAddress(props) {
           </Form>
         )
       }}
-    >
+
     </Formik>
   );
 }

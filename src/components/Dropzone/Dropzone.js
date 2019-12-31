@@ -3,7 +3,7 @@ import { default as React, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { fileIcon } from '../load-steps/UploadDocs';
 import api from 'lib/axios'
-export default function CustomDropzone({ callBack, list}) {
+export default function CustomDropzone({ callBack, list,type}) {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       console.log("4",file)
@@ -22,7 +22,7 @@ export default function CustomDropzone({ callBack, list}) {
       array.splice(index, 1);
       list = array
       console.log("3", list)
-      callBack(list)
+     
     }
     api.delete(`employees/file/${fileName}`).then(res => {
       // fileAttachments.push(res.data.data)
@@ -32,7 +32,7 @@ export default function CustomDropzone({ callBack, list}) {
 
     }).catch(err => { console.log("err", err) })
     
-    // callBack(list)
+    callBack(list)
   };
   // useEffect(()=>{
   //   return(
@@ -130,7 +130,10 @@ export default function CustomDropzone({ callBack, list}) {
       <div style={{ padding: '0px 16px 0px 0px', marginTop: '10px', marginRight: 0, width: '100%' }}>
         <Box p={2} style={{ padding: '0px 16px 0px 0px' }}>
           {list.map(a => {
-            return (
+            if(a.type===type){
+
+            
+              return (
               <div
                 style={{
                   borderRadius: '5px',
@@ -177,10 +180,6 @@ export default function CustomDropzone({ callBack, list}) {
                   {typeof a === 'string' ? 'file' : a.originalFileName}
                   {/* ? a.name:a.originalFileName */}
                 </a>
-                {/* {attachments.map(b => {
-                  return (
-                    <div>
-                      {a.name === b.originalFileName?
                             <span
                               style={{
                                 fontSize: '20px',
@@ -190,19 +189,13 @@ export default function CustomDropzone({ callBack, list}) {
                                 cursor: 'pointer',
                               }}
                               onClick={() => {
-                                handleDelete(a, b.fileName);
+                                handleDelete(a, a.fileName);
                               }}
                             >
                               &times;
-                            </span>:""
-                          }
+                            </span>
+                         
                       
-                    </div>
-                  )
-                 
-                }
-                )
-                } */}
                 {/* <span
             style={{
               fontSize: '20px',
@@ -218,7 +211,7 @@ export default function CustomDropzone({ callBack, list}) {
             &times;
           </span> */}
               </div>
-            );
+            );}
           })}
         </Box></div>
       {/* ds */}

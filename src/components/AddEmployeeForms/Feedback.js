@@ -24,7 +24,7 @@ function Feedback(props) {
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Feedback')
-  console.log("raina",employeeData)
+  console.log("Data",employeeData)
   return (
       <Formik
         initialValues={employeeData}
@@ -54,7 +54,9 @@ function Feedback(props) {
             console.log("err", err) })
 
         }}
-        render={() => (
+        render={({ values, setFieldValue }) => {
+          console.log("values",values)
+          return (
           <Form>
             <GridContainer>
 
@@ -75,9 +77,9 @@ function Feedback(props) {
 
             </GridContainer>
           </Form>
-        )}
-      >
-     
+       )
+      }}
+    >
       </Formik>
   );
 }

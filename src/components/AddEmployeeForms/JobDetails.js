@@ -33,8 +33,8 @@ function JobDetails(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
+  console.log("Data",employeeData)
   setTitle('Job Details')
-  console.log("raina",employeeData)
   return (
     <Formik
       initialValues={employeeData}
@@ -59,7 +59,9 @@ function JobDetails(props) {
           bond: values.bond
         })
       }}
-      render={() => (
+      render={({ values, setFieldValue }) => {
+        console.log("values",values)
+        return (
         <Form>
           <GridContainer>
 
@@ -134,9 +136,8 @@ function JobDetails(props) {
           </GridContainer>
         </Form>
       )
-      }
-    >
-
+    }}
+  >
     </Formik>
   );
 }
