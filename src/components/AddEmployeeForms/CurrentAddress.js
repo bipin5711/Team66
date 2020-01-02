@@ -33,8 +33,19 @@ function CurrentAddress(props) {
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
   const [title, setTitle] = useContext(TitleContext);
-  // const [fileEdited,setFileEdited]=useState(false)
+//  const [file,setFile]=useState()
+//   const [fileEdited,setFileEdited]=useState(false)
+  // const [currentAddressProof,setCurrentAddressProof]=useState([])
+  // useEffect(()=>{
+  //   // setCurrentAddressProof(employeeData.employeeAttachments.filter(a=>a.type==="Current Address Proof"))
+  //   // console.log("a1",currentAddressProof)
+  //   setFieldValue('employeeAttachments',employeeData.employeeAttachments)
+  // },[])
+  
   let fileList = []
+  // const customSetFieldValue=({name,value,formik: { setFieldValue }})=>{
+  //   setFieldValue(name,value)
+  // }
   setTitle('Current Address')
   console.log("Data",employeeData)
   return (
@@ -53,11 +64,12 @@ function CurrentAddress(props) {
         }
         setActiveStep(prevActiveStep => prevActiveStep + 1);
         setSkipped(newSkipped);
-        
+        // console.log(values.employeeAttachments,'  dsf',currentAddressProof)
         setEmployeeData({
           ...employeeData,
           currentAddress: {
-            id: 0,
+            // id: null,
+            
             street1: values.currentAddress.street1,
             street2: values.currentAddress.street2,
             city: values.currentAddress.city,
@@ -72,7 +84,7 @@ function CurrentAddress(props) {
       }}
     >
       {({ setFieldValue, values }) => {
-        // console.log(values)
+        console.log("values",values)
         return (
           <Form>
             <GridContainer>
@@ -133,45 +145,80 @@ function CurrentAddress(props) {
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Current Address Proof</FormLabel>
+                {/* <Field name="employeeAttachments" id="employeeAttachments"></Field> */}
                 <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
                 // .filter(a=>a.type==="Current Address Proof")
                 : []}
-                  // .filter(a=>a.type==="Current Address Proof") 
-                  type="Current Address Proof"
-                  callBack={(files) => {
-                    files.map(file => {
-
-                      var exist = 0
-                      fileList.map(existingFile => {
-                        if (existingFile.name === file.name && existingFile.size === file.size) {
-                          exist = 1;
-                        }
-                      })
-                      if (exist === 1) {
-                        exist = 0;
-                      }
-                      else {
-                        fileList.push(file)
-                        let test = {
-                          file,
-                          type: 'Current Address Proof'
-                        }
-                        const fileData = toFormData(test)
-                        api.post('employees/file', fileData).then(res => {
-                          
-                          // setEmployeeData({...employeeData,employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
-                          // setEmployeeData({...employeeData,
-                          //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
-                          setFieldValue('employeeAttachments', [...values.employeeAttachments, res.data.data])
-                          console.log("res",res.data.data)
-                          console.log("values.employeeAttachments", values.employeeAttachments)
-                        }).catch(err => { console.log("err", err) })
-                        
-                      }
-                    })
+                setFieldValue={value => setFieldValue('employeeAttachments', value)}
+                type="Current Address Proof"
+                // callBack={async file => {
+                //     try {
+                //     // setFieldValue('employeeAttachments',[...values.employeeAttachments])
+                      
+                //     // console.log(values.employeeAttachments)
+                //       // let test = {
+                //       //           file,
+                //       //           type: 'Current Address Proof'
+                //       //         }
+                //       // file = toFormData(test);
+                //       // const { data } = await api.post('employees/file', file);
+                     
+                //       // // setFieldValue('employeeAttachments',[...values.employeeAttachments])
+                //       // setFieldValue('employeeAttachments',[...values.employeeAttachments,data.data])
                    
-                  }}
+                      
+                //       // customSetFieldValue('employeeAttachments',data.data)
+                //       // console.log("21",values.employeeAttachments[0])
+                //       // console.log("21",values.employeeAttachments)
+                   
+                //     } catch (err) {
+                //       console.log(err);
+                //     }
+                //   }
+
+                // }
+                  // fieldValue={values.employeeAttachments}
+                  // setFieldValue={value => setFieldValue('employeeAttachments', value)}
+                    
+                  //   (files) => {
+                  //   files.map(file => {
+
+                  //     var exist = 0
+                  //     fileList.map(existingFile => {
+                  //       if (existingFile.name === file.name && existingFile.size === file.size) {
+                  //         exist = 1;
+                  //       }
+                  //     })
+                  //     if (exist === 1) {
+                  //       exist = 0;
+                  //     }
+                  //     else {
+                  //       fileList.push(file)
+                  //       let test = {
+                  //         file,
+                  //         type: 'Current Address Proof'
+                  //       }
+                  //       const fileData = toFormData(test)
+                  //       api.post('employees/file', fileData).then(res => {
+                          
+                  //         // setEmployeeData({...employeeData,employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                  //         // setEmployeeData({...employeeData,
+                  //         //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                  //         console.log("1",currentAddressProof)
+                  //         setCurrentAddressProof([...currentAddressProof,res.data.data])
+                  //         console.log("2",currentAddressProof)
+                  //         // setFieldValue('employeeAttachments', [...values.employeeAttachments, currentAddressProof])
+                  //         // console.log("res",res.data.data)
+                  //         // console.log("values.employeeAttachments ", values.employeeAttachments)
+                  //       }).catch(err => { console.log("err", err) })
+                        
+                  //     }
+                  //   })
+                   
+                  // }
+                // }
                 />
+                
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>

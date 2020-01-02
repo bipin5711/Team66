@@ -29,7 +29,7 @@ function Feedback(props) {
       <Formik
         initialValues={employeeData}
         // validationSchema={ValidationSchema}
-        onSubmit={values => {
+        onSubmit={async values => {
           //handleNext()
           let newSkipped = skipped;
           const isStepSkipped = step => {
@@ -41,13 +41,13 @@ function Feedback(props) {
           }
           setActiveStep(prevActiveStep => prevActiveStep + 1);
           setSkipped(newSkipped);
-          setEmployeeData({
+          await setEmployeeData({
             ...employeeData,
             feedback: values.feedback,
           })
           
-          api.post('employees', employeeData).then(res => {
-          //  alert("success")
+          await api.post('employees', employeeData).then(res => {
+           alert("success")
 
           }).catch(err => { 
             alert("Failed",err)

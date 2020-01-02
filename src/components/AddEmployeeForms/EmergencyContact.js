@@ -53,7 +53,9 @@ function EmergencyContact(props) {
         setEmployeeData({
           ...employeeData,
           emergencyContacts:[
-            ...values.emergencyContacts
+            values.emergencyContacts[0],
+            values.emergencyContacts[1]
+            // ,values.emergencyContacts[1]
             // {
             // id:0,
             // name: values.emergencyContacts[0].name,

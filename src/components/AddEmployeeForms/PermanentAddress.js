@@ -56,7 +56,7 @@ function PermanentAddress(props) {
         setEmployeeData({
           ...employeeData,
           permanentAddress: {
-            id: 0,
+            // id: null,
             street1: values.permanentAddress.street1,
             street2: values.permanentAddress.street2,
             city: values.permanentAddress.city,
@@ -136,40 +136,60 @@ function PermanentAddress(props) {
                 <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
                   // .filter(a=>a.type==="Permanent Address Proof")
                   : []}
-
+                setFieldValue={value => setFieldValue('employeeAttachments', value)}
                   type="Permanent Address Proof"
-                  callBack={files => {
-                    var exist = 0
-                    files.map(file => {
-                      fileList.map(existingFile => {
-                        if (existingFile.name === file.name && existingFile.size === file.size) {
-                          exist = 1
-                          // alert("File has already selected")
-                        }
-                      })
-                      if (exist === 0) {
-                        fileList.push(file)
-                        let test = {
-                          file,
-                          type: 'Permanent Address Proof'
-                        }
-                        const fileData = toFormData(test)
-                        api.post('employees/file', fileData).then(res => {
+                  // callBack={async file => {
+                  //   try {
+                  //     let test = {
+                  //               file,
+                  //               type: 'Permanent Address Proof'
+                  //             }
+                  //             const fileData = toFormData(test)
+                  //     file = toFormData(test);
+                  //     const { data } = await api.post('employees/file', file);
+                  //     setFieldValue('employeeAttachments', [
+                  //       ...values.employeeAttachments,
+                  //       data.data,
+                  //     ]);
+                    
+                  //   } catch (err) {
+                  //     console.log(err);
+                  //   }
+                  // }}
+                  // callBack={files => {
+                  //   var exist = 0
+                  //   files.map(file => {
+                  //     fileList.map(existingFile => {
+                  //       if (existingFile.name === file.name && existingFile.size === file.size) {
+                  //         exist = 1
+                  //         // alert("File has already selected")
+                  //       }
+                  //     })
+                  //     if (exist === 0) {
+                  //       fileList.push(file)
+                  //       let test = {
+                  //         file,
+                  //         type: 'Permanent Address Proof'
+                  //       }
+                  //       const fileData = toFormData(test)
+                  //       api.post('employees/file', fileData).then(res => {
 
-                          console.log(" values.employeeAttachments", values.employeeAttachments)
-                          // setEmployeeData({...employeeData,
-                          //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
-                          setFieldValue('employeeAttachments', [...values.employeeAttachments, res.data.data])
+                  //         console.log(" values.employeeAttachments", values.employeeAttachments)
+                  //         // setEmployeeData({...employeeData,
+                  //         //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                  //         setFieldValue('employeeAttachments', [...values.employeeAttachments, res.data.data])
 
 
-                        }).catch(err => { console.log("err", err) })
-                      }
-                      else {
-                        exist = 0;
-                      }
-                    })
+                  //       }).catch(err => { console.log("err", err) })
+                  //     }
+                  //     else {
+                  //       exist = 0;
+                  //     }
+                  //   })
 
-                  }} />
+                  // }} 
+                  
+                  />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <StepperNavigationButtons />

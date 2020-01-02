@@ -57,39 +57,59 @@ function IdProof(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload ID Proof</FormLabel>
                 <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
-                .filter(a=>a.type==="Id Proof") 
+                // .filter(a=>a.type==="Id Proof") 
                 : []} 
                 // attachments={values.attachments ? values.attachments : []} 
                 type="Id Proof"
-                callBack={files => {
-                  var exist = 0
-                  files.map(file => {
-                    fileList.map(existingFile => {
-                      if (existingFile.name === file.name && existingFile.size === file.size) {
-                        exist = 1
-                        // alert("File has already selected")
-                      }
-                    })
-                    if (exist === 0) {
-                      fileList.push(file)
-                      let test = {
-                        file,
-                        type: 'Id Proof'
-                      }
-                      const fileData = toFormData(test)
-                      api.post('employees/file', fileData).then(res => {
-                        // setEmployeeData({...employeeData,
-                        //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
-                        setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
+                setFieldValue={value => setFieldValue('employeeAttachments', value)}
+                // callBack={async file => {
+                //   try {
+                //     let test = {
+                //               file,
+                //               type: 'Id Proof'
+                //             }
+                //             const fileData = toFormData(test)
+                //     file = toFormData(test);
+                //     const { data } = await api.post('employees/file', file);
+                //     setFieldValue('employeeAttachments', [
+                //       ...values.employeeAttachments,
+                //       data.data,
+                //     ]);
+                //     console.log("21",values.employeeAttachments)
+                //   } catch (err) {
+                //     console.log(err);
+                //   }
+                // }}
+                // callBack={files => {
+                //   var exist = 0
+                //   files.map(file => {
+                //     fileList.map(existingFile => {
+                //       if (existingFile.name === file.name && existingFile.size === file.size) {
+                //         exist = 1
+                //         // alert("File has already selected")
+                //       }
+                //     })
+                //     if (exist === 0) {
+                //       fileList.push(file)
+                //       let test = {
+                //         file,
+                //         type: 'Id Proof'
+                //       }
+                //       const fileData = toFormData(test)
+                //       api.post('employees/file', fileData).then(res => {
+                //         // setEmployeeData({...employeeData,
+                //         //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                //         setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
   
-                      }).catch(err => { console.log("err", err) })
-                    }
-                    else {
-                      exist = 0;
-                    }
-                  })
-                  // setFieldValue('employeeAttachments',[...values.employeeAttachments])
-                }} />
+                //       }).catch(err => { console.log("err", err) })
+                //     }
+                //     else {
+                //       exist = 0;
+                //     }
+                //   })
+                //   // setFieldValue('employeeAttachments',[...values.employeeAttachments])
+                // }}
+                 />
 
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>

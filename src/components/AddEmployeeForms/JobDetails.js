@@ -53,7 +53,7 @@ function JobDetails(props) {
         setSkipped(newSkipped);
         setEmployeeData({
           ...employeeData,
-          hireDate: format(values.hireDate, 'yyyy-MM-dd'),
+          hireDate: values.birthDate.length===undefined?format(values.hireDate, 'yyyy-MM-dd'):values.hireDate,
           salary: values.salary,
           currentSalary: values.currentSalary,
           bond: values.bond

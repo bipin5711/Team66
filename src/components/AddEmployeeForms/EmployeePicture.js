@@ -61,46 +61,66 @@ function EmployeePicture(props) {
               <GridItem xs={12} sm={12} md={12}>
                 <FormLabel component="legend" style={{ textAlign: 'left' }} className={classes.field}>Upload Picture</FormLabel>
                 <CustomDropzone list={values.employeeAttachments ? values.employeeAttachments
-                .filter(a=>a.type==="Picture") 
+                // .filter(a=>a.type==="Picture") 
                 : []}  
                 // attachments={values.attachments ? values.attachments : []} 
                 type="Picture"
-                 callBack={files => {
-                  var exist = 0
-                  files.map(file => {
-                    fileList.map(existingFile => {
-                      if (existingFile.name === file.name && existingFile.size === file.size) {
-                        exist = 1
-                        // alert("File has already selected")
-                      }
-                    })
-                    if (exist === 0) {
-                      fileList.push(file)
-                      let test = {
-                        file,
-                        type: 'Picture'
-                      }
-                      const fileData = toFormData(test)
-                      api.post('employees/file', fileData).then(res => {
-                        // setEmployeeData({...employeeData,
-                        //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
-                        setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
+                setFieldValue={value => setFieldValue('employeeAttachments', value)}
+                // callBack={async file => {
+                //   try {
+                //     let test = {
+                //               file,
+                //               type: 'Picture'
+                //             }
+                //             const fileData = toFormData(test)
+                //     file = toFormData(test);
+                //     const { data } = await api.post('employees/file', file);
+                //     setFieldValue('employeeAttachments', [
+                //       ...values.employeeAttachments,
+                //       data.data,
+                //     ]);
+                //     console.log("21",values.employeeAttachments)
+                //   } catch (err) {
+                //     console.log(err);
+                //   }
+                // }}
+                //  callBack={files => {
+                //   var exist = 0
+                //   files.map(file => {
+                //     fileList.map(existingFile => {
+                //       if (existingFile.name === file.name && existingFile.size === file.size) {
+                //         exist = 1
+                //         // alert("File has already selected")
+                //       }
+                //     })
+                //     if (exist === 0) {
+                //       fileList.push(file)
+                //       let test = {
+                //         file,
+                //         type: 'Picture'
+                //       }
+                //       const fileData = toFormData(test)
+                //       api.post('employees/file', fileData).then(res => {
+                //         // setEmployeeData({...employeeData,
+                //         //   employeeAttachments:[...employeeData.employeeAttachments,res.data.data]})
+                //         setFieldValue('employeeAttachments',[...values.employeeAttachments,res.data.data])
   
-                      }).catch(err => { console.log("err", err) })
-                      // const reader=new FileReader()
-                      // reader.addEventListener("load",()=>{
-                      // console.log("ondrop called")
-                      // setImage(reader.result)},false)
-                      //   reader.readAsDataURL(file)
-                      //   console.log("bipinb",image)
-                    }
-                    else {
-                      exist = 0;
-                    }
-                  })
-                  // setFieldValue('employeeAttachments',values.employeeAttachments)
-                  // setFieldValue('picture', fileList)
-                }} />
+                //       }).catch(err => { console.log("err", err) })
+                //       // const reader=new FileReader()
+                //       // reader.addEventListener("load",()=>{
+                //       // console.log("ondrop called")
+                //       // setImage(reader.result)},false)
+                //       //   reader.readAsDataURL(file)
+                //       //   console.log("bipinb",image)
+                //     }
+                //     else {
+                //       exist = 0;
+                //     }
+                //   })
+                //   // setFieldValue('employeeAttachments',values.employeeAttachments)
+                //   // setFieldValue('picture', fileList)
+                // }} 
+                />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
                 <StepperNavigationButtons />

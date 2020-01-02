@@ -234,16 +234,16 @@ console.log("name", res.data.data.name)
         currentSalary:res.data.data.currentSalary ,
         emergencyContacts: [
           {
-            id: res.data.data.emergencyContacts.id,
-            mobile: res.data.data.emergencyContacts.mobile,
-            name: res.data.data.emergencyContacts.name,
-            relationship:res.data.data.emergencyContacts.relationship 
+            // id: res.data.data.emergencyContacts[0].id,
+            mobile: res.data.data.emergencyContacts[0].mobile,
+            name: res.data.data.emergencyContacts[0].name,
+            relationship:res.data.data.emergencyContacts[0].relationship 
           },
           {
-            id: res.data.data.emergencyContacts.id,
-            mobile: res.data.data.emergencyContacts.mobile,
-            name: res.data.data.emergencyContacts.name,
-            relationship: res.data.data.emergencyContacts.relationship
+            // id: res.data.data.emergencyContacts[1].id,
+            mobile: res.data.data.emergencyContacts[1].mobile,
+            name: res.data.data.emergencyContacts[1].name,
+            relationship: res.data.data.emergencyContacts[1].relationship
           }
         ],
         employeeAttachments: res.data.data.employeeAttachments,
@@ -261,8 +261,8 @@ console.log("name", res.data.data.name)
           street1:res.data.data.permanentAddress.street1 ,
           street2:res.data.data.permanentAddress.street2 
         },
-        preferredName: res.data.preferredName,
-        salary:res.data.salary})
+        preferredName: res.data.data.preferredName,
+        salary:res.data.data.salary})
   }).catch(err=>{console.log("err",err)})
   }
   useEffect(()=>{

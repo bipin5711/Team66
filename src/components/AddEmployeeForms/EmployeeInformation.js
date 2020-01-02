@@ -35,28 +35,24 @@ const useStyles = makeStyles({
 })
 function EmployeeInformation(props) {
   const classes = useStyles()
-  const [employeeData, setEmployeeData] = useContext(EmployeeContext)
+  const [employeeData, setEmployeeData] =useContext(EmployeeContext)
+  // const [initialValues,setInitialValues]=useState()
   const [activeStep, setActiveStep] = useContext(StepContext);
   const [skipped, setSkipped] = useState(new Set());
-  console.log("Data",employeeData)
+  console.log("Data21",employeeData)
   // const isMounted = useRef(null);
   // useEffect(() => {
-  //   // executed when component mounted
-  //   isMounted.current = true;
-  //   return () => {
-  //     // executed when unmount
-  //     isMounted.current = false;
-  //   }
-  // }, []);
+  //   setInitialValues(employeeData)
+  // }, [employeeData]);
   // const [data,setData]=useState({})
   // console.log
   const [title, setTitle] = useContext(TitleContext);
   setTitle('Employee Information')
   return (
-
     <Formik
+    enableReinitialize={true}
       initialValues={employeeData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={values => {
         //handleNext()
         let newSkipped = skipped;
@@ -80,30 +76,30 @@ function EmployeeInformation(props) {
         })
         // console.log(values.name)
       }}
-      render={() => {
-        // console.log("values",values)
+      render={({ values, setFieldValue }) => {
+        console.log("values",values)
         return (
         <Form>
           <GridContainer>
             <GridItem xs={12} sm={12} md={7}>
               <Field
-                label="Full Name(As on your ID)"
                 id="name"
                 name="name"
-                // value={employeeData.name}
+                // value={values.name}
                 component={TextField}
                 className={classes.field}
+                label="Full Name(As on your ID)"
                 fullWidth
               />
             </GridItem>
 
             <GridItem xs={12} sm={12} md={5}>
               <Field
-                label="Preferred Name"
                 id="preferredName"
                 name="preferredName"
                 className={classes.field}
                 component={TextField}
+                label="Preferred Name"
                 fullWidth
               />
 
@@ -133,14 +129,18 @@ function EmployeeInformation(props) {
                 <FormControlLabel
                   id="gender"
                   label="Male"
-                  control={<Radio id="gender" color="secondary" />}
+                  control={<Radio id="gender"/>}
+                  // value={values.gender?values.gender:"Male"}
                   value="Male"
+                  checked={values.gender==="Male"?true:false}
                 />
                 <FormControlLabel
                   id="gender"
                   value="Female"
-                  control={<Radio id="gender" color="secondary" />}
+                  // value={values.gender?values.gender:"Female"}
+                  control={<Radio id="gender"/>}
                   label="Female"
+                  checked={values.gender==="Female"?true:false}
                 />
               </Field>
             </GridItem>
@@ -156,20 +156,23 @@ function EmployeeInformation(props) {
                 <FormControlLabel
                   id="maritalStatus"
                   label="Married"
-                  control={<Radio id="maritalStatus" color="secondary" />}
+                  control={<Radio id="maritalStatus" />}
                   value="Married"
+                  checked={values.maritalStatus==="Married"?true:false}
                 />
                 <FormControlLabel
                   id="maritalStatus"
                   value="Single"
-                  control={<Radio id="maritalStatus" color="secondary" />}
+                  control={<Radio id="maritalStatus" />}
                   label="Single"
+                  checked={values.maritalStatus==="Single"?true:false}
                 />
                 <FormControlLabel
                   id="maritalStatus"
                   value="Other"
-                  control={<Radio id="maritalStatus" color="secondary" />}
+                  control={<Radio id="maritalStatus" />}
                   label="Other"
+                  checked={values.maritalStatus==="Other"?true:false}
                 />
               </Field>
             </GridItem>
