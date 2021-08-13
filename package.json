@@ -19,7 +19,7 @@
     "history": "4.9.0",
     "material-ui-dropzone": "^2.4.7",
     "material-ui-pickers": "^2.2.4",
-    "next": "^9.1.4",
+    "next": "^11.1.0",
     "perfect-scrollbar": "1.4.0",
     "prop-types": "15.7.2",
     "react": "16.9.0",
